@@ -252,19 +252,16 @@ export type CompareRow = {
 };
 
 export const COMPARE_ROWS: CompareRow[] = [
-  { label: "CRM com pipeline de vendas", starter: true, growth: true, agency: true },
-  { label: "Templates PT/EN", starter: "18", growth: "23", agency: "44+" },
-  { label: "Workflows automáticos", starter: "9", growth: "12+", agency: "19+" },
-  { label: "Calendário de agendamento", starter: true, growth: true, agency: true },
-  { label: "SparkBot mensagens/mês", starter: "200", growth: "500", agency: "1500" },
-  { label: "Dashboard de captação", starter: true, growth: true, agency: true },
-  { label: "Lead Engagement Score", starter: false, growth: true, agency: true },
-  { label: "Revisão anual automatizada", starter: false, growth: true, agency: true },
-  { label: "Funil de recrutamento", starter: false, growth: "Básico (3 stages)", agency: "Completo (4 stages)" },
-  { label: "Templates de equipe", starter: false, growth: false, agency: "44" },
-  { label: "Field Training", starter: false, growth: false, agency: true },
-  { label: "Calendários extras", starter: false, growth: false, agency: "3" },
-  { label: "Agency Dashboard", starter: false, growth: false, agency: true },
-  { label: "Onboarding personalizado", starter: false, growth: false, agency: "1h" },
-  { label: "Suporte", starter: "WhatsApp", growth: "Prioritário", agency: "24/7" },
+  { label: "Usuários", starter: "1", growth: "3", agency: "Ilimitado" },
+  { label: "Pipelines", starter: "1", growth: "Sales + Apólices", agency: "4" },
+  { label: "Calendários", starter: "2", growth: "+ adicionais", agency: "5" },
+  { label: "SparkBot", starter: false, growth: "Completo", agency: "Multi-user (1/agente)" },
+  { label: "Automações de follow-up", starter: "Workflows (templates)", growth: "Bot absorve", agency: "Bot absorve" },
+  { label: "WhatsApp / mensagens", starter: true, growth: true, agency: true },
+  { label: "Calls / telefone", starter: false, growth: true, agency: "Completo" },
+  { label: "Integração Five Rings", starter: "Limitada", growth: "Clientes", agency: "Agência + agentes + clientes" },
+  { label: "Recrutamento / Agency Studying", starter: false, growth: false, agency: "Pipelines + Bot" },
+  { label: "Importação / migração", starter: false, growth: "Parcial", agency: "Completa" },
+  { label: "Tráfego pago (gestão)", starter: false, growth: false, agency: true },
 ];
+

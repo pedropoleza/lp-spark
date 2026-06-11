@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, type CSSProperties } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { CornerMarks } from "./motion2d";
 import { cn } from "@/lib/utils";
 
@@ -19,59 +19,50 @@ type Props = {
 
 /**
  * Card de reação do SparkBot.
- * Apresentação FLUIDA (entra com spring quando aparece), e o clipe TOCA UMA VEZ
- * ao surgir — não fica em loop de vídeo de fundo. Re-toca no hover (desktop).
- * Respeita prefers-reduced-motion (mostra só o poster).
+ * - Reage ao SCROLL: o clipe toca (em loop) enquanto a seção está visível e
+ *   pausa ao sair — o bot reage conforme o usuário desce a página.
+ * - O card também DERIVA suavemente no eixo Y conforme o scroll (parallax).
+ * - Respeita prefers-reduced-motion (mostra só o poster, sem movimento).
  */
 export function BotReaction({ clip, caption, blend = false, side = "right", className }: Props) {
   const reduce = useReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [canHover, setCanHover] = useState(true);
-  const played = useRef(false);
 
-  useEffect(() => {
-    setCanHover(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
-  }, []);
+  const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start end", "end start"] });
+  const drift = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 26, reduce ? 0 : -26]);
 
-  // toca uma vez quando entra no viewport
+  // toca em loop enquanto visível; pausa ao sair (dirigido pelo scroll)
   useEffect(() => {
     const el = wrapRef.current;
     const vid = videoRef.current;
-    if (!el || !vid || reduce) return;
+    if (!el || reduce) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !played.current) {
-          played.current = true;
+        if (!vid) return;
+        if (entry.isIntersecting) {
           vid.currentTime = 0;
           vid.play().catch(() => {});
+        } else {
+          vid.pause();
         }
       },
-      { threshold: 0.5 },
+      { threshold: 0.35 },
     );
     io.observe(el);
     return () => io.disconnect();
   }, [reduce]);
-
-  function replay() {
-    if (!canHover || reduce) return;
-    const vid = videoRef.current;
-    if (vid) {
-      vid.currentTime = 0;
-      vid.play().catch(() => {});
-    }
-  }
 
   const mediaStyle: CSSProperties = { mixBlendMode: blend ? "screen" : "normal" };
 
   return (
     <motion.div
       ref={wrapRef}
-      initial={reduce ? false : { opacity: 0, x: side === "right" ? 28 : -28, y: 10 }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      style={{ y: drift }}
+      initial={reduce ? false : { opacity: 0, x: side === "right" ? 28 : -28 }}
+      whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
-      onMouseEnter={replay}
       className={cn(
         "glass-card relative flex max-w-sm items-center gap-3 rounded-card p-3 pr-4",
         className,
@@ -93,10 +84,11 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
             ref={videoRef}
             aria-hidden
             muted
+            loop
             playsInline
             preload="metadata"
             poster={`${clip}.jpg`}
-            className={cn("h-full w-full object-cover", canHover && "cursor-pointer")}
+            className="h-full w-full object-cover"
             style={mediaStyle}
           >
             <source src={`${clip}.webm`} type="video/webm" />

@@ -18,46 +18,35 @@ type Props = {
 
 /**
  * Mascote em vídeo (SparkBot).
- * - Em loop, mudo, sem download até precisar (preload="metadata").
- * - Em telas com mouse: toca no HOVER e pausa ao sair (volta ao início).
- * - Em telas sem hover (mobile): toca quando entra no viewport.
+ * - Reage ao SCROLL: toca em loop enquanto está visível e pausa ao sair da tela
+ *   (IntersectionObserver), em qualquer dispositivo — não depende de hover.
  * - Respeita prefers-reduced-motion (mostra só o poster).
  */
 export function BotVideo({ src, className, blend = false, fit = "contain" }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   const [reduced, setReduced] = useState(false);
-  const [canHover, setCanHover] = useState(true);
 
   useEffect(() => {
-    const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mqHover = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const update = () => {
-      setReduced(mqReduce.matches);
-      setCanHover(mqHover.matches);
-    };
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mq.matches);
     update();
-    mqReduce.addEventListener("change", update);
-    mqHover.addEventListener("change", update);
-    return () => {
-      mqReduce.removeEventListener("change", update);
-      mqHover.removeEventListener("change", update);
-    };
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
-  // Sem hover (mobile): autoplay quando visível.
   useEffect(() => {
     const el = ref.current;
-    if (!el || reduced || canHover) return;
+    if (!el || reduced) return;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) el.play().catch(() => {});
         else el.pause();
       },
-      { threshold: 0.2 },
+      { threshold: 0.25 },
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [reduced, canHover]);
+  }, [reduced]);
 
   const style: CSSProperties = {
     mixBlendMode: blend ? "screen" : "normal",
@@ -70,16 +59,6 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
     return <img src={`${src}.jpg`} alt="SparkBot" className={cn(base, className)} style={style} />;
   }
 
-  function play() {
-    if (canHover) ref.current?.play().catch(() => {});
-  }
-  function stop() {
-    if (canHover && ref.current) {
-      ref.current.pause();
-      ref.current.currentTime = 0;
-    }
-  }
-
   return (
     <video
       ref={ref}
@@ -89,9 +68,7 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
       playsInline
       preload="metadata"
       poster={`${src}.jpg`}
-      onMouseEnter={play}
-      onMouseLeave={stop}
-      className={cn(base, canHover && "cursor-pointer", className)}
+      className={cn(base, className)}
       style={style}
     >
       <source src={`${src}.webm`} type="video/webm" />
