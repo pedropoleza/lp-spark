@@ -8,6 +8,7 @@ import { QUIZ_REASONS } from "@/lib/quiz";
 import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container, Section, SectionHeading, AnimatedBadge } from "./ui/primitives";
+import { CornerMarks } from "./ui/motion2d";
 import { cn } from "@/lib/utils";
 
 function PlanCard({ plan }: { plan: PlanContent }) {
@@ -45,6 +46,8 @@ function PlanCard({ plan }: { plan: PlanContent }) {
         recommended && "ring-2 ring-accent ring-offset-2 ring-offset-ink",
       )}
     >
+      {featured && <CornerMarks className="absolute inset-3" />}
+
       {(featured || recommended) && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span

@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "framer-motion";
+import { GlitchText } from "../ui/motion2d";
 import { cn } from "@/lib/utils";
 
 /* ===========================================================
    SEÇÃO 1 — "Compare os planos" (grid brutalista, 4 linhas)
-   Tudo via tokens: --paper, --ink, --ink-deep, --marker-red, --marker-blue.
+   Cores via tokens da paleta: paper / ink / ink-deep / accent.
    =========================================================== */
 
 const COMPARE_ROWS = [
@@ -24,7 +25,7 @@ export function CompareStrip() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end center"] });
   const spring = useSpring(scrollYProgress, { stiffness: 120, damping: 24 });
 
-  // preenchimento vermelho de cada linha, escalonado conforme o scroll
+  // preenchimento de acento de cada linha, escalonado conforme o scroll
   const w0 = useTransform(spring, [0.0, 0.45], ["0%", "100%"]);
   const w1 = useTransform(spring, [0.12, 0.57], ["0%", "100%"]);
   const w2 = useTransform(spring, [0.24, 0.69], ["0%", "100%"]);
@@ -43,7 +44,7 @@ export function CompareStrip() {
                   key={`${copy}-${i}`}
                   className={cn(
                     "px-4 font-heavy uppercase leading-none",
-                    i % 2 === 0 ? "text-paper" : "text-marker-blue",
+                    i % 2 === 0 ? "text-paper" : "text-accent",
                   )}
                   style={{ fontSize: "clamp(72px, 14vw, 220px)" }}
                 >
@@ -55,7 +56,7 @@ export function CompareStrip() {
         </div>
       </div>
 
-      {/* 4 linhas com barra de preenchimento vermelha */}
+      {/* 4 linhas com barra de preenchimento (acento) */}
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8">
         {COMPARE_ROWS.map((row, i) => (
           <div
@@ -63,9 +64,9 @@ export function CompareStrip() {
             className="relative flex items-center overflow-hidden border-b-[3px] border-ink"
             style={{ minHeight: "clamp(84px, 13vw, 168px)" }}
           >
-            {/* barra vermelha (cover) que se preenche no scroll */}
+            {/* barra de acento (cover) que se preenche no scroll */}
             <motion.div
-              className="absolute inset-y-0 left-0 bg-marker-red"
+              className="absolute inset-y-0 left-0 bg-accent"
               style={{ width: reduce ? "100%" : widths[i] }}
             />
             <div className="relative z-10 flex w-full items-center justify-between gap-4 px-1">
@@ -88,7 +89,7 @@ export function CompareStrip() {
             href="#comparar"
             className="inline-block font-mono text-sm uppercase tracking-[0.2em] text-ink transition hover:opacity-70"
           >
-            <span className="border-b-[3px] border-marker-red pb-1">ver comparativo completo →</span>
+            <span className="border-b-[3px] border-accent pb-1">ver comparativo completo →</span>
           </a>
         </div>
       </div>
@@ -100,32 +101,21 @@ export function CompareStrip() {
    SEÇÃO 2 — "SPARK.DIAGNOSE --CLIENT" (bug / terminal)
    =========================================================== */
 
-function GlitchText({ children, className }: { children: string; className?: string }) {
-  return (
-    <span className={cn("glitch", className)} data-text={children}>
-      {children}
-    </span>
-  );
-}
-
 function TypoBug({ wrong, right }: { wrong: string; right: string }) {
   return (
     <span className="inline-flex items-baseline gap-2 font-mono">
-      <span className="text-marker-red line-through decoration-2">{wrong}</span>
-      <span aria-hidden className="text-graphite">
+      <span className="text-muted line-through decoration-2">{wrong}</span>
+      <span aria-hidden className="text-muted">
         →
       </span>
-      <span className="text-terminal-green">{right}</span>
+      <span className="text-accent">{right}</span>
     </span>
   );
 }
 
 function CornerMark({ className }: { className?: string }) {
   return (
-    <span
-      aria-hidden
-      className={cn("pointer-events-none absolute h-5 w-5 border-marker-blue", className)}
-    />
+    <span aria-hidden className={cn("pointer-events-none absolute h-5 w-5 border-accent", className)} />
   );
 }
 
@@ -147,19 +137,19 @@ export function DiagnoseTerminal() {
         {/* barra de terminal */}
         <div className="mb-10 flex items-center gap-4 border-b border-paper/15 pb-4">
           <span className="flex gap-2" aria-hidden>
-            <span className="h-3 w-3 rounded-full bg-marker-red" />
-            <span className="h-3 w-3 rounded-full bg-terminal-green" />
+            <span className="h-3 w-3 rounded-full bg-accent" />
+            <span className="h-3 w-3 rounded-full bg-accent/50" />
             <span className="h-3 w-3 rounded-full bg-graphite" />
           </span>
           <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-paper/60">
             spark://diagnose
           </span>
-          <span className="ml-auto font-mono text-[11px] uppercase tracking-[0.3em] text-terminal-green">
+          <span className="ml-auto font-mono text-[11px] uppercase tracking-[0.3em] text-accent">
             [ <span className="blink">████████░░</span> ]
           </span>
         </div>
 
-        <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.4em] text-terminal-green">
+        <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.4em] text-accent">
           $ spark.diagnose --client
         </p>
 
@@ -168,7 +158,7 @@ export function DiagnoseTerminal() {
           style={{ fontSize: "clamp(44px, 9vw, 140px)" }}
         >
           <GlitchText>SPARK.DIAGNOSE</GlitchText>
-          <span className="block text-marker-blue">--CLIENT</span>
+          <span className="block text-accent">--CLIENT</span>
         </h2>
 
         <p className="mt-10 max-w-2xl text-lg leading-relaxed text-paper/85 sm:text-xl">
@@ -181,7 +171,7 @@ export function DiagnoseTerminal() {
           STATUS DA OPERAÇÃO: <TypoBug wrong="quebrada" right="funcionando" />
         </p>
 
-        <p className="mt-10 font-mono text-sm uppercase tracking-[0.3em] text-terminal-green sm:text-base">
+        <p className="mt-10 font-mono text-sm uppercase tracking-[0.3em] text-accent sm:text-base">
           {">"} spark.fix(operacao) — pronto para deploy <span className="blink">█</span>
         </p>
       </div>

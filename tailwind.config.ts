@@ -25,12 +25,9 @@ const config: Config = {
         cream: "#FCFCFC", // texto/branco (cor pedida)
         muted: "#8B9499", // texto secundário
 
-        // ——— Tokens semânticos brutalistas (via CSS vars de :root) ———
+        // ——— Tokens semânticos (via CSS vars de :root) ———
         paper: "var(--paper)",
         "ink-deep": "var(--ink-deep)",
-        "marker-red": "var(--marker-red)",
-        "marker-blue": "var(--marker-blue)",
-        "terminal-green": "var(--terminal-green)",
 
         // ——— Acento único (teal) e derivados para profundidade ———
         accent: "#00A4C6", // cor de acento pedida
@@ -81,6 +78,10 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        "marquee-rev": {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
+        },
         "border-spin": {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
@@ -92,6 +93,7 @@ const config: Config = {
         "pulse-soft": "pulse-soft 3s ease-in-out infinite",
         shimmer: "shimmer 3s linear infinite",
         marquee: "marquee 28s linear infinite",
+        "marquee-rev": "marquee-rev 28s linear infinite",
         "border-spin": "border-spin 6s linear infinite",
       },
     },

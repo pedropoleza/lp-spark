@@ -15,6 +15,7 @@ import { StickyCTA } from "./StickyCTA";
 import { ExitIntent } from "./ExitIntent";
 import { CanceledBanner } from "./CanceledBanner";
 import { ScrollProgress, Grain } from "./ui/effects";
+import { BrandMarquee } from "./ui/motion2d";
 import { Problem, Security, FinalCta } from "./sections/Story";
 import { SparkBotSection } from "./sections/Product";
 import { CompareStrip, DiagnoseTerminal } from "./sections/Brutalist";
@@ -36,6 +37,17 @@ export function Landing() {
 
       <main>
         <Hero />
+        <BrandMarquee
+          items={[
+            "CRM PRONTO",
+            "AUTOMAÇÕES",
+            "SPARKBOT IA",
+            "TEMPLATES PT/EN",
+            "DASHBOARDS",
+            "FOLLOW-UP",
+            "RECRUTAMENTO",
+          ]}
+        />
         <Problem />
         <DiagnoseTerminal />
         <SparkBotSection />

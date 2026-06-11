@@ -10,15 +10,13 @@
 
     --accent: #00a4c6;
     --accent-rgb: 0, 164, 198;
+    --accent-2: #2fd2ee; /* cyan claro, mesma família (usado no glitch) */
 
-    /* Tokens semânticos brutalistas (NÃO hardcodar cores nos componentes) */
+    /* Tokens semânticos (dentro da paleta da marca — sem cores externas) */
     --paper: #fcfcfc;
     --ink: #0d0d0d;
     --ink-deep: #060606;
     --graphite: #1b1b1f;
-    --marker-red: #ff3b2e;
-    --marker-blue: #00a4c6; /* reaproveita o acento da marca */
-    --terminal-green: #38f08b;
   }
 
   * {
@@ -326,11 +324,11 @@
   mix-blend-mode: screen;
 }
 .glitch::before {
-  color: var(--marker-red);
+  color: var(--accent);
   animation: glitch-r 3s infinite steps(20);
 }
 .glitch::after {
-  color: var(--marker-blue);
+  color: var(--accent-2);
   animation: glitch-b 3s infinite steps(20);
 }
 @keyframes glitch-r {

@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { BlinkDot, ScrollFillBar } from "./motion2d";
 
 /** Container com largura máxima editorial. */
 export function Container({
@@ -151,10 +152,16 @@ export function SectionHeading({
         className,
       )}
     >
-      {label && <Label className="mb-4 block">{label}</Label>}
+      {label && (
+        <Label className={cn("mb-4 inline-flex items-center gap-2", align === "center" && "justify-center")}>
+          <BlinkDot />
+          {label}
+        </Label>
+      )}
       <h2 className="font-display text-3xl font-bold leading-tight sm:text-4xl md:text-[2.75rem]">
         {title}
       </h2>
+      <ScrollFillBar align={align} className="mt-5" />
       {description && (
         <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{description}</p>
       )}
