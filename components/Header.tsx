@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { content } from "@/content/pt-br";
 import { Logo } from "./ui/Logo";
+import { FullscreenToggle } from "./ui/FullscreenToggle";
 import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -96,6 +97,8 @@ export function Header() {
           >
             {content.nav.ctaPrimary}
           </button>
+          <span className="mx-1 h-5 w-px bg-cream/10" />
+          <FullscreenToggle />
         </div>
 
         <button

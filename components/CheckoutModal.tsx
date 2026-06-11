@@ -77,21 +77,22 @@ export function CheckoutModal() {
 
   return (
     <Modal open={open} onClose={handleClose} labelledBy="checkout-title" variant="page" topLabel={`ADQUIRIR · ${plan.name.toUpperCase()}`}>
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-        {/* —— Resumo do plano (esquerda, brutalista) —— */}
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10">
+        {/* —— Resumo do plano (esquerda) —— */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <span className="label-mono">Seu plano</span>
-          <h2 id="checkout-title" className="mt-3 font-display font-bold leading-[1.02]" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+          <h2 id="checkout-title" className="mt-2 font-display font-bold leading-[1.02] lg:mt-3" style={{ fontSize: "clamp(1.9rem, 6vw, 4rem)" }}>
             <span className="gradient-text">{plan.name}</span>
           </h2>
-          <p className="mt-3 max-w-sm text-muted">{plan.tagline}</p>
+          <p className="mt-2 max-w-sm text-sm text-muted lg:mt-3 lg:text-base">{plan.tagline}</p>
 
-          <div className="mt-6 flex items-end gap-2">
-            <span className="font-display text-5xl font-bold">US$ {price}</span>
-            <span className="mb-2 text-muted">/mês</span>
+          <div className="mt-4 flex items-end gap-2 lg:mt-6">
+            <span className="font-display text-4xl font-bold lg:text-5xl">US$ {price}</span>
+            <span className="mb-1.5 text-muted lg:mb-2">/mês</span>
           </div>
 
-          <div className="glass-card mt-8 rounded-card p-5">
+          {/* lista de features: escondida no celular pra deixar o form perto */}
+          <div className="glass-card mt-6 hidden rounded-card p-5 sm:block lg:mt-8">
             <ul className="grid gap-2.5">
               {plan.features.filter((f) => !f.endsWith(":")).slice(0, 6).map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-muted">
@@ -101,14 +102,14 @@ export function CheckoutModal() {
             </ul>
           </div>
 
-          <div className="mt-6 flex flex-col gap-2 text-xs text-muted">
+          <div className="mt-4 flex flex-col gap-2 text-xs text-muted lg:mt-6">
             <span className="flex items-center gap-1.5"><Lock className="h-3 w-3 text-accent" /> Pagamento seguro via Stripe</span>
             <span className="flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 text-accent" /> Cancele quando quiser · sem fidelidade</span>
           </div>
         </aside>
 
         {/* —— Formulário (direita, glass) —— */}
-        <div className="glass-card rounded-card-lg p-6 sm:p-8">
+        <div className="glass-card rounded-card-lg p-5 sm:p-8">
           <h3 className="font-display text-xl font-bold">Seus dados</h3>
           <p className="mt-1 text-sm text-muted">Preencha abaixo. O pagamento acontece em seguida, no Stripe.</p>
 

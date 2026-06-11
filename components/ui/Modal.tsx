@@ -75,7 +75,7 @@ export function Modal({
             aria-modal="true"
             aria-labelledby={labelledBy}
             data-lenis-prevent
-            className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-ink"
+            className="fixed inset-0 z-[100] flex w-full max-w-[100vw] flex-col overflow-y-auto overflow-x-hidden overscroll-contain bg-ink"
             initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
