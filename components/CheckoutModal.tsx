@@ -11,14 +11,14 @@ import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /**
- * Monta a URL do payment-link com o cupom no formato de prefill do GHL
- * (path-style: ".../payment-link/{id}/couponCode=CODE", igual ao prefill de
- * firstName/email). Best-effort: se o parâmetro do GHL for outro, o cupom segue
- * copiado para colar manualmente.
+ * Monta a URL do payment-link com o cupom via QUERY STRING (não quebra a rota
+ * do GHL — path-style dá 404). Best-effort: se o GHL não ler esse parâmetro, o
+ * cupom segue copiado para colar manualmente no campo de cupom.
  */
 function linkWithCoupon(base: string, code: string | null) {
   if (!code) return base;
-  return `${base}/couponCode=${encodeURIComponent(code)}`;
+  const sep = base.includes("?") ? "&" : "?";
+  return `${base}${sep}couponCode=${encodeURIComponent(code)}`;
 }
 
 export function CheckoutModal() {
