@@ -81,22 +81,22 @@ export function Modal({
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* fundo decorativo */}
+            {/* fundo decorativo suave */}
             <div className="halo left-[-5%] top-[-5%] h-[30rem] w-[30rem] bg-accent/20" />
             <div className="halo right-[-5%] bottom-[-5%] h-[28rem] w-[28rem] bg-accent/10" />
-            <div className="pointer-events-none absolute inset-0 grid-bg opacity-30" />
 
-            {/* header brutalista com close no canto superior direito */}
-            <header className="sticky top-0 z-20 border-b border-cream/10 bg-ink/70 backdrop-blur-md">
+            {/* header limpo com close no canto superior direito */}
+            <header className="sticky top-0 z-20 bg-ink/60 backdrop-blur-md">
               <div className="container-spark flex h-16 items-center justify-between">
-                <span className="label-mono">{topLabel ?? "Spark Leads"}</span>
+                <span className="text-xs font-medium tracking-wide text-muted">
+                  {topLabel ?? "Spark Leads"}
+                </span>
                 <button
                   onClick={onClose}
                   aria-label="Fechar"
-                  className="group inline-flex items-center gap-2 rounded-none border border-cream/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted transition hover:border-accent hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="grid h-10 w-10 place-items-center rounded-full border border-cream/10 bg-cream/5 text-muted transition hover:rotate-90 hover:border-accent/50 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
-                  Fechar
-                  <X className="h-4 w-4 transition group-hover:rotate-90" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             </header>

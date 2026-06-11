@@ -186,7 +186,6 @@ export const PLAN_CONTENT: PlanContent[] = [
     id: "growth",
     name: "Growth",
     price: 119,
-    badge: "Mais recomendado",
     tagline: "Cresça sua produção e comece a recrutar.",
     audience:
       "Agente estabelecido, com carteira ativa e começando a recrutar parceiros.",
@@ -204,7 +203,7 @@ export const PLAN_CONTENT: PlanContent[] = [
     ],
     pain: "Meu negócio cresceu, agora tenho que cuidar de retenção, recrutar parceiros e ainda atender clientes novos.",
     cta: "Crescer com Growth",
-    badges: ["Mais recomendado", "Lead Score", "Retenção + recrutamento", "500 mensagens IA"],
+    badges: ["Lead Score", "Retenção + recrutamento", "500 mensagens IA"],
   },
   {
     id: "agency",

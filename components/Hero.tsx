@@ -124,9 +124,9 @@ export function Hero() {
           <div className="relative mx-auto max-w-sm">
             <div className="absolute left-1/2 top-[-1rem] h-72 w-72 -translate-x-1/2 rounded-full bg-accent/25 blur-[90px]" />
 
-            {/* mascote grande, no comando */}
+            {/* mascote no comando — palco próprio, sem bordas de vídeo */}
             <motion.div
-              className="relative z-20 mx-auto h-52 w-52 sm:h-60 sm:w-60"
+              className="relative z-20 mx-auto h-60 w-60 sm:h-72 sm:w-72"
               initial={reduce ? false : { opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1, y: reduce ? 0 : [0, -10, 0] }}
               transition={{
@@ -135,7 +135,20 @@ export function Hero() {
                 y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
               }}
             >
-              <BotVideo src="/bot/bot-smile" blend />
+              {/* anel orbital com satélite */}
+              {!reduce && (
+                <div className="absolute inset-[-6%] animate-[spin_26s_linear_infinite]">
+                  <div className="absolute inset-0 rounded-full border border-dashed border-accent/25" />
+                  <span className="absolute left-1/2 top-[-4px] h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent shadow-glow" />
+                </div>
+              )}
+              <div className="absolute inset-8 rounded-full bg-accent/25 blur-3xl" />
+              {/* máscara radial: o clipe se funde ao fundo, sem retângulo */}
+              <BotVideo
+                src="/bot/bot-smile"
+                blend
+                className="relative [mask-image:radial-gradient(closest-side,black_55%,transparent_76%)]"
+              />
             </motion.div>
 
             {/* painel Spark OS sob o mascote */}
