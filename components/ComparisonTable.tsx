@@ -18,7 +18,16 @@ export function ComparisonTable() {
   const [openRow, setOpenRow] = useState<number | null>(0);
 
   return (
-    <Section id="comparar" ambient>
+    <Section
+      id="comparar"
+      ambient
+      reaction={{
+        clip: "/bot/bot-smile",
+        caption: "Comparei tudo pra você. Olha onde cada plano brilha.",
+        blend: true,
+        side: "left",
+      }}
+    >
       <Container>
         <SectionHeading
           align="center"

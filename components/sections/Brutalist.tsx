@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import { GlitchText } from "../ui/motion2d";
+import { BotReaction } from "../ui/BotReaction";
 import { cn } from "@/lib/utils";
 
 /* ===========================================================
@@ -174,6 +175,15 @@ export function DiagnoseTerminal() {
         <p className="mt-10 font-mono text-sm uppercase tracking-[0.3em] text-accent sm:text-base">
           {">"} spark.fix(operacao) — pronto para deploy <span className="blink">█</span>
         </p>
+
+        <div className="mt-10 flex justify-end">
+          <BotReaction
+            clip="/bot/bot-surprise"
+            caption="Diagnóstico rodado: achei os gargalos. Dá pra arrumar isso."
+            blend
+            side="right"
+          />
+        </div>
       </div>
     </section>
   );

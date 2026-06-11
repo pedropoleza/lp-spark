@@ -55,7 +55,15 @@ export function SocialProof() {
 /** Seção 4 — problema. */
 export function Problem() {
   return (
-    <Section theme="gray" ambient>
+    <Section
+      theme="gray"
+      ambient
+      reaction={{
+        clip: "/bot/bot-serious",
+        caption: "Esse caos eu conheço bem. Bora transformar em sistema.",
+        side: "right",
+      }}
+    >
       <Container>
         <SectionHeading
           align="center"
@@ -457,7 +465,15 @@ export function Security() {
     { icon: Cog, label: "Provisionamento automatizado" },
   ];
   return (
-    <Section theme="light" ambient>
+    <Section
+      theme="light"
+      ambient
+      reaction={{
+        clip: "/bot/bot-curious",
+        caption: "Pagamento é no Stripe — seguro e hospedado. Pode confiar.",
+        side: "left",
+      }}
+    >
       <Container>
         <SectionHeading
           align="center"
@@ -485,7 +501,15 @@ export function Security() {
 export function FinalCta() {
   const { openQuiz } = useSpark();
   return (
-    <Section theme="light" ambient>
+    <Section
+      theme="light"
+      ambient
+      reaction={{
+        clip: "/bot/bot-full",
+        caption: "Tá tudo pronto. Bora colocar sua operação no ar?",
+        side: "right",
+      }}
+    >
       <Container>
         <Reveal className="relative overflow-hidden rounded-card-lg border border-accent/20 bg-gradient-to-br from-accent/[0.12] via-cream to-accent/[0.06] p-10 text-center shadow-soft sm:p-16">
           {loopAvailable("cta-glow") && (

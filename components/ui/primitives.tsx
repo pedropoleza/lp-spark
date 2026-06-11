@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { BlinkDot, ScrollFillBar } from "./motion2d";
+import { BotReaction } from "./BotReaction";
 
 /** Container com largura máxima editorial. */
 export function Container({
@@ -25,6 +26,7 @@ export function Section({
   className,
   theme = "dark",
   ambient = false,
+  reaction,
 }: {
   id?: string;
   children: ReactNode;
@@ -33,6 +35,13 @@ export function Section({
   theme?: SectionTheme;
   /** Ativa blobs de luz que derivam sozinhos (movimento ambiente). */
   ambient?: boolean;
+  /** Card de reação do SparkBot, contextual ao conteúdo da seção. */
+  reaction?: {
+    clip: string;
+    caption: string;
+    blend?: boolean;
+    side?: "left" | "right";
+  };
 }) {
   const themeClass =
     theme === "light"
@@ -54,6 +63,16 @@ export function Section({
         </div>
       )}
       <div className="relative z-[1]">{children}</div>
+      {reaction && (
+        <div
+          className={cn(
+            "container-spark relative z-[1] mt-12 flex",
+            reaction.side === "left" ? "justify-start" : "justify-end",
+          )}
+        >
+          <BotReaction {...reaction} />
+        </div>
+      )}
     </section>
   );
 }

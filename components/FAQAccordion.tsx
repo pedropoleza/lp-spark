@@ -13,7 +13,16 @@ export function FAQAccordion() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <Section id="faq" ambient>
+    <Section
+      id="faq"
+      ambient
+      reaction={{
+        clip: "/bot/bot-voice",
+        caption: "Ficou com dúvida? É só perguntar — eu respondo.",
+        blend: true,
+        side: "right",
+      }}
+    >
       <Container className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
         <div>
           <SectionHeading label="FAQ" title="Perguntas frequentes" />
