@@ -55,7 +55,7 @@ export function SocialProof() {
 /** Seção 4 — problema. */
 export function Problem() {
   return (
-    <Section>
+    <Section theme="gray" ambient>
       <Container>
         <SectionHeading
           align="center"
@@ -457,7 +457,7 @@ export function Security() {
     { icon: Cog, label: "Provisionamento automatizado" },
   ];
   return (
-    <Section>
+    <Section theme="light" ambient>
       <Container>
         <SectionHeading
           align="center"
@@ -485,9 +485,9 @@ export function Security() {
 export function FinalCta() {
   const { openQuiz } = useSpark();
   return (
-    <Section>
+    <Section theme="light" ambient>
       <Container>
-        <Reveal className="relative overflow-hidden rounded-card-lg border border-cream/10 bg-gradient-to-br from-accent/[0.1] via-graphite to-accent/[0.06] p-10 text-center sm:p-16">
+        <Reveal className="relative overflow-hidden rounded-card-lg border border-accent/20 bg-gradient-to-br from-accent/[0.12] via-cream to-accent/[0.06] p-10 text-center shadow-soft sm:p-16">
           {loopAvailable("cta-glow") && (
             <BackgroundLoop src="/loops/cta-glow" opacity={35} blend="screen" />
           )}

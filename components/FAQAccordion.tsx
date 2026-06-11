@@ -13,7 +13,7 @@ export function FAQAccordion() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <Section id="faq">
+    <Section id="faq" ambient>
       <Container className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
         <div>
           <SectionHeading label="FAQ" title="Perguntas frequentes" />

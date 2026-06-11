@@ -154,7 +154,7 @@ export function Templates() {
 /** Seção 27 — SparkBot (com o mascote em vídeo). */
 export function SparkBotSection() {
   return (
-    <Section id="sparkbot">
+    <Section id="sparkbot" ambient>
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <Reveal>
           <SectionHeading

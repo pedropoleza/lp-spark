@@ -18,7 +18,7 @@ export function ComparisonTable() {
   const [openRow, setOpenRow] = useState<number | null>(0);
 
   return (
-    <Section id="comparar">
+    <Section id="comparar" ambient>
       <Container>
         <SectionHeading
           align="center"

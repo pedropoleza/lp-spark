@@ -15,34 +15,14 @@ import { StickyCTA } from "./StickyCTA";
 import { ExitIntent } from "./ExitIntent";
 import { CanceledBanner } from "./CanceledBanner";
 import { ScrollProgress, Grain } from "./ui/effects";
-import {
-  SocialProof,
-  Problem,
-  HowItWorks,
-  BeforeAfter,
-  ChooseByMoment,
-  ProfileTabs,
-  AfterPayment,
-  Objections,
-  SpreadsheetVsSpark,
-  Security,
-  FinalCta,
-} from "./sections/Story";
-import {
-  ExplodedView,
-  LeadJourney,
-  Templates,
-  SparkBotSection,
-  LeadScore,
-  Retention,
-  Recruitment,
-  FieldTraining,
-  Calendars,
-  Dashboards,
-  Gallery,
-} from "./sections/Product";
-import { MicroDemo, LossCalculator } from "./sections/Interactive";
+import { Problem, Security, FinalCta } from "./sections/Story";
+import { SparkBotSection } from "./sections/Product";
 
+/**
+ * Landing enxuta e focada em conversão:
+ * Hero → dor → planos → SparkBot → comparar → segurança → FAQ → CTA.
+ * As demais seções continuam disponíveis em ./sections caso se queira reativar.
+ */
 export function Landing() {
   return (
     <SparkProvider>
@@ -55,30 +35,10 @@ export function Landing() {
 
       <main>
         <Hero />
-        <SocialProof />
         <Problem />
-        <HowItWorks />
-        <BeforeAfter />
-        <Plans />
-        <ChooseByMoment />
-        <ProfileTabs />
-        <MicroDemo />
-        <ExplodedView />
-        <Templates />
         <SparkBotSection />
-        <LeadScore />
-        <LeadJourney />
-        <Retention />
-        <Recruitment />
-        <FieldTraining />
-        <Calendars />
-        <Dashboards />
-        <Gallery />
+        <Plans />
         <ComparisonTable />
-        <LossCalculator />
-        <AfterPayment />
-        <SpreadsheetVsSpark />
-        <Objections />
         <Security />
         <FAQAccordion />
         <FinalCta />

@@ -127,7 +127,7 @@ function PlanCard({ plan }: { plan: PlanContent }) {
 export function Plans() {
   const { quizResult, openQuiz } = useSpark();
   return (
-    <Section id="planos" className="relative">
+    <Section id="planos" theme="light" ambient className="relative">
       <div className="halo left-1/2 top-0 h-[24rem] w-[40rem] -translate-x-1/2 bg-accent/10" />
       <Container className="relative z-10">
         <SectionHeading

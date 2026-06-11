@@ -15,8 +15,8 @@ export const content = {
   nav: {
     brand: "Spark Leads",
     links: [
-      { label: "Como funciona", href: "#como-funciona" },
       { label: "Planos", href: "#planos" },
+      { label: "SparkBot", href: "#sparkbot" },
       { label: "Comparar", href: "#comparar" },
       { label: "FAQ", href: "#faq" },
     ],

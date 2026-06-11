@@ -18,10 +18,10 @@ export function Footer() {
     {
       title: "Recursos",
       links: [
-        { label: "CRM", href: "#produto" },
-        { label: "Workflows", href: "#produto" },
+        { label: "Planos", href: "#planos" },
         { label: "SparkBot", href: "#sparkbot" },
-        { label: "Dashboards", href: "#dashboards" },
+        { label: "Comparar", href: "#comparar" },
+        { label: "FAQ", href: "#faq" },
       ],
     },
     {

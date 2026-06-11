@@ -153,6 +153,95 @@
   transform-origin: 0 50%;
 }
 
+/* ————————————————————————————————————————————————
+   Temas de seção (alternância claro/escuro)
+   Cada <Section> é uma faixa full-bleed com seu próprio tema.
+   .theme-light remapeia os tokens (usados pelos componentes, pensados
+   para dark) para o esquema claro, via seletores de substring de classe.
+   ———————————————————————————————————————————————— */
+.theme-light {
+  color: #0d0d0d;
+}
+.theme-light [class*="text-cream"] {
+  color: #0d0d0d !important;
+}
+.theme-light .text-muted,
+.theme-light .label-mono {
+  color: #5b6569 !important;
+}
+.theme-light [class*="border-white/"],
+.theme-light [class*="border-cream/"] {
+  border-color: rgba(13, 13, 13, 0.12) !important;
+}
+.theme-light [class*="bg-white/"],
+.theme-light [class*="bg-cream/"] {
+  background-color: rgba(13, 13, 13, 0.04) !important;
+}
+.theme-light .glass,
+.theme-light .glass-card {
+  background: linear-gradient(160deg, rgba(13, 13, 13, 0.04), rgba(13, 13, 13, 0.015));
+  border: 1px solid rgba(13, 13, 13, 0.1);
+}
+.theme-light .btn-secondary {
+  border-color: rgba(13, 13, 13, 0.2);
+  background: rgba(13, 13, 13, 0.04);
+  color: #0d0d0d;
+}
+.theme-light .btn-ghost {
+  color: #5b6569;
+  border-color: rgba(13, 13, 13, 0.18);
+}
+.theme-light .grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(13, 13, 13, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(13, 13, 13, 0.05) 1px, transparent 1px);
+}
+
+/* ———— Fundos que "se mexem sozinhos" (ambient) ———— */
+.ambient {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.ambient-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.55;
+  background: rgba(var(--accent-rgb), 0.18);
+  will-change: transform;
+}
+.ambient-blob-1 {
+  width: 34rem;
+  height: 34rem;
+  left: -10rem;
+  top: -10rem;
+  animation: drift1 19s ease-in-out infinite;
+}
+.ambient-blob-2 {
+  width: 30rem;
+  height: 30rem;
+  right: -8rem;
+  bottom: -10rem;
+  animation: drift2 24s ease-in-out infinite;
+}
+.theme-light .ambient-blob-1 {
+  background: rgba(var(--accent-rgb), 0.12);
+}
+.theme-light .ambient-blob-2 {
+  background: rgba(99, 116, 124, 0.16);
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4rem, 2.5rem) scale(1.08); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-3.5rem, -2rem) scale(1.1); }
+}
+
 /* Animação de pontos de "digitando" do SparkBot */
 .typing-dot {
   animation: typing 1.4s infinite ease-in-out;

@@ -15,19 +15,44 @@ export function Container({
   return <div className={cn("container-spark", className)}>{children}</div>;
 }
 
-/** Section padronizada com padding vertical generoso e id de âncora. */
+type SectionTheme = "dark" | "light" | "gray";
+
+/** Section full-bleed com tema próprio e fundo opcional que se move sozinho. */
 export function Section({
   id,
   children,
   className,
+  theme = "dark",
+  ambient = false,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
+  /** Esquema de cor da faixa. Light/Gray invertem para fundo claro. */
+  theme?: SectionTheme;
+  /** Ativa blobs de luz que derivam sozinhos (movimento ambiente). */
+  ambient?: boolean;
 }) {
+  const themeClass =
+    theme === "light"
+      ? "theme-light bg-[#FCFCFC]"
+      : theme === "gray"
+        ? "theme-light bg-[#EEF1F4]"
+        : "bg-ink";
+
   return (
-    <section id={id} className={cn("relative py-20 sm:py-28 scroll-mt-24", className)}>
-      {children}
+    <section
+      id={id}
+      data-theme={theme === "dark" ? "dark" : "light"}
+      className={cn("relative overflow-hidden py-20 sm:py-28 scroll-mt-24", themeClass, className)}
+    >
+      {ambient && (
+        <div className="ambient" aria-hidden>
+          <span className="ambient-blob ambient-blob-1" />
+          <span className="ambient-blob ambient-blob-2" />
+        </div>
+      )}
+      <div className="relative z-[1]">{children}</div>
     </section>
   );
 }
