@@ -1,8 +1,32 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+
+/**
+ * Parallax 2D em camadas: desloca o conteúdo no eixo Y conforme o scroll.
+ * `speed` ~0.1–0.4 (positivo = sobe mais rápido). Estático em reduced-motion.
+ */
+export function Parallax({
+  children,
+  speed = 0.2,
+  className,
+}: {
+  children: ReactNode;
+  speed?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * 90, -speed * 90]);
+  return (
+    <motion.div ref={ref} style={{ y: reduce ? 0 : y }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
 
 /** Barra de progresso de leitura no topo da página. */
 export function ScrollProgress() {

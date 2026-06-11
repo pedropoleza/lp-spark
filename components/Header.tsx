@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { content } from "@/content/pt-br";
+import { Logo } from "./ui/Logo";
 import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -32,11 +33,9 @@ export function Header() {
       )}
     >
       <div className="container-spark flex h-16 items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 font-display text-lg font-bold">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-spark/15 text-spark">
-            <Zap className="h-4 w-4" />
-          </span>
-          Spark Leads
+        <a href="#top" aria-label="Spark Leads" className="flex items-center gap-2.5">
+          <Logo variant="mark" className="h-8 w-8" />
+          <Logo variant="wordmark" onDark className="hidden h-5 sm:block" />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
@@ -85,7 +84,7 @@ export function Header() {
           />
           <div className="absolute right-0 top-0 flex h-full w-72 flex-col gap-6 border-l border-white/10 bg-graphite p-6">
             <div className="flex items-center justify-between">
-              <span className="font-display font-bold">Spark Leads</span>
+              <Logo variant="wordmark" onDark className="h-5" />
               <button
                 aria-label="Fechar menu"
                 onClick={() => setDrawer(false)}

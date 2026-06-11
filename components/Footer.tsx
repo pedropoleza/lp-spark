@@ -1,6 +1,6 @@
 "use client";
 
-import { Zap } from "lucide-react";
+import { Logo } from "./ui/Logo";
 import { useSpark } from "./spark-context";
 
 export function Footer() {
@@ -39,11 +39,9 @@ export function Footer() {
       <div className="halo left-1/2 top-0 h-48 w-96 -translate-x-1/2 bg-spark/15" />
       <div className="container-spark relative z-10 grid gap-10 pb-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2 font-display text-lg font-bold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-spark/15 text-spark">
-              <Zap className="h-4 w-4" />
-            </span>
-            Spark Leads
+          <div className="flex items-center gap-3">
+            <Logo variant="mark" className="h-9 w-9 drop-shadow-[0_0_18px_rgba(0,164,205,0.45)]" />
+            <Logo variant="wordmark" onDark className="h-5" />
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted">
             CRM, automações e IA para agentes de seguros venderem mais, recrutarem melhor e perderem

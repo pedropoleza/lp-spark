@@ -5,6 +5,7 @@ import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { BlinkDot, ScrollFillBar } from "./motion2d";
 import { BotReaction } from "./BotReaction";
+import { Parallax } from "./effects";
 
 /** Container com largura máxima editorial. */
 export function Container({
@@ -43,12 +44,13 @@ export function Section({
     side?: "left" | "right";
   };
 }) {
+  // Painéis translúcidos sobre o canvas vivo (frosted); o backdrop respira nas bordas.
   const themeClass =
     theme === "light"
-      ? "theme-light bg-[#FCFCFC]"
+      ? "theme-light panel-light"
       : theme === "gray"
-        ? "theme-light bg-[#EEF1F4]"
-        : "bg-ink";
+        ? "theme-light panel-gray"
+        : "panel-dark";
 
   return (
     <section
@@ -164,7 +166,8 @@ export function SectionHeading({
   align?: "left" | "center";
 }) {
   return (
-    <div
+    <Parallax
+      speed={0.12}
       className={cn(
         "max-w-3xl",
         align === "center" && "mx-auto text-center",
@@ -184,6 +187,6 @@ export function SectionHeading({
       {description && (
         <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{description}</p>
       )}
-    </div>
+    </Parallax>
   );
 }

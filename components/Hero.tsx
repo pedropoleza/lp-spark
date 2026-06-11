@@ -20,6 +20,7 @@ export function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yPanel = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 120]);
   const yText = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -40]);
+  const yGrid = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 60]);
 
   const goPlans = () =>
     document.getElementById("planos")?.scrollIntoView({ behavior: "smooth" });
@@ -34,7 +35,10 @@ export function Hero() {
       {/* halos de fundo */}
       <div className="halo left-[-10%] top-[-10%] h-[28rem] w-[28rem] bg-spark/30" />
       <div className="halo right-[-5%] top-[20%] h-[26rem] w-[26rem] bg-electric/25" />
-      <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(70%_60%_at_50%_30%,black,transparent)]" />
+      <motion.div
+        style={{ y: yGrid }}
+        className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(70%_60%_at_50%_30%,black,transparent)]"
+      />
 
       <Container className="relative z-10 grid items-center gap-12 pb-20 lg:grid-cols-[1.1fr_1fr] lg:pb-28">
         <motion.div style={{ y: yText }}>

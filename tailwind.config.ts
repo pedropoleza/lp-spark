@@ -30,9 +30,9 @@ const config: Config = {
         "ink-deep": "var(--ink-deep)",
 
         // ——— Acento único (teal) e derivados para profundidade ———
-        accent: "#00A4C6", // cor de acento pedida
+        accent: "#00A4CD", // cor de acento pedida
         // Aliases legados remapeados para a família teal (cohesão monocromática):
-        spark: "#00A4C6",
+        spark: "#00A4CD",
         electric: "#2FD2EE",
         glow: "#00788F",
         lime: "#38E5CE",

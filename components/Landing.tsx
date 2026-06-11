@@ -15,6 +15,8 @@ import { StickyCTA } from "./StickyCTA";
 import { ExitIntent } from "./ExitIntent";
 import { CanceledBanner } from "./CanceledBanner";
 import { ScrollProgress, Grain } from "./ui/effects";
+import { SparkBackdrop } from "./ui/SparkBackdrop";
+import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
 import { Problem, Security, FinalCta } from "./sections/Story";
 import { SparkBotSection } from "./sections/Product";
@@ -28,6 +30,7 @@ import { CompareStrip, DiagnoseTerminal } from "./sections/Brutalist";
 export function Landing() {
   return (
     <SparkProvider>
+      <SparkBackdrop />
       <Grain />
       <ScrollProgress />
       <Curtain />
@@ -49,13 +52,17 @@ export function Landing() {
           ]}
         />
         <Problem />
+        <Seam />
         <DiagnoseTerminal />
         <SparkBotSection />
+        <Seam />
         <Plans />
         <CompareStrip />
         <ComparisonTable />
+        <Seam />
         <Security />
         <FAQAccordion />
+        <Seam />
         <FinalCta />
       </main>
 

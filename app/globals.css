@@ -8,8 +8,8 @@
     --font-display: "Space Grotesk", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-    --accent: #00a4c6;
-    --accent-rgb: 0, 164, 198;
+    --accent: #00a4cd;
+    --accent-rgb: 0, 164, 205;
     --accent-2: #2fd2ee; /* cyan claro, mesma família (usado no glitch) */
 
     /* Tokens semânticos (dentro da paleta da marca — sem cores externas) */
@@ -30,10 +30,6 @@
 
   body {
     @apply bg-ink text-cream font-sans antialiased;
-    background-image:
-      radial-gradient(50rem 50rem at 85% -10%, rgba(var(--accent-rgb), 0.1), transparent 60%),
-      radial-gradient(45rem 45rem at -10% 25%, rgba(var(--accent-rgb), 0.07), transparent 55%);
-    background-attachment: fixed;
   }
 
   ::selection {
@@ -77,7 +73,7 @@
   }
 
   .gradient-text {
-    background: linear-gradient(100deg, #00a4c6 0%, #38e5ce 50%, #2fd2ee 100%);
+    background: linear-gradient(100deg, #00a4cd 0%, #38e5ce 50%, #2fd2ee 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -139,6 +135,41 @@
   }
 }
 
+/* ————————————————————————————————————————————————
+   Canvas contínuo "Spark OS" (SparkBackdrop) + emendas
+   ———————————————————————————————————————————————— */
+.backdrop-dots {
+  background-image: radial-gradient(rgba(252, 252, 252, 0.05) 1px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+.backdrop-vignette {
+  background: radial-gradient(120% 80% at 50% 0%, transparent 55%, rgba(6, 6, 6, 0.55) 100%);
+}
+
+/* Painéis translúcidos: deixam o canvas vivo "respirar" nas bordas */
+.panel-dark {
+  background-color: rgba(13, 13, 13, 0.82);
+  backdrop-filter: blur(14px) saturate(115%);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+}
+.panel-light {
+  background-color: rgba(252, 252, 252, 0.86);
+  backdrop-filter: blur(14px) saturate(115%);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+}
+.panel-gray {
+  background-color: rgba(238, 241, 244, 0.86);
+  backdrop-filter: blur(14px) saturate(115%);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+}
+
+/* Emenda entre módulos: zona onde só o canvas aparece */
+.seam-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform-origin: center;
+}
+
 /* Grão/textura sutil global (premium) */
 .grain-overlay {
   position: fixed;
@@ -156,7 +187,7 @@
   left: 0;
   height: 2px;
   z-index: 60;
-  background: linear-gradient(90deg, #00a4c6, #38e5ce);
+  background: linear-gradient(90deg, #00a4cd, #38e5ce);
   transform-origin: 0 50%;
 }
 

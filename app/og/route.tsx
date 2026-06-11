@@ -3,6 +3,7 @@ import { ImageResponse } from "next/og";
 export const runtime = "edge";
 
 const size = { width: 1200, height: 630 };
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 /**
  * Seção 42 — imagem Open Graph gerada dinamicamente (1200x630).
@@ -27,22 +28,9 @@ export async function GET() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 34, fontWeight: 700 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 14,
-              background: "rgba(0,164,198,0.18)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#00A4C6",
-              fontSize: 30,
-            }}
-          >
-            ⚡
-          </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 34, fontWeight: 700 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${baseUrl}/brand/mark.png`} width={64} height={64} alt="" />
           Spark Leads
         </div>
 
@@ -74,7 +62,7 @@ export async function GET() {
               }}
             >
               <div style={{ fontSize: 24, fontWeight: 700 }}>{p.name}</div>
-              <div style={{ fontSize: 30, fontWeight: 800, color: "#00A4C6" }}>{`${p.price}/mo`}</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: "#00A4CD" }}>{`${p.price}/mo`}</div>
             </div>
           ))}
         </div>
