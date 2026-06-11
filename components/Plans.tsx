@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check, Sparkles, Star, ArrowRight, HelpCircle } from "lucide-react";
+import { Sparkles, Star, ArrowRight, HelpCircle } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { PLAN_CONTENT, type PlanContent } from "@/content/pt-br";
 import { QUIZ_REASONS } from "@/lib/quiz";
@@ -9,6 +9,8 @@ import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container, Section, SectionHeading, AnimatedBadge } from "./ui/primitives";
 import { CornerMarks } from "./ui/motion2d";
+import { CountUp } from "./ui/effects";
+import { DrawnCheck } from "./ui/vector";
 import { cn } from "@/lib/utils";
 
 function PlanCard({ plan }: { plan: PlanContent }) {
@@ -68,7 +70,9 @@ function PlanCard({ plan }: { plan: PlanContent }) {
       </div>
 
       <div className="mb-4 flex items-end gap-1">
-        <span className="font-display text-4xl font-bold">US$ {plan.price}</span>
+        <span className="font-display text-4xl font-bold">
+          US$ <CountUp value={plan.price} />
+        </span>
         <span className="mb-1 text-sm text-muted">/mês</span>
       </div>
 
@@ -86,15 +90,9 @@ function PlanCard({ plan }: { plan: PlanContent }) {
           return (
             <li key={f} className={cn("flex items-start gap-2 text-sm", isHeader ? "font-semibold text-cream" : "text-muted")}>
               {!isHeader && (
-                <motion.span
-                  initial={reduce ? false : { scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.03 * i }}
-                  className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-accent/15"
-                >
-                  <Check className="h-3 w-3 text-accent" />
-                </motion.span>
+                <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-accent/15 text-accent">
+                  <DrawnCheck className="h-3 w-3" />
+                </span>
               )}
               <span className={isHeader ? "pt-1" : ""}>{f}</span>
             </li>

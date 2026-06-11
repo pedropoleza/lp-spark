@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Loader2, RotateCcw, Sparkles, Check } from "lucide-react";
+import { ArrowRight, RotateCcw, Sparkles, Check } from "lucide-react";
+import { SparkLoader } from "./ui/vector";
 import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
 import { QUIZ_QUESTIONS, recomendarPlano, QUIZ_REASONS } from "@/lib/quiz";
@@ -142,7 +143,7 @@ export function QuizModal() {
               exit={{ opacity: 0 }}
               className="flex min-h-[40vh] flex-col items-center justify-center text-center"
             >
-              <Loader2 className="h-10 w-10 animate-spin text-accent" />
+              <SparkLoader />
               <p className="mt-5 text-muted">Calculando seu plano ideal...</p>
             </motion.div>
           )}

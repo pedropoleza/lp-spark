@@ -1,8 +1,82 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import {
+  animate,
+  motion,
+  useInView,
+  useScroll,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
+import { useEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+
+/**
+ * Hover magnético sutil para CTAs primários: o botão "vem" até o cursor
+ * (máx. 4px) e volta com spring. Desligado em reduced-motion / touch.
+ */
+export function Magnetic({ children, className }: { children: ReactNode; className?: string }) {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useSpring(0, { stiffness: 220, damping: 16 });
+  const y = useSpring(0, { stiffness: 220, damping: 16 });
+
+  function onMove(e: React.MouseEvent) {
+    if (reduce) return;
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    const clamp = (v: number) => Math.max(-4, Math.min(4, v));
+    x.set(clamp(((e.clientX - (r.left + r.width / 2)) / r.width) * 10));
+    y.set(clamp(((e.clientY - (r.top + r.height / 2)) / r.height) * 10));
+  }
+  function onLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x, y }}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      className={cn("inline-block", className)}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Número que conta até o valor ao entrar no viewport (uma vez). */
+export function CountUp({ value, className }: { value: number; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !inView) return;
+    if (reduce) {
+      el.textContent = String(value);
+      return;
+    }
+    const controls = animate(0, value, {
+      duration: 0.9,
+      ease: "easeOut",
+      onUpdate: (v) => {
+        el.textContent = String(Math.round(v));
+      },
+    });
+    return () => controls.stop();
+  }, [inView, value, reduce]);
+
+  return (
+    <span ref={ref} className={className}>
+      {reduce ? value : 0}
+    </span>
+  );
+}
 
 /**
  * Parallax 2D em camadas: desloca o conteúdo no eixo Y conforme o scroll.

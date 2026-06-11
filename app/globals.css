@@ -28,6 +28,14 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Lenis assume o controle do scroll — evita dupla suavização */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
   body {
     @apply bg-ink text-cream font-sans antialiased;
   }
@@ -72,15 +80,19 @@
     @apply rounded-card glass-card;
   }
 
+  /* Shimmer one-shot: a luz passa UMA vez no reveal e o título assenta */
   .gradient-text {
     background: linear-gradient(100deg, #00a4cd 0%, #38e5ce 35%, #2fd2ee 60%, #00a4cd 100%);
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 6s linear infinite;
+    animation: text-shimmer 2.6s ease-out 0.35s 1 both;
   }
   @keyframes text-shimmer {
+    from {
+      background-position: 0% center;
+    }
     to {
       background-position: 220% center;
     }
@@ -153,21 +165,22 @@
   background: radial-gradient(120% 80% at 50% 0%, transparent 55%, rgba(6, 6, 6, 0.55) 100%);
 }
 
-/* Painéis translúcidos: deixam o canvas vivo "respirar" nas bordas */
+/* Painéis translúcidos: deixam o canvas respirar SEM comprometer contraste AA.
+   Blur 14px (22px era o maior custo de paint da página). */
 .panel-dark {
-  background-color: rgba(13, 13, 13, 0.6);
-  backdrop-filter: blur(22px) saturate(125%);
-  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  background-color: rgba(13, 13, 13, 0.74);
+  backdrop-filter: blur(14px) saturate(118%);
+  -webkit-backdrop-filter: blur(14px) saturate(118%);
 }
 .panel-light {
-  background-color: rgba(252, 252, 252, 0.7);
-  backdrop-filter: blur(22px) saturate(125%);
-  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  background-color: rgba(252, 252, 252, 0.9);
+  backdrop-filter: blur(14px) saturate(118%);
+  -webkit-backdrop-filter: blur(14px) saturate(118%);
 }
 .panel-gray {
-  background-color: rgba(238, 241, 244, 0.68);
-  backdrop-filter: blur(22px) saturate(125%);
-  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  background-color: rgba(238, 241, 244, 0.88);
+  backdrop-filter: blur(14px) saturate(118%);
+  -webkit-backdrop-filter: blur(14px) saturate(118%);
 }
 
 /* Emenda entre módulos: zona onde só o canvas aparece */
@@ -245,8 +258,27 @@
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: angle-spin 5s linear infinite;
+  animation: angle-spin 9s linear infinite; /* lento: presença, não distração */
   pointer-events: none;
+}
+
+/* Anel que pulsa uma vez a cada 8s (assinatura viva do mark) */
+@keyframes ring-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  13% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+.ring-pulse {
+  animation: ring-pulse 8s ease-out 2s infinite;
 }
 
 /* Grão/textura sutil global (premium) */
@@ -284,7 +316,7 @@
 }
 .theme-light .text-muted,
 .theme-light .label-mono {
-  color: #5b6569 !important;
+  color: #49555a !important; /* AA sobre paper translúcido */
 }
 .theme-light [class*="border-white/"],
 .theme-light [class*="border-cream/"] {

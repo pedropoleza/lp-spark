@@ -74,6 +74,7 @@ export function Modal({
             role="dialog"
             aria-modal="true"
             aria-labelledby={labelledBy}
+            data-lenis-prevent
             className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-ink"
             initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -126,6 +127,7 @@ export function Modal({
             role="dialog"
             aria-modal="true"
             aria-labelledby={labelledBy}
+            data-lenis-prevent
             initial={reduce ? false : { opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reduce ? undefined : { opacity: 0, scale: 0.96, y: 16 }}

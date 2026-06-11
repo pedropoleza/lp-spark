@@ -16,6 +16,7 @@ export function FAQAccordion() {
     <Section
       id="faq"
       ambient
+      spacing="tight"
       reaction={{
         clip: "/bot/bot-voice",
         caption: "Ficou com dúvida? É só perguntar — eu respondo.",

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSpark } from "./spark-context";
+import { Logo } from "./ui/Logo";
 
 /** Barra fixa inferior no mobile, aparece após scroll e some no footer. */
 export function StickyCTA() {
@@ -33,13 +34,12 @@ export function StickyCTA() {
           transition={{ duration: 0.3 }}
           className="fixed inset-x-3 bottom-3 z-40 md:hidden"
         >
-          <div className="glass flex items-center justify-between gap-3 rounded-2xl px-4 py-3 shadow-plan">
-            <div>
-              <p className="text-sm font-semibold">Encontre seu plano ideal</p>
-              <a href="#planos" className="text-[11px] text-muted underline-offset-2 hover:underline">
-                Ver planos
-              </a>
-            </div>
+          <div className="glass flex items-center gap-3 rounded-full py-2 pl-2 pr-2 shadow-plan">
+            <Logo variant="mark" className="h-8 w-8 shrink-0" />
+            <a href="#planos" className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold">Encontre seu plano ideal</p>
+              <p className="text-[11px] text-muted">Ver planos →</p>
+            </a>
             <button onClick={openQuiz} className="btn-primary !px-4 !py-2 text-xs">
               Fazer quiz
             </button>

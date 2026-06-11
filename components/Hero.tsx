@@ -7,6 +7,7 @@ import { content } from "@/content/pt-br";
 import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container } from "./ui/primitives";
+import { Magnetic } from "./ui/effects";
 import { Logo } from "./ui/Logo";
 import { BackgroundLoop } from "./ui/BackgroundLoop";
 import { BotVideo } from "./ui/BotVideo";
@@ -50,7 +51,12 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 py-1.5 pl-1.5 pr-3.5"
           >
-            <Logo variant="mark" className="h-6 w-6" />
+            <span className="relative inline-block h-6 w-6">
+              {!reduce && (
+                <span className="ring-pulse absolute inset-0 rounded-full border border-accent/60" />
+              )}
+              <Logo variant="mark" className="relative h-6 w-6" />
+            </span>
             <span className="label-mono">{content.hero.label}</span>
           </motion.div>
 
@@ -58,8 +64,8 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.18 }}
-            className="mt-6 font-heavy leading-[0.98] tracking-tight"
-            style={{ fontSize: "clamp(2.6rem, 6.4vw, 4.9rem)" }}
+            className="mt-6 font-display font-bold leading-[1.02] tracking-tight"
+            style={{ fontSize: "clamp(2.6rem, 6.4vw, 4.6rem)" }}
           >
             Sua operação de seguros,{" "}
             <span className="gradient-text">rodando no automático.</span>
@@ -80,16 +86,18 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.34 }}
             className="mt-8 flex flex-col gap-3 sm:flex-row"
           >
-            <button
-              onClick={() => {
-                trackEvent("hero_cta_clicked", { cta: "quiz" });
-                openQuiz();
-              }}
-              className="btn-primary"
-            >
-              {content.hero.ctaPrimary}
-              <ArrowRight className="h-4 w-4" />
-            </button>
+            <Magnetic>
+              <button
+                onClick={() => {
+                  trackEvent("hero_cta_clicked", { cta: "quiz" });
+                  openQuiz();
+                }}
+                className="btn-primary"
+              >
+                {content.hero.ctaPrimary}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </Magnetic>
             <button
               onClick={() => {
                 trackEvent("hero_cta_clicked", { cta: "plans" });

@@ -27,6 +27,7 @@ export function Section({
   className,
   theme = "dark",
   ambient = false,
+  spacing = "normal",
   reaction,
 }: {
   id?: string;
@@ -36,6 +37,8 @@ export function Section({
   theme?: SectionTheme;
   /** Ativa blobs de luz que derivam sozinhos (movimento ambiente). */
   ambient?: boolean;
+  /** Ritmo vertical: momentos-chave respiram mais, apoio comprime. */
+  spacing?: "loose" | "normal" | "tight";
   /** Card de reação do SparkBot, contextual ao conteúdo da seção. */
   reaction?: {
     clip: string;
@@ -52,11 +55,17 @@ export function Section({
         ? "theme-light panel-gray"
         : "panel-dark";
 
+  const pad = {
+    loose: "py-28 sm:py-36",
+    normal: "py-20 sm:py-28",
+    tight: "py-14 sm:py-20",
+  }[spacing];
+
   return (
     <section
       id={id}
       data-theme={theme === "dark" ? "dark" : "light"}
-      className={cn("relative overflow-hidden py-20 sm:py-28 scroll-mt-24", themeClass, className)}
+      className={cn("relative overflow-hidden scroll-mt-24", pad, themeClass, className)}
     >
       {ambient && (
         <div className="ambient" aria-hidden>

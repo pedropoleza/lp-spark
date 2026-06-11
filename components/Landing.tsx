@@ -16,19 +16,20 @@ import { ExitIntent } from "./ExitIntent";
 import { CanceledBanner } from "./CanceledBanner";
 import { ScrollProgress, Grain } from "./ui/effects";
 import { SparkBackdrop } from "./ui/SparkBackdrop";
+import { SmoothScroll } from "./ui/SmoothScroll";
 import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
 import { SparkBotSection } from "./sections/Product";
-import { CompareStrip } from "./sections/Brutalist";
 
 /**
- * Landing enxuta e focada em conversão:
- * Hero → dor → planos → SparkBot → comparar → segurança → FAQ → CTA.
+ * Landing enxuta, conduzida pelo SparkBot:
+ * Hero → marca → SparkBot em ação → Planos → Matriz → FAQ.
  * As demais seções continuam disponíveis em ./sections caso se queira reativar.
  */
 export function Landing() {
   return (
     <SparkProvider>
+      <SmoothScroll />
       <SparkBackdrop />
       <Grain />
       <ScrollProgress />
@@ -53,7 +54,7 @@ export function Landing() {
         <SparkBotSection />
         <Seam />
         <Plans />
-        <CompareStrip />
+        <Seam />
         <ComparisonTable />
         <Seam />
         <FAQAccordion />

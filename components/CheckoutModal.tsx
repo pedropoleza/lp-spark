@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Check, Loader2, Lock, ShieldCheck } from "lucide-react";
+import { AlertCircle, Check, Lock, ShieldCheck } from "lucide-react";
+import { LockSeal } from "./ui/vector";
 import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
 import { checkoutFormSchema, type CheckoutFormValues, BR_STATES, US_STATES } from "@/lib/validation";
@@ -177,7 +178,7 @@ export function CheckoutModal() {
 
             <button type="submit" disabled={submitting} className="btn-primary w-full">
               {submitting ? (
-                <><Loader2 className="h-4 w-4 animate-spin" /> Preparando checkout seguro...</>
+                <><LockSeal className="h-4 w-4" /> Preparando checkout seguro...</>
               ) : (
                 <>Continuar para pagamento → US$ {price}/mês</>
               )}

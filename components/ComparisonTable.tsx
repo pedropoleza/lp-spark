@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Minus, ChevronDown } from "lucide-react";
+import { Minus, ChevronDown } from "lucide-react";
+import { DrawnCheck } from "./ui/vector";
 import { COMPARE_ROWS, PLAN_CONTENT } from "@/content/pt-br";
 import { useSpark } from "./spark-context";
 import { Container, Section, SectionHeading } from "./ui/primitives";
 import { cn } from "@/lib/utils";
 
 function Cell({ value }: { value: string | boolean }) {
-  if (value === true) return <Check className="mx-auto h-4 w-4 text-lime" />;
+  if (value === true) return <DrawnCheck className="mx-auto h-4 w-4 text-accent" />;
   if (value === false) return <Minus className="mx-auto h-4 w-4 text-muted/40" />;
   return <span className="text-sm text-cream">{value}</span>;
 }

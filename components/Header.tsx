@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { content } from "@/content/pt-br";
 import { Logo } from "./ui/Logo";
@@ -12,12 +13,29 @@ export function Header() {
   const { openQuiz } = useSpark();
   const [scrolled, setScrolled] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Seção ativa → underline desliza entre os links (layoutId)
+  useEffect(() => {
+    const ids = content.nav.links.map((l) => l.href.slice(1));
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(`#${e.target.id}`);
+      },
+      { rootMargin: "-35% 0px -55% 0px" },
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+    return () => io.disconnect();
   }, []);
 
   const goPlans = () => {
@@ -32,9 +50,14 @@ export function Header() {
         scrolled ? "glass border-b border-white/10" : "border-b border-transparent",
       )}
     >
-      <div className="container-spark flex h-16 items-center justify-between">
+      <div
+        className={cn(
+          "container-spark flex items-center justify-between transition-[height] duration-300",
+          scrolled ? "h-[52px]" : "h-16",
+        )}
+      >
         <a href="#top" aria-label="Spark Leads" className="flex items-center gap-2.5">
-          <Logo variant="mark" className="h-8 w-8" />
+          <Logo variant="mark" className={cn("transition-all duration-300", scrolled ? "h-7 w-7" : "h-8 w-8")} />
           <Logo variant="wordmark" onDark className="hidden h-5 sm:block" />
         </a>
 
@@ -43,9 +66,19 @@ export function Header() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted transition hover:text-cream"
+              className={cn(
+                "relative text-sm transition",
+                active === l.href ? "text-cream" : "text-muted hover:text-cream",
+              )}
             >
               {l.label}
+              {active === l.href && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute -bottom-1.5 left-0 right-0 h-px bg-accent"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              )}
             </a>
           ))}
         </nav>
