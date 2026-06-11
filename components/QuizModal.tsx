@@ -205,42 +205,41 @@ export function QuizModal() {
               className="grid gap-12 lg:grid-cols-2 lg:items-center"
             >
               <div className="text-center lg:text-left">
-                {/* mascote comemorando — com contexto em volta */}
+                {/* mascote comemorando — clipe inteiro, sem corte */}
                 <motion.div
-                  initial={reduce ? false : { scale: 0.7, opacity: 0 }}
+                  initial={reduce ? false : { scale: 0.85, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ type: "spring", stiffness: 160, damping: 16, delay: 0.15 }}
-                  className="relative mx-auto h-44 w-44 lg:mx-0"
+                  className="relative mx-auto w-full max-w-[320px] lg:mx-0"
                 >
-                  {/* anel comemorativo girando */}
-                  {!reduce && (
-                    <div className="absolute inset-[-4%] animate-[spin_18s_linear_infinite]">
-                      <div className="absolute inset-0 rounded-full border border-dashed border-accent/30" />
-                      <span className="absolute left-1/2 top-[-3px] h-2 w-2 -translate-x-1/2 rounded-full bg-accent shadow-glow" />
-                    </div>
-                  )}
-                  {/* faíscas */}
-                  {!reduce &&
-                    [
-                      "left-1 top-3",
-                      "right-2 top-8",
-                      "bottom-4 left-2",
-                    ].map((p, i) => (
-                      <motion.span
-                        key={p}
-                        className={`absolute ${p} text-accent`}
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: [0, 1, 0.6], opacity: [0, 1, 0.5] }}
-                        transition={{ delay: 0.5 + i * 0.18, duration: 1.4, repeat: Infinity, repeatDelay: 1.5 }}
-                      >
-                        <Sparkles className="h-3.5 w-3.5" />
-                      </motion.span>
-                    ))}
+                  {/* glow atrás */}
+                  <div className="absolute -inset-5 rounded-[2rem] bg-accent/25 blur-3xl" />
 
-                  <div className="absolute inset-2 rounded-full bg-accent/35 blur-2xl" />
-                  {/* avatar circular: o clipe de fundo claro vira um retrato limpo */}
-                  <div className="absolute inset-3 overflow-hidden rounded-full border-2 border-accent/60 shadow-glow">
-                    <BotVideo src="/bot/bot-pick" fit="cover" className="scale-[1.18]" />
+                  {/* faíscas em volta */}
+                  {!reduce &&
+                    ["-left-2 top-4", "-right-2 top-10", "bottom-6 -left-1", "-right-1 bottom-12"].map(
+                      (p, i) => (
+                        <motion.span
+                          key={p}
+                          className={`absolute ${p} z-20 text-accent`}
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: [0, 1, 0.6], opacity: [0, 1, 0.5] }}
+                          transition={{
+                            delay: 0.5 + i * 0.18,
+                            duration: 1.4,
+                            repeat: Infinity,
+                            repeatDelay: 1.5,
+                          }}
+                        >
+                          <Sparkles className="h-4 w-4" />
+                        </motion.span>
+                      ),
+                    )}
+
+                  {/* frame na proporção do vídeo: o robô aparece inteiro */}
+                  <div className="relative aspect-[1048/588] w-full overflow-hidden rounded-2xl border border-accent/40 shadow-glow">
+                    <BotVideo src="/bot/bot-pick" fit="cover" />
+                    <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-cream/10" />
                   </div>
 
                   {/* balão de fala do bot */}
@@ -248,7 +247,7 @@ export function QuizModal() {
                     initial={reduce ? false : { opacity: 0, y: 8, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ type: "spring", stiffness: 200, damping: 16, delay: 0.55 }}
-                    className="absolute -right-3 top-2 rounded-2xl rounded-bl-sm border border-accent/30 bg-accent/15 px-3 py-1.5 text-xs font-medium text-cream backdrop-blur-sm sm:-right-8"
+                    className="absolute -right-2 -top-3 z-20 rounded-2xl rounded-br-sm border border-accent/40 bg-ink/85 px-3 py-1.5 text-xs font-medium text-cream shadow-soft backdrop-blur-sm sm:-right-6"
                   >
                     Achei o seu! 🎯
                   </motion.div>
