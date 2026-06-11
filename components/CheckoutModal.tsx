@@ -10,46 +10,42 @@ import { searchCoupons } from "@/content/coupons";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
-function CopyCode({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-    } catch {
-      /* clipboard indisponível — o usuário ainda vê o código */
-    }
-    setCopied(true);
-    trackEvent("checkout_form_submitted", { coupon: code, action: "copy" });
-    setTimeout(() => setCopied(false), 1600);
-  };
-  return (
-    <button
-      onClick={copy}
-      className="group inline-flex shrink-0 items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 font-mono text-sm font-semibold text-accent transition hover:bg-accent/20"
-    >
-      {code}
-      {copied ? (
-        <Check className="h-3.5 w-3.5" />
-      ) : (
-        <Copy className="h-3.5 w-3.5 opacity-70 transition group-hover:opacity-100" />
-      )}
-    </button>
-  );
+/**
+ * Monta a URL do payment-link com o cupom no formato de prefill do GHL
+ * (path-style: ".../payment-link/{id}/couponCode=CODE", igual ao prefill de
+ * firstName/email). Best-effort: se o parâmetro do GHL for outro, o cupom segue
+ * copiado para colar manualmente.
+ */
+function linkWithCoupon(base: string, code: string | null) {
+  if (!code) return base;
+  return `${base}/couponCode=${encodeURIComponent(code)}`;
 }
 
 export function CheckoutModal() {
   const { checkoutPlan, closeCheckout } = useSpark();
   const open = checkoutPlan !== null;
   const [query, setQuery] = useState("");
+  const [applied, setApplied] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) {
       trackEvent("checkout_form_opened", { plan: checkoutPlan });
       setQuery("");
+      setApplied(null);
     }
   }, [open, checkoutPlan]);
 
   const results = useMemo(() => searchCoupons(query), [query]);
+
+  async function applyCoupon(code: string) {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      /* clipboard indisponível */
+    }
+    setApplied(code);
+    trackEvent("checkout_session_created", { coupon: code, action: "apply" });
+  }
 
   if (!checkoutPlan) {
     return (
@@ -62,6 +58,7 @@ export function CheckoutModal() {
   const plan = PLAN_CONTENT.find((p) => p.id === checkoutPlan)!;
   const price = PLAN_PRICES[checkoutPlan];
   const paymentLink = PAYMENT_LINKS[checkoutPlan];
+  const iframeSrc = linkWithCoupon(paymentLink, applied);
 
   return (
     <Modal open={open} onClose={closeCheckout} labelledBy="checkout-title" variant="page" topLabel={`Checkout · ${plan.name}`}>
@@ -88,8 +85,8 @@ export function CheckoutModal() {
               <h3 className="font-display text-base font-bold">Procure o seu cupom</h3>
             </div>
             <p className="mt-1.5 text-xs leading-relaxed text-muted">
-              Digite o nome da sua empresa, copie o código e cole no campo de cupom do checkout ao
-              lado.
+              Digite o nome da sua empresa e clique no cupom — ele é copiado e aplicado no checkout
+              ao lado.
             </p>
 
             <div className="relative mt-4">
@@ -105,18 +102,35 @@ export function CheckoutModal() {
             </div>
 
             <div className="mt-3 space-y-2">
-              {results.map((c) => (
-                <div
-                  key={c.code}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3"
-                >
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-cream">{c.company}</p>
-                    {c.note && <p className="truncate text-[11px] text-muted">{c.note}</p>}
-                  </div>
-                  <CopyCode code={c.code} />
-                </div>
-              ))}
+              {results.map((c) => {
+                const active = applied === c.code;
+                return (
+                  <button
+                    key={c.code}
+                    onClick={() => applyCoupon(c.code)}
+                    className={cn(
+                      "flex w-full items-center justify-between gap-3 rounded-xl border p-3 text-left transition",
+                      active
+                        ? "border-accent/60 bg-accent/10"
+                        : "border-white/10 bg-white/[0.03] hover:border-accent/40",
+                    )}
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-cream">{c.company}</p>
+                      {c.note && <p className="truncate text-[11px] text-muted">{c.note}</p>}
+                    </div>
+                    <span
+                      className={cn(
+                        "inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-2 font-mono text-xs font-semibold",
+                        active ? "border-accent bg-accent text-ink" : "border-accent/40 bg-accent/10 text-accent",
+                      )}
+                    >
+                      {c.code}
+                      {active ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5 opacity-70" />}
+                    </span>
+                  </button>
+                );
+              })}
 
               {query.trim() && results.length === 0 && (
                 <p className="rounded-xl border border-white/10 bg-white/[0.02] p-3 text-xs text-muted">
@@ -144,6 +158,17 @@ export function CheckoutModal() {
 
         {/* —— Coluna: checkout embedado —— */}
         <div>
+          {/* aviso de cupom aplicado/copiado */}
+          {applied && (
+            <div className="mb-3 flex items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 p-3 text-sm text-cream">
+              <Check className="h-4 w-4 shrink-0 text-accent" />
+              <span>
+                Cupom <span className="font-mono font-semibold text-accent">{applied}</span> copiado.
+                Se não aparecer aplicado, cole no campo <strong>Cupom</strong> do checkout.
+              </span>
+            </div>
+          )}
+
           <div className="overflow-hidden rounded-card-lg border border-white/10 bg-graphite shadow-plan">
             {/* chrome */}
             <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
@@ -157,9 +182,10 @@ export function CheckoutModal() {
               </div>
             </div>
 
-            {/* iframe do payment-link */}
+            {/* iframe do payment-link (recarrega ao aplicar cupom) */}
             <iframe
-              src={paymentLink}
+              key={applied ?? "no-coupon"}
+              src={iframeSrc}
               title={`Checkout Spark Leads ${plan.name}`}
               allow="payment *"
               className="h-[72vh] min-h-[540px] w-full bg-white"
@@ -167,7 +193,7 @@ export function CheckoutModal() {
           </div>
 
           <a
-            href={paymentLink}
+            href={iframeSrc}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted underline-offset-4 hover:text-cream hover:underline"
@@ -179,3 +205,4 @@ export function CheckoutModal() {
     </Modal>
   );
 }
+
