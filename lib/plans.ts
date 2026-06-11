@@ -47,3 +47,13 @@ export const PLAN_PRICES: Record<PlanId, number> = {
   growth: PLANS.growth.price,
   agency: PLANS.agency.price,
 };
+
+/**
+ * Links de pagamento hospedados (payment-link) por plano.
+ * São embedados num iframe dentro do checkout. URLs públicas (sem segredo).
+ */
+export const PAYMENT_LINKS: Record<PlanId, string> = {
+  starter: "https://internal.sparkleads.pro/payment-link/6a28e93e71a0aa761e463f38",
+  growth: "https://internal.sparkleads.pro/payment-link/6a298c7603b17c94f5715957",
+  agency: "https://internal.sparkleads.pro/payment-link/6a298c8e71a0aa761e464078",
+};

@@ -1,257 +1,181 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Check, Lock, ShieldCheck } from "lucide-react";
-import { LockSeal } from "./ui/vector";
+import { useEffect, useMemo, useState } from "react";
+import { Search, Copy, Check, Lock, ShieldCheck, ExternalLink, Ticket } from "lucide-react";
 import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
-import { checkoutFormSchema, type CheckoutFormValues, BR_STATES, US_STATES } from "@/lib/validation";
-import { PLAN_PRICES } from "@/lib/plans";
+import { PAYMENT_LINKS, PLAN_PRICES } from "@/lib/plans";
 import { PLAN_CONTENT } from "@/content/pt-br";
+import { searchCoupons } from "@/content/coupons";
 import { trackEvent } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
+
+function CopyCode({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      /* clipboard indisponível — o usuário ainda vê o código */
+    }
+    setCopied(true);
+    trackEvent("checkout_form_submitted", { coupon: code, action: "copy" });
+    setTimeout(() => setCopied(false), 1600);
+  };
+  return (
+    <button
+      onClick={copy}
+      className="group inline-flex shrink-0 items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 font-mono text-sm font-semibold text-accent transition hover:bg-accent/20"
+    >
+      {code}
+      {copied ? (
+        <Check className="h-3.5 w-3.5" />
+      ) : (
+        <Copy className="h-3.5 w-3.5 opacity-70 transition group-hover:opacity-100" />
+      )}
+    </button>
+  );
+}
 
 export function CheckoutModal() {
-  const { checkoutPlan, closeCheckout, prefillEmail, quizResult, openQuiz } = useSpark();
+  const { checkoutPlan, closeCheckout } = useSpark();
   const open = checkoutPlan !== null;
-  const [submitting, setSubmitting] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm<CheckoutFormValues>({
-    resolver: zodResolver(checkoutFormSchema),
-    defaultValues: { country: "Brasil", email: prefillEmail },
-  });
-
-  const country = watch("country");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (open) {
       trackEvent("checkout_form_opened", { plan: checkoutPlan });
-      setServerError(null);
-      if (prefillEmail) setValue("email", prefillEmail);
+      setQuery("");
     }
-  }, [open, checkoutPlan, prefillEmail, setValue]);
+  }, [open, checkoutPlan]);
 
-  if (!checkoutPlan) return <Modal open={false} onClose={closeCheckout} variant="page">{null}</Modal>;
+  const results = useMemo(() => searchCoupons(query), [query]);
+
+  if (!checkoutPlan) {
+    return (
+      <Modal open={false} onClose={closeCheckout} variant="page">
+        {null}
+      </Modal>
+    );
+  }
 
   const plan = PLAN_CONTENT.find((p) => p.id === checkoutPlan)!;
   const price = PLAN_PRICES[checkoutPlan];
-
-  async function onSubmit(values: CheckoutFormValues) {
-    setSubmitting(true);
-    setServerError(null);
-    trackEvent("checkout_form_submitted", { plan: checkoutPlan });
-    try {
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, plan: checkoutPlan, quizScore: quizResult?.score }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.url) throw new Error(data.error || "Não foi possível iniciar o checkout.");
-      trackEvent("checkout_session_created", { plan: checkoutPlan });
-      trackEvent("checkout_redirected", { plan: checkoutPlan });
-      window.location.href = data.url;
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro inesperado.";
-      setServerError(msg);
-      trackEvent("checkout_error", { plan: checkoutPlan, message: msg });
-      setSubmitting(false);
-    }
-  }
-
-  const states = country === "Brasil" ? BR_STATES : country === "EUA" ? US_STATES : null;
-
-  function handleClose() {
-    closeCheckout();
-    setTimeout(() => reset(), 300);
-  }
+  const paymentLink = PAYMENT_LINKS[checkoutPlan];
 
   return (
-    <Modal open={open} onClose={handleClose} labelledBy="checkout-title" variant="page" topLabel={`ADQUIRIR · ${plan.name.toUpperCase()}`}>
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10">
-        {/* —— Resumo do plano (esquerda) —— */}
+    <Modal open={open} onClose={closeCheckout} labelledBy="checkout-title" variant="page" topLabel={`Checkout · ${plan.name}`}>
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.82fr_1.5fr]">
+        {/* —— Coluna: plano + buscador de cupom —— */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <span className="label-mono">Seu plano</span>
-          <h2 id="checkout-title" className="mt-2 font-display font-bold leading-[1.02] lg:mt-3" style={{ fontSize: "clamp(1.9rem, 6vw, 4rem)" }}>
+          <h2
+            id="checkout-title"
+            className="mt-2 font-display font-bold leading-[1.02]"
+            style={{ fontSize: "clamp(1.9rem, 6vw, 3.4rem)" }}
+          >
             <span className="gradient-text">{plan.name}</span>
           </h2>
-          <p className="mt-2 max-w-sm text-sm text-muted lg:mt-3 lg:text-base">{plan.tagline}</p>
-
-          <div className="mt-4 flex items-end gap-2 lg:mt-6">
-            <span className="font-display text-4xl font-bold lg:text-5xl">US$ {price}</span>
-            <span className="mb-1.5 text-muted lg:mb-2">/mês</span>
+          <div className="mt-2 flex items-end gap-2">
+            <span className="font-display text-3xl font-bold">US$ {price}</span>
+            <span className="mb-1 text-sm text-muted">/mês</span>
           </div>
 
-          {/* lista de features: escondida no celular pra deixar o form perto */}
-          <div className="glass-card mt-6 hidden rounded-card p-5 sm:block lg:mt-8">
-            <ul className="grid gap-2.5">
-              {plan.features.filter((f) => !f.endsWith(":")).slice(0, 6).map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm text-muted">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" /> {f}
-                </li>
+          {/* Buscador de cupom */}
+          <div className="mt-7 rounded-card-lg border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex items-center gap-2">
+              <Ticket className="h-4 w-4 text-accent" />
+              <h3 className="font-display text-base font-bold">Procure o seu cupom</h3>
+            </div>
+            <p className="mt-1.5 text-xs leading-relaxed text-muted">
+              Digite o nome da sua empresa, copie o código e cole no campo de cupom do checkout ao
+              lado.
+            </p>
+
+            <div className="relative mt-4">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Nome da sua empresa..."
+                className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-3 pl-10 pr-3 text-sm outline-none transition focus:border-accent/50 focus:ring-2 focus:ring-accent/30"
+                aria-label="Procurar cupom pela empresa"
+              />
+            </div>
+
+            <div className="mt-3 space-y-2">
+              {results.map((c) => (
+                <div
+                  key={c.code}
+                  className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-cream">{c.company}</p>
+                    {c.note && <p className="truncate text-[11px] text-muted">{c.note}</p>}
+                  </div>
+                  <CopyCode code={c.code} />
+                </div>
               ))}
-            </ul>
+
+              {query.trim() && results.length === 0 && (
+                <p className="rounded-xl border border-white/10 bg-white/[0.02] p-3 text-xs text-muted">
+                  Nenhum cupom encontrado para “{query}”. Confira a grafia ou siga sem cupom — é
+                  opcional.
+                </p>
+              )}
+              {!query.trim() && (
+                <p className="px-1 text-[11px] text-muted">
+                  Sem cupom? Tudo bem, ele é opcional no checkout.
+                </p>
+              )}
+            </div>
           </div>
 
-          <div className="mt-4 flex flex-col gap-2 text-xs text-muted lg:mt-6">
-            <span className="flex items-center gap-1.5"><Lock className="h-3 w-3 text-accent" /> Pagamento seguro via Stripe</span>
-            <span className="flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 text-accent" /> Cancele quando quiser · sem fidelidade</span>
+          <div className="mt-5 flex flex-col gap-2 text-xs text-muted">
+            <span className="flex items-center gap-1.5">
+              <Lock className="h-3 w-3 text-accent" /> Pagamento seguro via Stripe
+            </span>
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="h-3 w-3 text-accent" /> Cancele quando quiser · sem fidelidade
+            </span>
           </div>
         </aside>
 
-        {/* —— Formulário (direita, glass) —— */}
-        <div className="glass-card rounded-card-lg p-5 sm:p-8">
-          <h3 className="font-display text-xl font-bold">Seus dados</h3>
-          <p className="mt-1 text-sm text-muted">Preencha abaixo. O pagamento acontece em seguida, no Stripe.</p>
-
-          {serverError && (
-            <div className="mt-5 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-200">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-              <div>
-                <p className="font-medium">Não conseguimos iniciar o checkout.</p>
-                <p className="text-red-200/80">{serverError}</p>
+        {/* —— Coluna: checkout embedado —— */}
+        <div>
+          <div className="overflow-hidden rounded-card-lg border border-white/10 bg-graphite shadow-plan">
+            {/* chrome */}
+            <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+              <span className="flex gap-2">
+                <i className="h-3 w-3 rounded-full bg-[#ED5656]" />
+                <i className="h-3 w-3 rounded-full bg-white/20" />
+                <i className="h-3 w-3 rounded-full bg-white/20" />
+              </span>
+              <div className="mx-auto flex items-center gap-2 rounded-md bg-white/[0.04] px-3 py-1 text-[11px] text-muted">
+                <Lock className="h-3 w-3 text-accent" /> Checkout seguro
               </div>
             </div>
-          )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex flex-col gap-4" noValidate>
-            <Field label="Nome completo" error={errors.fullName?.message} htmlFor="fullName">
-              <input id="fullName" {...register("fullName")} className="input-spark" autoComplete="name" />
-            </Field>
+            {/* iframe do payment-link */}
+            <iframe
+              src={paymentLink}
+              title={`Checkout Spark Leads ${plan.name}`}
+              allow="payment *"
+              className="h-[72vh] min-h-[540px] w-full bg-white"
+            />
+          </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Email" error={errors.email?.message} htmlFor="email">
-                <input id="email" type="email" {...register("email")} className="input-spark" autoComplete="email" />
-              </Field>
-              <Field label="Telefone" error={errors.phone?.message} htmlFor="phone" hint="Ex: +5511999998888">
-                <input id="phone" {...register("phone")} placeholder="+5511999998888" className="input-spark" autoComplete="tel" />
-              </Field>
-            </div>
-
-            <Field label="Nome do negócio" error={errors.businessName?.message} htmlFor="businessName">
-              <input id="businessName" {...register("businessName")} className="input-spark" autoComplete="organization" />
-            </Field>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="País" htmlFor="country">
-                <select id="country" {...register("country")} className="input-spark">
-                  <option value="Brasil">Brasil</option>
-                  <option value="EUA">EUA</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </Field>
-              <Field label="Estado" htmlFor="state">
-                {states ? (
-                  <select id="state" {...register("state")} className="input-spark">
-                    <option value="">Selecione</option>
-                    {states.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <input id="state" {...register("state")} className="input-spark" />
-                )}
-              </Field>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Cidade" htmlFor="city">
-                <input id="city" {...register("city")} className="input-spark" autoComplete="address-level2" />
-              </Field>
-              <Field label="CEP / ZIP" htmlFor="postalCode">
-                <input id="postalCode" {...register("postalCode")} className="input-spark" autoComplete="postal-code" />
-              </Field>
-            </div>
-
-            <p className="text-[11px] leading-relaxed text-muted">
-              Usamos seus dados apenas para criar sua assinatura, preparar sua conta e enviar instruções de acesso.
-              Não pedimos senha nem cartão aqui — o cartão é informado apenas no Stripe Checkout.
-            </p>
-
-            <button type="submit" disabled={submitting} className="btn-primary w-full">
-              {submitting ? (
-                <><LockSeal className="h-4 w-4" /> Preparando checkout seguro...</>
-              ) : (
-                <>Continuar para pagamento → US$ {price}/mês</>
-              )}
-            </button>
-
-            <p className="flex items-center justify-center gap-1.5 text-center text-[11px] text-muted">
-              <ShieldCheck className="h-3 w-3 text-accent" /> Você será redirecionado para o Stripe Checkout
-            </p>
-
-            <div className="flex items-center justify-center gap-4 text-xs">
-              <button type="button" onClick={handleClose} className="text-muted underline-offset-4 hover:text-cream hover:underline">
-                Voltar e escolher outro plano
-              </button>
-              <span className="text-cream/20">·</span>
-              <button type="button" onClick={() => { handleClose(); setTimeout(openQuiz, 350); }} className="text-muted underline-offset-4 hover:text-cream hover:underline">
-                Não tenho certeza, fazer o quiz
-              </button>
-            </div>
-          </form>
+          <a
+            href={paymentLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted underline-offset-4 hover:text-cream hover:underline"
+          >
+            <ExternalLink className="h-3.5 w-3.5" /> Não carregou? Abrir o checkout em uma nova aba
+          </a>
         </div>
       </div>
-
-      <style jsx global>{`
-        .input-spark {
-          width: 100%;
-          border-radius: 0.75rem;
-          border: 1px solid rgba(252, 252, 252, 0.1);
-          background: rgba(252, 252, 252, 0.03);
-          padding: 0.7rem 0.9rem;
-          font-size: 0.875rem;
-          color: #fcfcfc;
-          outline: none;
-          transition: all 0.2s;
-        }
-        .input-spark:focus {
-          border-color: rgba(0, 164, 198, 0.6);
-          box-shadow: 0 0 0 2px rgba(0, 164, 198, 0.25);
-        }
-        .input-spark::placeholder {
-          color: rgba(139, 148, 153, 0.7);
-        }
-        select.input-spark option {
-          background: #141416;
-        }
-      `}</style>
     </Modal>
-  );
-}
-
-function Field({
-  label,
-  htmlFor,
-  error,
-  hint,
-  children,
-}: {
-  label: string;
-  htmlFor: string;
-  error?: string;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <label htmlFor={htmlFor} className="mb-1.5 block text-xs font-medium text-cream">{label}</label>
-      {children}
-      {hint && !error && <p className="mt-1 text-[11px] text-muted">{hint}</p>}
-      {error && (
-        <p className="mt-1 flex items-center gap-1 text-[11px] text-red-300">
-          <AlertCircle className="h-3 w-3" /> {error}
-        </p>
-      )}
-    </div>
   );
 }
