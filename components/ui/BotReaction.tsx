@@ -19,9 +19,9 @@ type Props = {
 
 /**
  * Card de reação do SparkBot.
- * - Reage ao SCROLL: o clipe toca (em loop) enquanto a seção está visível e
- *   pausa ao sair — o bot reage conforme o usuário desce a página.
- * - O card também DERIVA suavemente no eixo Y conforme o scroll (parallax).
+ * - DISPARA NO SCROLL: o clipe toca uma vez quando a seção entra na viewport e
+ *   re-dispara a cada reentrada. HOVER re-toca a animação. Não é loop contínuo.
+ * - O card DERIVA suavemente no eixo Y conforme o scroll (parallax).
  * - Respeita prefers-reduced-motion (mostra só o poster, sem movimento).
  */
 export function BotReaction({ clip, caption, blend = false, side = "right", className }: Props) {
@@ -32,7 +32,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start end", "end start"] });
   const drift = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 26, reduce ? 0 : -26]);
 
-  // toca em loop enquanto visível; pausa ao sair (dirigido pelo scroll)
+  // toca uma vez ao entrar; pausa ao sair (reentrar re-dispara)
   useEffect(() => {
     const el = wrapRef.current;
     const vid = videoRef.current;
@@ -47,11 +47,18 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
           vid.pause();
         }
       },
-      { threshold: 0.35 },
+      { threshold: 0.4 },
     );
     io.observe(el);
     return () => io.disconnect();
   }, [reduce]);
+
+  const replay = () => {
+    const vid = videoRef.current;
+    if (!vid || reduce) return;
+    vid.currentTime = 0;
+    vid.play().catch(() => {});
+  };
 
   const mediaStyle: CSSProperties = { mixBlendMode: blend ? "screen" : "normal" };
 
@@ -63,6 +70,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
+      onMouseEnter={replay}
       className={cn(
         "glass-card relative flex max-w-sm items-center gap-3 rounded-card p-3 pr-4",
         className,
@@ -84,7 +92,6 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
             ref={videoRef}
             aria-hidden
             muted
-            loop
             playsInline
             preload="metadata"
             poster={`${clip}.jpg`}

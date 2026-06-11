@@ -7,10 +7,7 @@ type Props = {
   /** Caminho base SEM extensão, ex.: "/bot/bot-smile". */
   src: string;
   className?: string;
-  /**
-   * true para clipes com FUNDO PRETO: aplica mix-blend screen e o preto
-   * "some" no fundo escuro da página (remoção de fundo sem chroma-key).
-   */
+  /** true para clipes com FUNDO PRETO (blend screen remove o fundo). */
   blend?: boolean;
   /** object-fit do vídeo. */
   fit?: "cover" | "contain";
@@ -18,8 +15,9 @@ type Props = {
 
 /**
  * Mascote em vídeo (SparkBot).
- * - Reage ao SCROLL: toca em loop enquanto está visível e pausa ao sair da tela
- *   (IntersectionObserver), em qualquer dispositivo — não depende de hover.
+ * - DISPARA NO SCROLL: toca uma vez (do início ao fim) quando entra na viewport;
+ *   re-dispara toda vez que reentra. Não fica em loop contínuo (menos custo de GPU).
+ * - HOVER: re-toca a animação a qualquer momento.
  * - Respeita prefers-reduced-motion (mostra só o poster).
  */
 export function BotVideo({ src, className, blend = false, fit = "contain" }: Props) {
@@ -39,14 +37,25 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
     if (!el || reduced) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) el.play().catch(() => {});
-        else el.pause();
+        if (entry.isIntersecting) {
+          el.currentTime = 0;
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
       },
       { threshold: 0.25 },
     );
     io.observe(el);
     return () => io.disconnect();
   }, [reduced]);
+
+  const replay = () => {
+    const el = ref.current;
+    if (!el || reduced) return;
+    el.currentTime = 0;
+    el.play().catch(() => {});
+  };
 
   const style: CSSProperties = {
     mixBlendMode: blend ? "screen" : "normal",
@@ -64,11 +73,11 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
       ref={ref}
       aria-hidden
       muted
-      loop
       playsInline
       preload="metadata"
       poster={`${src}.jpg`}
-      className={cn(base, className)}
+      onMouseEnter={replay}
+      className={cn(base, "cursor-pointer", className)}
       style={style}
     >
       <source src={`${src}.webm`} type="video/webm" />
