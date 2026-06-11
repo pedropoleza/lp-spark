@@ -15,6 +15,7 @@ import {
   Flame,
 } from "lucide-react";
 import { Container, Section, SectionHeading, Reveal, AnimatedBadge } from "../ui/primitives";
+import { BotVideo } from "../ui/BotVideo";
 import { cn } from "@/lib/utils";
 
 /** Seção 10 — vista explodida do produto. */
@@ -150,7 +151,7 @@ export function Templates() {
   );
 }
 
-/** Seção 27 — SparkBot. */
+/** Seção 27 — SparkBot (com o mascote em vídeo). */
 export function SparkBotSection() {
   return (
     <Section id="sparkbot">
@@ -173,22 +174,37 @@ export function SparkBotSection() {
               </div>
             ))}
           </div>
+
+          {/* mascote em corpo inteiro, emoldurado (clipe com fundo claro de estúdio) */}
+          <div className="mt-8 flex items-center gap-4">
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-cream/10 bg-cream/[0.04]">
+              <BotVideo src="/bot/bot-full" fit="cover" />
+            </div>
+            <p className="max-w-xs text-sm text-muted">
+              Conheça o <span className="font-semibold text-cream">SparkBot</span> — seu copiloto
+              comercial sempre de plantão.
+            </p>
+          </div>
         </Reveal>
 
         <Reveal delay={0.1} className="relative">
-          <div className="halo inset-x-10 top-10 h-40 bg-glow/20" />
-          <div className="card-spark relative p-5">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="grid h-9 w-9 place-items-center rounded-lg bg-glow/15 text-glow">
-                <Bot className="h-4 w-4" />
-              </div>
+          <div className="halo inset-x-10 top-0 h-48 bg-accent/25" />
+
+          {/* avatar vivo (clipe com fundo preto → blend screen remove o fundo) */}
+          <div className="relative z-10 mx-auto mb-[-2.5rem] h-40 w-40">
+            <div className="absolute inset-3 rounded-full bg-accent/30 blur-2xl" />
+            <BotVideo src="/bot/bot-smile" blend className="relative" />
+          </div>
+
+          <div className="card-spark relative z-0 p-5 pt-12">
+            <div className="mb-4 flex items-center justify-center gap-2">
               <span className="font-semibold">SparkBot</span>
-              <AnimatedBadge tone="glow" className="ml-auto">
-                IA
-              </AnimatedBadge>
+              <span className="flex items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[11px] text-accent">
+                <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-accent" /> online
+              </span>
             </div>
             <div className="space-y-3">
-              <div className="ml-auto max-w-[80%] rounded-2xl rounded-tr-sm bg-electric/15 p-3 text-sm text-cream">
+              <div className="ml-auto max-w-[80%] rounded-2xl rounded-tr-sm bg-accent/15 p-3 text-sm text-cream">
                 Me ajuda a responder um lead que pediu desconto?
               </div>
               <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white/[0.05] p-3 text-sm text-cream/90">

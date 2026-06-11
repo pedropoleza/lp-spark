@@ -8,6 +8,7 @@ import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container } from "./ui/primitives";
 import { BackgroundLoop } from "./ui/BackgroundLoop";
+import { BotVideo } from "./ui/BotVideo";
 import { loopAvailable } from "@/lib/loops";
 
 const cardIcons = [Activity, CheckCircle2, Sparkles, Flame, GitBranch];
@@ -183,6 +184,21 @@ export function Hero() {
                 </motion.div>
               );
             })}
+
+            {/* mascote SparkBot flutuante (clipe fundo preto → blend remove o fundo) */}
+            <motion.div
+              className="absolute right-[-18%] top-[-16%] hidden h-28 w-28 sm:block"
+              initial={reduce ? false : { opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1, y: reduce ? 0 : [0, -10, 0] }}
+              transition={{
+                opacity: { duration: 0.6, delay: 0.5 },
+                scale: { duration: 0.6, delay: 0.5 },
+                y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+              }}
+            >
+              <div className="absolute inset-4 rounded-full bg-accent/30 blur-2xl" />
+              <BotVideo src="/bot/bot-voice" blend className="relative" />
+            </motion.div>
           </div>
         </motion.div>
       </Container>
