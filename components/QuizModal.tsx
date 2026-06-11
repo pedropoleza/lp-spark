@@ -88,6 +88,20 @@ export function QuizModal() {
   return (
     <Modal open={quizOpen} onClose={handleClose} labelledBy="quiz-title" variant="page" topLabel="Plano ideal">
       <div className="mx-auto w-full max-w-6xl">
+        {/* pré-carrega o clipe do resultado assim que o usuário entra no quiz */}
+        {phase !== "result" && (
+          <video
+            aria-hidden
+            muted
+            playsInline
+            preload="auto"
+            className="pointer-events-none absolute h-px w-px opacity-0"
+          >
+            <source src="/bot/bot-pick.webm" type="video/webm" />
+            <source src="/bot/bot-pick.mp4" type="video/mp4" />
+          </video>
+        )}
+
         {/* progresso segmentado, minimalista */}
         <div className="mx-auto mb-12 flex max-w-xs items-center gap-2">
           {QUIZ_QUESTIONS.map((_, i) => (
@@ -223,12 +237,11 @@ export function QuizModal() {
                       </motion.span>
                     ))}
 
-                  <div className="absolute inset-6 rounded-full bg-accent/30 blur-2xl" />
-                  <BotVideo
-                    src="/bot/bot-smile"
-                    blend
-                    className="relative [mask-image:radial-gradient(closest-side,black_55%,transparent_78%)]"
-                  />
+                  <div className="absolute inset-2 rounded-full bg-accent/35 blur-2xl" />
+                  {/* avatar circular: o clipe de fundo claro vira um retrato limpo */}
+                  <div className="absolute inset-3 overflow-hidden rounded-full border-2 border-accent/60 shadow-glow">
+                    <BotVideo src="/bot/bot-pick" fit="cover" className="scale-[1.18]" />
+                  </div>
 
                   {/* balão de fala do bot */}
                   <motion.div
