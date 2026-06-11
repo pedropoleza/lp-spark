@@ -73,10 +73,17 @@
   }
 
   .gradient-text {
-    background: linear-gradient(100deg, #00a4cd 0%, #38e5ce 50%, #2fd2ee 100%);
+    background: linear-gradient(100deg, #00a4cd 0%, #38e5ce 35%, #2fd2ee 60%, #00a4cd 100%);
+    background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: text-shimmer 6s linear infinite;
+  }
+  @keyframes text-shimmer {
+    to {
+      background-position: 220% center;
+    }
   }
 
   /* Grid técnico de fundo (brutalista) */
@@ -148,19 +155,19 @@
 
 /* Painéis translúcidos: deixam o canvas vivo "respirar" nas bordas */
 .panel-dark {
-  background-color: rgba(13, 13, 13, 0.82);
-  backdrop-filter: blur(14px) saturate(115%);
-  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  background-color: rgba(13, 13, 13, 0.6);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
 }
 .panel-light {
-  background-color: rgba(252, 252, 252, 0.86);
-  backdrop-filter: blur(14px) saturate(115%);
-  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  background-color: rgba(252, 252, 252, 0.7);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
 }
 .panel-gray {
-  background-color: rgba(238, 241, 244, 0.86);
-  backdrop-filter: blur(14px) saturate(115%);
-  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  background-color: rgba(238, 241, 244, 0.68);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
 }
 
 /* Emenda entre módulos: zona onde só o canvas aparece */
@@ -168,6 +175,78 @@
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   transform-origin: center;
+}
+
+/* ———— Animações contínuas do canvas (mais vida) ———— */
+@keyframes aurora-float {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33%  { transform: translate(6%, -4%) scale(1.15) rotate(8deg); }
+  66%  { transform: translate(-5%, 5%) scale(0.95) rotate(-6deg); }
+  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+}
+.aurora-a { animation: aurora-float 18s ease-in-out infinite; }
+.aurora-b { animation: aurora-float 24s ease-in-out infinite reverse; }
+.aurora-c { animation: aurora-float 30s ease-in-out infinite; }
+
+/* feixe de varredura diagonal */
+@keyframes scan-sweep {
+  0%   { transform: translateX(-120%) skewX(-12deg); opacity: 0; }
+  10%  { opacity: 0.5; }
+  50%  { opacity: 0.7; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateX(120%) skewX(-12deg); opacity: 0; }
+}
+.scan-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.16), transparent);
+  filter: blur(6px);
+  animation: scan-sweep 9s ease-in-out infinite;
+}
+
+/* malha de pontos que rola devagar pra sempre */
+@keyframes grid-pan {
+  from { background-position: 0 0; }
+  to   { background-position: 0 520px; }
+}
+.dots-drift { animation: grid-pan 26s linear infinite; }
+
+/* cintilar dos nós da constelação */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50%      { opacity: 1; transform: scale(1.25); }
+}
+.twinkle { animation: twinkle 4s ease-in-out infinite; }
+
+/* borda em gradiente girando (cards de destaque) */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes angle-spin {
+  to { --angle: 360deg; }
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0 62%,
+    var(--accent) 80%,
+    transparent 92%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: angle-spin 5s linear infinite;
+  pointer-events: none;
 }
 
 /* Grão/textura sutil global (premium) */
