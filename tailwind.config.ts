@@ -25,6 +25,13 @@ const config: Config = {
         cream: "#FCFCFC", // texto/branco (cor pedida)
         muted: "#8B9499", // texto secundário
 
+        // ——— Tokens semânticos brutalistas (via CSS vars de :root) ———
+        paper: "var(--paper)",
+        "ink-deep": "var(--ink-deep)",
+        "marker-red": "var(--marker-red)",
+        "marker-blue": "var(--marker-blue)",
+        "terminal-green": "var(--terminal-green)",
+
         // ——— Acento único (teal) e derivados para profundidade ———
         accent: "#00A4C6", // cor de acento pedida
         // Aliases legados remapeados para a família teal (cohesão monocromática):
@@ -36,6 +43,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "system-ui", "sans-serif"],
+        heavy: ["var(--font-heavy)", "var(--font-display)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       borderRadius: {

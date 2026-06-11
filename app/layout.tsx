@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono, Archivo_Black } from "next/font/google";
 import { PLAN_CONTENT } from "@/content/pt-br";
 import { content } from "@/content/pt-br";
 import "./globals.css";
@@ -17,6 +17,13 @@ const display = Space_Grotesk({
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
+});
+// Display pesada para as seções brutalistas
+const heavy = Archivo_Black({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-heavy",
   display: "swap",
 });
 
@@ -118,7 +125,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${sans.variable} ${display.variable} ${mono.variable}`}
+      className={`${sans.variable} ${display.variable} ${mono.variable} ${heavy.variable}`}
     >
       <body>
         <JsonLd />

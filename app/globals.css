@@ -10,6 +10,15 @@
 
     --accent: #00a4c6;
     --accent-rgb: 0, 164, 198;
+
+    /* Tokens semânticos brutalistas (NÃO hardcodar cores nos componentes) */
+    --paper: #fcfcfc;
+    --ink: #0d0d0d;
+    --ink-deep: #060606;
+    --graphite: #1b1b1f;
+    --marker-red: #ff3b2e;
+    --marker-blue: #00a4c6; /* reaproveita o acento da marca */
+    --terminal-green: #38f08b;
   }
 
   * {
@@ -276,6 +285,67 @@
 .scrollbar-spark::-webkit-scrollbar-thumb {
   background: rgba(252, 252, 252, 0.12);
   border-radius: 999px;
+}
+
+/* ————————————————————————————————————————————————
+   Brutalismo: scanlines, glitch RGB-split, cursor piscando
+   ———————————————————————————————————————————————— */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.28) 2px 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+.blink {
+  animation: blink 1s steps(1, end) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* GlitchText: usa data-text e divide canais em vermelho/azul (tokens) */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.glitch::before {
+  color: var(--marker-red);
+  animation: glitch-r 3s infinite steps(20);
+}
+.glitch::after {
+  color: var(--marker-blue);
+  animation: glitch-b 3s infinite steps(20);
+}
+@keyframes glitch-r {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(2px, 1px); }
+}
+@keyframes glitch-b {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(2px, -1px); }
+  40% { transform: translate(-2px, 1px); }
+  60% { transform: translate(1px, 1px); }
+  80% { transform: translate(-2px, -1px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

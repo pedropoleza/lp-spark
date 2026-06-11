@@ -17,6 +17,7 @@ import { CanceledBanner } from "./CanceledBanner";
 import { ScrollProgress, Grain } from "./ui/effects";
 import { Problem, Security, FinalCta } from "./sections/Story";
 import { SparkBotSection } from "./sections/Product";
+import { CompareStrip, DiagnoseTerminal } from "./sections/Brutalist";
 
 /**
  * Landing enxuta e focada em conversão:
@@ -36,8 +37,10 @@ export function Landing() {
       <main>
         <Hero />
         <Problem />
+        <DiagnoseTerminal />
         <SparkBotSection />
         <Plans />
+        <CompareStrip />
         <ComparisonTable />
         <Security />
         <FAQAccordion />
