@@ -64,8 +64,8 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.18 }}
-            className="mt-6 font-display font-bold leading-[1.02] tracking-tight"
-            style={{ fontSize: "clamp(2.6rem, 6.4vw, 4.6rem)" }}
+            className="mt-6 font-display font-bold leading-[0.98] tracking-tight"
+            style={{ fontSize: "clamp(2.8rem, 7vw, 5.4rem)" }}
           >
             Sua operação de seguros,{" "}
             <span className="gradient-text">rodando no automático.</span>

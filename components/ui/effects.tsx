@@ -26,9 +26,9 @@ export function Magnetic({ children, className }: { children: ReactNode; classNa
     if (reduce) return;
     const r = ref.current?.getBoundingClientRect();
     if (!r) return;
-    const clamp = (v: number) => Math.max(-4, Math.min(4, v));
-    x.set(clamp(((e.clientX - (r.left + r.width / 2)) / r.width) * 10));
-    y.set(clamp(((e.clientY - (r.top + r.height / 2)) / r.height) * 10));
+    const clamp = (v: number) => Math.max(-7, Math.min(7, v));
+    x.set(clamp(((e.clientX - (r.left + r.width / 2)) / r.width) * 16));
+    y.set(clamp(((e.clientY - (r.top + r.height / 2)) / r.height) * 16));
   }
   function onLeave() {
     x.set(0);

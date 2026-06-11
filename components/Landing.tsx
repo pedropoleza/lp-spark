@@ -20,6 +20,7 @@ import { SmoothScroll } from "./ui/SmoothScroll";
 import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
 import { SparkBotSection } from "./sections/Product";
+import { Statement } from "./sections/Statement";
 
 /**
  * Landing enxuta, conduzida pelo SparkBot:
@@ -52,7 +53,7 @@ export function Landing() {
           ]}
         />
         <SparkBotSection />
-        <Seam />
+        <Statement />
         <Plans />
         <Seam />
         <ComparisonTable />

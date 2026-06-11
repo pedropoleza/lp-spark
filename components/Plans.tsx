@@ -44,7 +44,7 @@ function PlanCard({ plan }: { plan: PlanContent }) {
       style={{ transform: `perspective(1000px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)` }}
       className={cn(
         "spotlight group relative flex flex-col rounded-card-lg glass-card p-6 transition-all duration-300 will-change-transform hover:border-accent/40",
-        featured ? "glow-border border-accent/40 shadow-glow lg:-mt-4 lg:mb-[-1rem] lg:scale-[1.03]" : "",
+        featured ? "glow-border border-accent/50 shadow-glow lg:-mt-6 lg:mb-[-1.5rem] lg:scale-[1.06]" : "",
         recommended && "ring-2 ring-accent ring-offset-2 ring-offset-ink",
       )}
     >

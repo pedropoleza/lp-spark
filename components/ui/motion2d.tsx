@@ -94,13 +94,15 @@ export function Marquee({
                 key={`${copy}-${i}`}
                 className={cn(
                   "flex items-center",
-                  big ? "px-4 font-heavy uppercase leading-none" : "px-5 font-mono text-sm uppercase tracking-[0.25em]",
+                  big
+                    ? "px-6 font-display font-bold uppercase leading-none tracking-tight"
+                    : "px-5 font-mono text-sm uppercase tracking-[0.25em]",
                   i % 2 === 1 && "text-accent",
                 )}
-                style={big ? { fontSize: "clamp(40px, 8vw, 120px)" } : undefined}
+                style={big ? { fontSize: "clamp(28px, 5vw, 62px)" } : undefined}
               >
                 {word}
-                {!big && <span className="ml-5 text-accent">/</span>}
+                <span className={cn("text-accent", big ? "ml-6" : "ml-5")}>{big ? "✦" : "/"}</span>
               </span>
             ))}
           </div>
@@ -121,11 +123,11 @@ export function BrandMarquee({
   return (
     <div
       className={cn(
-        "border-y-[3px] py-3",
-        theme === "dark" ? "border-ink bg-ink-deep text-paper" : "theme-light border-ink bg-paper text-ink",
+        "border-y-[3px] py-4",
+        theme === "dark" ? "border-accent/30 bg-ink-deep text-paper" : "theme-light border-ink bg-paper text-ink",
       )}
     >
-      <Marquee items={items} />
+      <Marquee items={items} big />
     </div>
   );
 }

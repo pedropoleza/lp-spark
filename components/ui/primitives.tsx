@@ -176,7 +176,7 @@ export function SectionHeading({
 }) {
   return (
     <Parallax
-      speed={0.12}
+      speed={0.2}
       className={cn(
         "max-w-3xl",
         align === "center" && "mx-auto text-center",
@@ -189,10 +189,13 @@ export function SectionHeading({
           {label}
         </Label>
       )}
-      <h2 className="font-display text-3xl font-bold leading-tight sm:text-4xl md:text-[2.75rem]">
+      <h2
+        className="font-display font-bold leading-[1.0] tracking-tight"
+        style={{ fontSize: "clamp(2.1rem, 5vw, 3.6rem)" }}
+      >
         {title}
       </h2>
-      <ScrollFillBar align={align} className="mt-5" />
+      <ScrollFillBar align={align} className="mt-6 h-1 w-24" />
       {description && (
         <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{description}</p>
       )}
