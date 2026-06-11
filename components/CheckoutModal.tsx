@@ -61,10 +61,10 @@ export function CheckoutModal() {
   const iframeSrc = linkWithCoupon(paymentLink, applied);
 
   return (
-    <Modal open={open} onClose={closeCheckout} labelledBy="checkout-title" variant="page" topLabel={`Checkout · ${plan.name}`}>
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.82fr_1.5fr]">
+    <Modal open={open} onClose={closeCheckout} labelledBy="checkout-title" variant="page" topLabel={`Checkout · ${plan.name}`} className="!py-4 md:!py-6">
+      <div className="mx-auto grid max-w-6xl gap-6 md:h-[calc(100dvh-7.5rem)] md:grid-cols-[0.8fr_1.6fr]">
         {/* —— Coluna: plano + buscador de cupom —— */}
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+        <aside className="md:h-full md:overflow-y-auto md:pr-1">
           <span className="label-mono">Seu plano</span>
           <h2
             id="checkout-title"
@@ -156,11 +156,11 @@ export function CheckoutModal() {
           </div>
         </aside>
 
-        {/* —— Coluna: checkout embedado —— */}
-        <div>
+        {/* —— Coluna: checkout embedado (preenche a altura, sem scroll de página) —— */}
+        <div className="flex min-w-0 flex-col gap-3 md:h-full">
           {/* aviso de cupom aplicado/copiado */}
           {applied && (
-            <div className="mb-3 flex items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 p-3 text-sm text-cream">
+            <div className="flex shrink-0 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 p-3 text-sm text-cream">
               <Check className="h-4 w-4 shrink-0 text-accent" />
               <span>
                 Cupom <span className="font-mono font-semibold text-accent">{applied}</span> copiado.
@@ -169,9 +169,9 @@ export function CheckoutModal() {
             </div>
           )}
 
-          <div className="overflow-hidden rounded-card-lg border border-white/10 bg-graphite shadow-plan">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-card-lg border border-white/10 bg-graphite shadow-plan">
             {/* chrome */}
-            <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+            <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
               <span className="flex gap-2">
                 <i className="h-3 w-3 rounded-full bg-[#ED5656]" />
                 <i className="h-3 w-3 rounded-full bg-white/20" />
@@ -182,13 +182,13 @@ export function CheckoutModal() {
               </div>
             </div>
 
-            {/* iframe do payment-link (recarrega ao aplicar cupom) */}
+            {/* iframe: tall no mobile, preenche a coluna no tablet/desktop */}
             <iframe
               key={applied ?? "no-coupon"}
               src={iframeSrc}
               title={`Checkout Spark Leads ${plan.name}`}
               allow="payment *"
-              className="h-[72vh] min-h-[540px] w-full bg-white"
+              className="h-[78dvh] w-full bg-white md:h-auto md:min-h-0 md:flex-1"
             />
           </div>
 
@@ -196,7 +196,7 @@ export function CheckoutModal() {
             href={iframeSrc}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted underline-offset-4 hover:text-cream hover:underline"
+            className="inline-flex shrink-0 items-center gap-1.5 text-xs text-muted underline-offset-4 hover:text-cream hover:underline"
           >
             <ExternalLink className="h-3.5 w-3.5" /> Não carregou? Abrir o checkout em uma nova aba
           </a>
