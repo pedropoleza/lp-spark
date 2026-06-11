@@ -188,6 +188,42 @@
   background-image: radial-gradient(rgba(252, 252, 252, 0.05) 1px, transparent 1.5px);
   background-size: 26px 26px;
 }
+
+/* Grid técnico / blueprint: linhas maiores teal + menores neutras */
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(0, 164, 205, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 164, 205, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(252, 252, 252, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(252, 252, 252, 0.025) 1px, transparent 1px);
+  background-size:
+    130px 130px,
+    130px 130px,
+    26px 26px,
+    26px 26px;
+}
+
+/* linha de varredura tipo "scanner de blueprint" (lenta, sutil) */
+@keyframes blueprint-scan {
+  0% {
+    transform: translateY(-12vh);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(112vh);
+    opacity: 0;
+  }
+}
+.blueprint-scan {
+  animation: blueprint-scan 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
 .backdrop-vignette {
   background: radial-gradient(120% 80% at 50% 0%, transparent 55%, rgba(6, 6, 6, 0.55) 100%);
 }

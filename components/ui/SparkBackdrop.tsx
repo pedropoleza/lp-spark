@@ -3,45 +3,76 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 
 /**
- * Canvas contínuo "Spark OS" — camada fixa atrás de toda a página.
- * Disciplina premium: 3 camadas em movimento (tom evolutivo + 2 auroras + malha
- * de pontos), todas em transform/opacity. O silêncio visual deixa o conteúdo pesar.
+ * Canvas contínuo "Spark OS" — estética blueprint / grid técnico (editorial-tech).
+ * Grid de linhas (maior teal + menor neutra) com crosshairs e ticks de coordenada,
+ * um foco central que respira e um scanner lento. Parallax por scroll.
+ * 2D, só transform/opacity.
  */
+
+// crosshairs e ticks esparsos, em coordenadas % (anotações de blueprint)
+const MARKS = [
+  { x: 16, y: 22 },
+  { x: 84, y: 18 },
+  { x: 50, y: 40 },
+  { x: 24, y: 70 },
+  { x: 78, y: 66 },
+  { x: 62, y: 86 },
+];
+
 export function SparkBackdrop() {
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
 
-  const yDots = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -180]);
-  const yAuroraA = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -280]);
-  const yAuroraB = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 220]);
-  // tom "respira" — acentua no meio da página e assenta nas pontas
-  const toneOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.45, 0.85, 0.5]);
+  const yGrid = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
+  const yMarks = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -60]);
+  const yGlow = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 220]);
+  // foco central "respira" ao longo da página
+  const focusOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 0.95, 0.55]);
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden bg-ink [contain:strict]" aria-hidden>
-      {/* tom radial evolutivo */}
+      {/* foco central teal (substitui as auroras dispersas) */}
       <motion.div
-        className="absolute inset-0"
-        style={{
-          opacity: toneOpacity,
-          background:
-            "radial-gradient(55rem 55rem at 80% -8%, rgba(var(--accent-rgb), 0.18), transparent 60%), radial-gradient(50rem 50rem at -10% 35%, rgba(var(--accent-rgb), 0.11), transparent 55%)",
-        }}
+        style={{ y: yGlow, opacity: focusOpacity }}
+        className="absolute left-1/2 top-1/3 h-[44rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,164,205,0.16),transparent_62%)] blur-2xl"
       />
 
-      {/* auroras: deriva própria + parallax */}
-      <motion.div style={{ y: yAuroraA }} className="absolute left-[-12%] top-[6%] h-[42rem] w-[42rem]">
-        <div className="aurora-a h-full w-full rounded-full bg-accent/20 blur-[110px]" />
-      </motion.div>
-      <motion.div style={{ y: yAuroraB }} className="absolute right-[-14%] top-[48%] h-[38rem] w-[38rem]">
-        <div className="aurora-b h-full w-full rounded-full bg-accent/15 blur-[110px]" />
-      </motion.div>
-
-      {/* malha de pontos em parallax (sem loop próprio — o scroll é o motor) */}
+      {/* grid blueprint com máscara radial (foco no centro, some nas bordas) */}
       <motion.div
-        style={{ y: yDots }}
-        className="backdrop-dots absolute inset-0 opacity-60 [mask-image:radial-gradient(90%_80%_at_50%_30%,black,transparent)]"
+        style={{ y: yGrid }}
+        className="blueprint-grid absolute inset-[-15%] [mask-image:radial-gradient(115%_90%_at_50%_35%,black_30%,transparent_85%)]"
       />
+
+      {/* crosshairs / ticks de coordenada */}
+      <motion.svg
+        style={{ y: yMarks }}
+        className="absolute inset-0 h-full w-full"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        {MARKS.map((m, i) => (
+          <g key={i} stroke="rgba(0,164,205,0.4)" strokeWidth={0.12}>
+            <line x1={m.x - 1.1} y1={m.y} x2={m.x + 1.1} y2={m.y} />
+            <line x1={m.x} y1={m.y - 1.1} x2={m.x} y2={m.y + 1.1} />
+            {!reduce && (
+              <circle cx={m.x} cy={m.y} r={0.45} fill="rgba(0,164,205,0.55)" stroke="none">
+                <animate
+                  attributeName="opacity"
+                  values="0.25;1;0.25"
+                  dur={`${3 + (i % 3)}s`}
+                  repeatCount="indefinite"
+                  begin={`${i * 0.5}s`}
+                />
+              </circle>
+            )}
+          </g>
+        ))}
+      </motion.svg>
+
+      {/* scanner lento de blueprint */}
+      {!reduce && (
+        <div className="blueprint-scan absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+      )}
 
       {/* vinheta */}
       <div className="backdrop-vignette absolute inset-0" />

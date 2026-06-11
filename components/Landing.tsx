@@ -20,6 +20,7 @@ import { SmoothScroll } from "./ui/SmoothScroll";
 import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
 import { SparkBotSection } from "./sections/Product";
+import { CrmShowcase } from "./sections/CrmShowcase";
 import { Statement } from "./sections/Statement";
 
 /**
@@ -53,6 +54,8 @@ export function Landing() {
           ]}
         />
         <SparkBotSection />
+        <Seam />
+        <CrmShowcase />
         <Statement />
         <Plans />
         <Seam />
