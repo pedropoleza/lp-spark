@@ -165,13 +165,19 @@ export function SparkBotSection() {
           />
           <div className="mt-6 flex flex-wrap gap-3">
             {[
-              { p: "Starter", v: "200 mensagens/mês" },
-              { p: "Growth", v: "500 mensagens/mês" },
-              { p: "Agency", v: "1500 mensagens/mês" },
+              { p: "Starter", v: "não incluso", off: true },
+              { p: "Growth", v: "incluído", off: false },
+              { p: "Agency", v: "multi-user (1/agente)", off: false },
             ].map((x) => (
-              <div key={x.p} className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm">
+              <div
+                key={x.p}
+                className={cn(
+                  "rounded-xl border px-4 py-3 text-sm",
+                  x.off ? "border-white/10 bg-white/[0.02] opacity-60" : "border-accent/30 bg-accent/[0.06]",
+                )}
+              >
                 <span className="font-semibold">{x.p}</span>
-                <span className="ml-2 text-muted">{x.v}</span>
+                <span className={cn("ml-2", x.off ? "text-muted" : "text-accent")}>{x.v}</span>
               </div>
             ))}
           </div>

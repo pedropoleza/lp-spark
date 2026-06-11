@@ -2,12 +2,20 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { ArrowRight, CheckCircle2, Activity, Flame } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Activity,
+  Flame,
+  MessageSquare,
+  CalendarCheck,
+  Send,
+} from "lucide-react";
 import { content } from "@/content/pt-br";
 import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container } from "./ui/primitives";
-import { Magnetic } from "./ui/effects";
+import { Magnetic, CountUp } from "./ui/effects";
 import { Logo } from "./ui/Logo";
 import { BackgroundLoop } from "./ui/BackgroundLoop";
 import { BotVideo } from "./ui/BotVideo";
@@ -17,6 +25,12 @@ const floatCards = [
   { label: "Lead respondeu agora", icon: Activity, pos: "left-[-10%] top-[6%]" },
   { label: "Agendamento confirmado", icon: CheckCircle2, pos: "right-[-12%] top-[34%]" },
   { label: "Lead Score: Hot", icon: Flame, pos: "left-[-8%] bottom-[10%]" },
+];
+
+const feedItems = [
+  { icon: MessageSquare, label: "Respondeu um lead em 8s", time: "agora" },
+  { icon: CalendarCheck, label: "Reunião agendada · amanhã 15h", time: "1m" },
+  { icon: Send, label: "Follow-up enviado · 3 leads", time: "4m" },
 ];
 
 export function Hero() {
@@ -151,7 +165,7 @@ export function Hero() {
               />
             </motion.div>
 
-            {/* painel Spark OS sob o mascote */}
+            {/* painel: SparkBot ao vivo — feed prático do que a IA faz por você */}
             <motion.div
               initial={reduce ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -159,38 +173,47 @@ export function Hero() {
               className="card-spark relative z-10 -mt-10 overflow-hidden p-5 shadow-plan"
             >
               <div className="mb-4 flex items-center justify-between">
-                <span className="label-mono">SPARK OS</span>
+                <span className="flex items-center gap-2 text-sm font-semibold">
+                  <Logo variant="mark" className="h-5 w-5" /> SparkBot
+                </span>
                 <span className="flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[10px] text-accent">
-                  <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-accent" /> rodando
+                  <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-accent" /> ao vivo
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
-                {["Conhecer", "Convidar", "Encontrar"].map((stage, i) => (
-                  <div key={stage} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-                    <div className="label-mono mb-2 !text-[9px]">{stage}</div>
-                    <div className="space-y-1.5">
-                      {Array.from({ length: Math.max(1, 3 - i) }).map((_, j) => (
-                        <div key={j} className="h-6 rounded-md bg-white/[0.05]" />
-                      ))}
-                    </div>
-                  </div>
+              {/* feed de ações reais da IA */}
+              <div className="space-y-2">
+                {feedItems.map((f, i) => (
+                  <motion.div
+                    key={f.label}
+                    initial={reduce ? false : { opacity: 0, x: 14 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.7 + i * 0.18, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5"
+                  >
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-accent/15 text-accent">
+                      <f.icon className="h-3.5 w-3.5" />
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-xs text-cream/90">{f.label}</span>
+                    <span className="shrink-0 font-mono text-[10px] text-muted">{f.time}</span>
+                  </motion.div>
                 ))}
               </div>
 
-              <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3">
-                <div className="mb-2 flex items-center justify-between text-xs">
-                  <span className="text-muted">Lead Engagement Score</span>
-                  <span className="font-semibold text-accent">Hot</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                  <motion.div
-                    initial={reduce ? false : { width: 0 }}
-                    animate={{ width: "82%" }}
-                    transition={{ duration: 1.2, delay: 0.9 }}
-                    className="h-full rounded-full bg-gradient-to-r from-electric via-accent to-lime"
-                  />
-                </div>
+              {/* KPIs do dia */}
+              <div className="mt-3 grid grid-cols-3 gap-2 border-t border-white/10 pt-3 text-center">
+                {[
+                  { n: 9, l: "respostas" },
+                  { n: 4, l: "agendadas" },
+                  { n: 12, l: "em follow-up" },
+                ].map((k) => (
+                  <div key={k.l}>
+                    <div className="font-display text-lg font-bold text-accent">
+                      <CountUp value={k.n} />
+                    </div>
+                    <div className="text-[10px] text-muted">{k.l}</div>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
