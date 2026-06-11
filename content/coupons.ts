@@ -16,9 +16,17 @@ export type Coupon = {
 
 export const COUPONS: Coupon[] = GHL_COUPONS;
 
-/** Busca cupons por empresa (contém, case-insensitive). */
-export function searchCoupons(query: string, limit = 12): Coupon[] {
+type PlanFilter = "starter" | "growth" | "agency";
+
+/**
+ * Busca cupons por empresa (contém, case-insensitive).
+ * Se `plan` for informado, retorna só os cupons daquele plano — o código sempre
+ * termina no nome do plano (ex.: "...starter" / "...growth" / "...agency").
+ */
+export function searchCoupons(query: string, plan?: PlanFilter, limit = 12): Coupon[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  return COUPONS.filter((c) => c.company.toLowerCase().includes(q)).slice(0, limit);
+  return COUPONS.filter(
+    (c) => c.company.toLowerCase().includes(q) && (!plan || c.code.endsWith(plan)),
+  ).slice(0, limit);
 }

@@ -35,7 +35,7 @@ export function CheckoutModal() {
     }
   }, [open, checkoutPlan]);
 
-  const results = useMemo(() => searchCoupons(query), [query]);
+  const results = useMemo(() => searchCoupons(query, checkoutPlan ?? undefined), [query, checkoutPlan]);
 
   async function applyCoupon(code: string) {
     try {
