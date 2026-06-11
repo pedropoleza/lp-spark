@@ -18,9 +18,8 @@ import { ScrollProgress, Grain } from "./ui/effects";
 import { SparkBackdrop } from "./ui/SparkBackdrop";
 import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
-import { Problem } from "./sections/Story";
 import { SparkBotSection } from "./sections/Product";
-import { CompareStrip, DiagnoseTerminal } from "./sections/Brutalist";
+import { CompareStrip } from "./sections/Brutalist";
 
 /**
  * Landing enxuta e focada em conversão:
@@ -51,9 +50,6 @@ export function Landing() {
             "RECRUTAMENTO",
           ]}
         />
-        <Problem />
-        <Seam />
-        <DiagnoseTerminal />
         <SparkBotSection />
         <Seam />
         <Plans />

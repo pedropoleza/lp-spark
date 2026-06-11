@@ -159,9 +159,9 @@ export function SparkBotSection() {
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <Reveal>
           <SectionHeading
-            label="SPARKBOT"
-            title="SparkBot: IA para acelerar respostas, follow-ups e rotina comercial."
-            description="Use o SparkBot para ganhar velocidade em conversas, estruturar mensagens e manter sua operação mais responsiva. Ele é um assistente operacional — não substitui você no fechamento."
+            label="VEJA O SPARKBOT EM AÇÃO"
+            title={<>O copiloto que atende o lead e <span className="gradient-text">agenda sozinho.</span></>}
+            description="Enquanto você atende, o SparkBot responde, faz o follow-up e marca a reunião. Veja ao lado uma conversa real acontecendo — do “oi” ao agendamento confirmado."
           />
           <div className="mt-6 flex flex-wrap gap-3">
             {[
@@ -191,10 +191,12 @@ export function SparkBotSection() {
         <Reveal delay={0.1} className="relative">
           <div className="halo inset-x-10 top-0 h-48 bg-accent/25" />
 
-          {/* avatar vivo (clipe com fundo preto → blend screen remove o fundo) */}
-          <div className="relative z-10 mx-auto mb-[-2.5rem] h-40 w-40">
-            <div className="absolute inset-3 rounded-full bg-accent/30 blur-2xl" />
-            <BotVideo src="/bot/bot-smile" blend className="relative" />
+          {/* avatar vivo acima do chat (clipe novo, fundo claro → emoldurado) */}
+          <div className="relative z-10 mx-auto mb-[-2.5rem] h-44 w-44">
+            <div className="absolute -inset-2 rounded-full bg-accent/35 blur-2xl" />
+            <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-accent/40 bg-cream/[0.04] shadow-glow">
+              <BotVideo src="/bot/bot-hello" fit="cover" />
+            </div>
           </div>
 
           <SparkBotChat />
