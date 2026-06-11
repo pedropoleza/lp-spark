@@ -44,7 +44,8 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
           el.pause();
         }
       },
-      { threshold: 0.25 },
+      // margem generosa: começa a carregar/tocar pouco antes de entrar na tela
+      { threshold: 0.2, rootMargin: "300px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -74,7 +75,7 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
       aria-hidden
       muted
       playsInline
-      preload="metadata"
+      preload="none"
       poster={`${src}.jpg`}
       onMouseEnter={replay}
       className={cn(base, "cursor-pointer", className)}

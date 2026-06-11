@@ -9,10 +9,15 @@ import { Plans } from "./Plans";
 import { ComparisonTable } from "./ComparisonTable";
 import { FAQAccordion } from "./FAQAccordion";
 import { Footer } from "./Footer";
-import { QuizModal } from "./QuizModal";
-import { CheckoutModal } from "./CheckoutModal";
-import { StickyCTA } from "./StickyCTA";
-import { ExitIntent } from "./ExitIntent";
+import dynamic from "next/dynamic";
+
+// Overlays: code-split (não entram no JS inicial — melhor carregamento no 3G)
+const QuizModal = dynamic(() => import("./QuizModal").then((m) => m.QuizModal), { ssr: false });
+const CheckoutModal = dynamic(() => import("./CheckoutModal").then((m) => m.CheckoutModal), {
+  ssr: false,
+});
+const StickyCTA = dynamic(() => import("./StickyCTA").then((m) => m.StickyCTA), { ssr: false });
+const ExitIntent = dynamic(() => import("./ExitIntent").then((m) => m.ExitIntent), { ssr: false });
 import { CanceledBanner } from "./CanceledBanner";
 import { ScrollProgress, Grain } from "./ui/effects";
 import { SparkBackdrop } from "./ui/SparkBackdrop";

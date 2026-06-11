@@ -10,6 +10,9 @@ import Lenis from "lenis";
 export function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // só no desktop com mouse — no mobile/touch o scroll nativo é mais leve e fluido
+    if (!window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1024px)").matches)
+      return;
 
     const lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1 });
     let raf = 0;

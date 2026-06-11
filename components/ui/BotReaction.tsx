@@ -47,7 +47,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
           vid.pause();
         }
       },
-      { threshold: 0.4 },
+      { threshold: 0.4, rootMargin: "200px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -93,7 +93,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
             aria-hidden
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             poster={`${clip}.jpg`}
             className="h-full w-full object-cover"
             style={mediaStyle}

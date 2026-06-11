@@ -19,7 +19,7 @@ export function Logo({ variant = "wordmark", onDark = true, className }: Props) 
   if (variant === "mark") {
     return (
       <img
-        src="/brand/mark.png"
+        src="/brand/mark.webp"
         alt="Spark Leads"
         width={512}
         height={513}
@@ -28,7 +28,7 @@ export function Logo({ variant = "wordmark", onDark = true, className }: Props) 
       />
     );
   }
-  const src = onDark ? "/brand/wordmark-light.png" : "/brand/wordmark-dark.png";
+  const src = onDark ? "/brand/wordmark-light.webp" : "/brand/wordmark-dark.webp";
   return (
     <img
       src={src}
