@@ -27,6 +27,6 @@ export function searchCoupons(query: string, plan?: PlanFilter, limit = 12): Cou
   const q = query.trim().toLowerCase();
   if (!q) return [];
   return COUPONS.filter(
-    (c) => c.company.toLowerCase().includes(q) && (!plan || c.code.endsWith(plan)),
+    (c) => c.company.toLowerCase().includes(q) && (!plan || c.code.toLowerCase().endsWith(plan)),
   ).slice(0, limit);
 }
