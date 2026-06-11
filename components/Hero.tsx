@@ -7,6 +7,8 @@ import { content } from "@/content/pt-br";
 import { useSpark } from "./spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container } from "./ui/primitives";
+import { BackgroundLoop } from "./ui/BackgroundLoop";
+import { loopAvailable } from "@/lib/loops";
 
 const cardIcons = [Activity, CheckCircle2, Sparkles, Flame, GitBranch];
 
@@ -23,6 +25,11 @@ export function Hero() {
 
   return (
     <div id="top" ref={ref} className="relative overflow-hidden pt-16 sm:pt-24">
+      {/* loop de fundo opcional (ativar em lib/loops.ts após rodar npm run optimize:loops) */}
+      {loopAvailable("hero-glow") && (
+        <BackgroundLoop src="/loops/hero-glow" opacity={40} blend="screen" className="z-0" />
+      )}
+
       {/* halos de fundo */}
       <div className="halo left-[-10%] top-[-10%] h-[28rem] w-[28rem] bg-spark/30" />
       <div className="halo right-[-5%] top-[20%] h-[26rem] w-[26rem] bg-electric/25" />

@@ -20,10 +20,10 @@ export async function GET() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px",
-          backgroundColor: "#0E1014",
+          backgroundColor: "#0D0D0D",
           backgroundImage:
-            "radial-gradient(circle at 85% 0%, rgba(255,122,26,0.35), transparent 55%), radial-gradient(circle at 0% 100%, rgba(47,107,255,0.30), transparent 55%)",
-          color: "#F7F4EC",
+            "radial-gradient(circle at 85% 0%, rgba(0,164,198,0.40), transparent 55%), radial-gradient(circle at 0% 100%, rgba(0,164,198,0.22), transparent 55%)",
+          color: "#FCFCFC",
           fontFamily: "sans-serif",
         }}
       >
@@ -33,11 +33,11 @@ export async function GET() {
               width: 56,
               height: 56,
               borderRadius: 14,
-              background: "rgba(255,122,26,0.18)",
+              background: "rgba(0,164,198,0.18)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#FF7A1A",
+              color: "#00A4C6",
               fontSize: 30,
             }}
           >
@@ -50,7 +50,7 @@ export async function GET() {
           <div style={{ fontSize: 64, fontWeight: 800, lineHeight: 1.05, maxWidth: 900 }}>
             CRM, automations and AI for insurance agents
           </div>
-          <div style={{ fontSize: 28, color: "#A7ADB8" }}>
+          <div style={{ fontSize: 28, color: "#8B9499" }}>
             Starter · Growth · Agency — checkout seguro via Stripe
           </div>
         </div>
@@ -70,11 +70,11 @@ export async function GET() {
                 padding: "20px 28px",
                 borderRadius: 18,
                 border: "1px solid rgba(255,255,255,0.12)",
-                background: "rgba(21,24,33,0.6)",
+                background: "rgba(20,20,22,0.6)",
               }}
             >
               <div style={{ fontSize: 24, fontWeight: 700 }}>{p.name}</div>
-              <div style={{ fontSize: 30, fontWeight: 800, color: "#FF7A1A" }}>{`${p.price}/mo`}</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: "#00A4C6" }}>{`${p.price}/mo`}</div>
             </div>
           ))}
         </div>

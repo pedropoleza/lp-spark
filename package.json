@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "optimize:loops": "bash scripts/optimize-loops.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

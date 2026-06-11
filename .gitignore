@@ -32,3 +32,6 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# MP4 brutos de loops (so os otimizados em public/loops sobem)
+/raw-loops

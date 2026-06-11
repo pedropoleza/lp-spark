@@ -21,6 +21,8 @@ import type { PlanId } from "@/lib/plans";
 import { useSpark } from "../spark-context";
 import { trackEvent } from "@/lib/analytics";
 import { Container, Section, SectionHeading, Reveal, Label } from "../ui/primitives";
+import { BackgroundLoop } from "../ui/BackgroundLoop";
+import { loopAvailable } from "@/lib/loops";
 import { cn } from "@/lib/utils";
 
 const problemIcons = [Clock, AlertTriangle, Layers];
@@ -485,9 +487,12 @@ export function FinalCta() {
   return (
     <Section>
       <Container>
-        <Reveal className="relative overflow-hidden rounded-card-lg border border-white/10 bg-gradient-to-br from-spark/[0.1] via-graphite to-electric/[0.08] p-10 text-center sm:p-16">
-          <div className="halo left-1/4 top-0 h-64 w-64 bg-spark/30" />
-          <div className="halo right-1/4 bottom-0 h-64 w-64 bg-electric/25" />
+        <Reveal className="relative overflow-hidden rounded-card-lg border border-cream/10 bg-gradient-to-br from-accent/[0.1] via-graphite to-accent/[0.06] p-10 text-center sm:p-16">
+          {loopAvailable("cta-glow") && (
+            <BackgroundLoop src="/loops/cta-glow" opacity={35} blend="screen" />
+          )}
+          <div className="halo left-1/4 top-0 h-64 w-64 bg-accent/25" />
+          <div className="halo right-1/4 bottom-0 h-64 w-64 bg-accent/15" />
           <div className="relative z-10">
             <h2 className="mx-auto max-w-2xl font-display text-3xl font-bold sm:text-4xl">
               {content.finalCta.title}

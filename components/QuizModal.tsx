@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Loader2, RotateCcw, Sparkles } from "lucide-react";
+import { ArrowRight, Loader2, RotateCcw, Sparkles, Check } from "lucide-react";
 import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
 import { QUIZ_QUESTIONS, recomendarPlano, QUIZ_REASONS } from "@/lib/quiz";
@@ -25,24 +25,20 @@ export function QuizModal() {
     setPhase("questions");
     setEmail("");
   }
-
   function handleClose() {
     closeQuiz();
-    // pequeno atraso para não piscar durante a animação de saída
-    setTimeout(reset, 250);
+    setTimeout(reset, 300);
   }
 
   function pick(points: number) {
     const next = [...answers];
     next[step] = points;
     setAnswers(next);
-
     if (step === 0 && answers.length === 0) trackEvent("quiz_started");
 
     if (step < QUIZ_QUESTIONS.length - 1) {
       setStep(step + 1);
     } else {
-      // calcula
       setPhase("loading");
       const [p1, p2, p3] = next;
       const recommended = recomendarPlano(p1, p2, p3);
@@ -64,70 +60,77 @@ export function QuizModal() {
     if (email) setPrefillEmail(email);
     setQuizResult({ plan, score: answers.reduce((a, b) => a + b, 0) });
     handleClose();
-    setTimeout(() => openCheckout(plan), 300);
+    setTimeout(() => openCheckout(plan), 350);
   }
-
   function compareAll() {
     if (email) setPrefillEmail(email);
     handleClose();
-    setTimeout(
-      () => document.getElementById("comparar")?.scrollIntoView({ behavior: "smooth" }),
-      300,
-    );
+    setTimeout(() => document.getElementById("comparar")?.scrollIntoView({ behavior: "smooth" }), 350);
   }
 
   return (
-    <Modal open={quizOpen} onClose={handleClose} labelledBy="quiz-title" fullscreenMobile>
-      <div className="p-6 sm:p-8">
-        <div className="mb-1 flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-spark" />
-          <span className="label-mono">Descobrir meu plano ideal</span>
-        </div>
-
-        {/* barra de progresso */}
-        <div className="mb-6 mt-3 h-1.5 overflow-hidden rounded-full bg-white/10">
-          <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-electric via-spark to-lime"
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.4 }}
-          />
+    <Modal open={quizOpen} onClose={handleClose} labelledBy="quiz-title" variant="page" topLabel="QUIZ · PLANO IDEAL">
+      <div className="mx-auto max-w-5xl">
+        {/* progresso brutalista */}
+        <div className="mb-10 flex items-center gap-4">
+          <Sparkles className="h-5 w-5 text-accent" />
+          <div className="h-2 flex-1 overflow-hidden rounded-full bg-cream/10">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-accent to-lime"
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.4 }}
+            />
+          </div>
+          <span className="label-mono shrink-0">
+            {phase === "result" ? "100%" : `${String(step + 1).padStart(2, "0")}/${String(QUIZ_QUESTIONS.length).padStart(2, "0")}`}
+          </span>
         </div>
 
         <AnimatePresence mode="wait">
           {phase === "questions" && (
             <motion.div
               key={step}
-              initial={{ opacity: 0, x: 24 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -24 }}
-              transition={{ duration: 0.3 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.35 }}
+              className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center"
             >
-              <h2 id="quiz-title" className="font-display text-xl font-bold sm:text-2xl">
-                {QUIZ_QUESTIONS[step].question}
-              </h2>
-              <p className="mt-1 text-xs text-muted">
-                Pergunta {step + 1} de {QUIZ_QUESTIONS.length}
-              </p>
-              <div className="mt-5 flex flex-col gap-3">
-                {QUIZ_QUESTIONS[step].options.map((opt) => (
+              <div>
+                <span className="label-mono">Pergunta {step + 1}</span>
+                <h2
+                  id="quiz-title"
+                  className="mt-4 font-display font-bold leading-[1.05]"
+                  style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}
+                >
+                  {QUIZ_QUESTIONS[step].question}
+                </h2>
+                {step > 0 && (
                   <button
-                    key={opt.label}
-                    onClick={() => pick(opt.points)}
-                    className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-4 text-left text-sm transition hover:border-spark/40 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-spark"
+                    onClick={() => setStep(step - 1)}
+                    className="mt-6 text-sm text-muted underline-offset-4 hover:text-cream hover:underline"
                   >
-                    <span>{opt.label}</span>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-spark" />
+                    ← Voltar
                   </button>
+                )}
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {QUIZ_QUESTIONS[step].options.map((opt, i) => (
+                  <motion.button
+                    key={opt.label}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => pick(opt.points)}
+                    className="group glass-card flex min-h-[120px] flex-col justify-between rounded-card p-5 text-left transition hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <span className="font-mono text-xs text-muted">0{i + 1}</span>
+                    <span className="text-base font-medium leading-snug text-cream">{opt.label}</span>
+                    <ArrowRight className="h-4 w-4 text-muted transition group-hover:translate-x-1 group-hover:text-accent" />
+                  </motion.button>
                 ))}
               </div>
-              {step > 0 && (
-                <button
-                  onClick={() => setStep(step - 1)}
-                  className="mt-5 text-xs text-muted underline-offset-4 hover:text-cream hover:underline"
-                >
-                  ← Voltar
-                </button>
-              )}
             </motion.div>
           )}
 
@@ -137,41 +140,45 @@ export function QuizModal() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-12 text-center"
+              className="flex min-h-[40vh] flex-col items-center justify-center text-center"
             >
-              <Loader2 className="h-8 w-8 animate-spin text-spark" />
-              <p className="mt-4 text-sm text-muted">Calculando seu plano ideal...</p>
+              <Loader2 className="h-10 w-10 animate-spin text-accent" />
+              <p className="mt-5 text-muted">Calculando seu plano ideal...</p>
             </motion.div>
           )}
 
           {phase === "result" && (
             <motion.div
               key="result"
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="grid gap-10 lg:grid-cols-2 lg:items-center"
             >
-              <span className="label-mono">Recomendação</span>
-              <h2 id="quiz-title" className="mt-2 font-display text-2xl font-bold">
-                Seu plano ideal é o{" "}
-                <span className="gradient-text">Spark Leads {planContent.name}</span>
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{QUIZ_REASONS[plan]}</p>
-
-              <div className="mt-5 rounded-card border border-white/10 bg-white/[0.03] p-4">
-                <div className="flex items-baseline justify-between">
-                  <span className="font-semibold">{planContent.name}</span>
-                  <span className="font-display text-2xl font-bold">
-                    US$ {planContent.price}
-                    <span className="text-sm font-normal text-muted">/mês</span>
-                  </span>
+              <div>
+                <span className="label-mono">Recomendação</span>
+                <h2 id="quiz-title" className="mt-4 font-display font-bold leading-[1.02]" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
+                  <span className="gradient-text">{planContent.name}</span>
+                </h2>
+                <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">{QUIZ_REASONS[plan]}</p>
+                <div className="mt-6 flex items-end gap-2">
+                  <span className="font-display text-4xl font-bold">US$ {planContent.price}</span>
+                  <span className="mb-1 text-muted">/mês</span>
                 </div>
-                <p className="mt-1 text-xs text-muted">{planContent.tagline}</p>
               </div>
 
-              <div className="mt-5">
+              <div className="glass-card rounded-card-lg p-6 sm:p-8">
+                <p className="mb-4 font-display text-lg font-bold">O que você leva:</p>
+                <ul className="mb-6 grid gap-2.5">
+                  {planContent.features.filter((f) => !f.endsWith(":")).slice(0, 5).map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-muted">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" /> {f}
+                    </li>
+                  ))}
+                </ul>
+
                 <label htmlFor="quiz-email" className="mb-1.5 block text-xs text-muted">
-                  Qual o melhor email para enviarmos sua recomendação? (opcional)
+                  Melhor email para enviarmos sua recomendação? (opcional)
                 </label>
                 <input
                   id="quiz-email"
@@ -179,26 +186,20 @@ export function QuizModal() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="voce@exemplo.com"
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-spark/50 focus:ring-2 focus:ring-spark/30"
+                  className="mb-5 w-full rounded-xl border border-cream/10 bg-cream/[0.03] px-4 py-3 text-sm outline-none transition focus:border-accent/50 focus:ring-2 focus:ring-accent/30"
                 />
-              </div>
 
-              <button onClick={followRecommendation} className="btn-primary mt-5 w-full">
-                Seguir com {planContent.name} <ArrowRight className="h-4 w-4" />
-              </button>
-              <div className="mt-3 flex items-center justify-between text-xs">
-                <button
-                  onClick={compareAll}
-                  className="text-muted underline-offset-4 hover:text-cream hover:underline"
-                >
-                  Comparar todos os planos
+                <button onClick={followRecommendation} className="btn-primary w-full">
+                  Adquirir {planContent.name} <ArrowRight className="h-4 w-4" />
                 </button>
-                <button
-                  onClick={reset}
-                  className="inline-flex items-center gap-1 text-muted underline-offset-4 hover:text-cream hover:underline"
-                >
-                  <RotateCcw className="h-3 w-3" /> Refazer quiz
-                </button>
+                <div className="mt-4 flex items-center justify-between text-xs">
+                  <button onClick={compareAll} className="text-muted underline-offset-4 hover:text-cream hover:underline">
+                    Comparar todos os planos
+                  </button>
+                  <button onClick={reset} className="inline-flex items-center gap-1 text-muted underline-offset-4 hover:text-cream hover:underline">
+                    <RotateCcw className="h-3 w-3" /> Refazer quiz
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}

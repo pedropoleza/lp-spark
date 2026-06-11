@@ -14,6 +14,7 @@ import { CheckoutModal } from "./CheckoutModal";
 import { StickyCTA } from "./StickyCTA";
 import { ExitIntent } from "./ExitIntent";
 import { CanceledBanner } from "./CanceledBanner";
+import { ScrollProgress, Grain } from "./ui/effects";
 import {
   SocialProof,
   Problem,
@@ -45,6 +46,8 @@ import { MicroDemo, LossCalculator } from "./sections/Interactive";
 export function Landing() {
   return (
     <SparkProvider>
+      <Grain />
+      <ScrollProgress />
       <Curtain />
       <AnnouncementBar />
       <Header />

@@ -13,22 +13,25 @@ const config: Config = {
       center: true,
       padding: "1.5rem",
       screens: {
-        "2xl": "1280px",
+        "2xl": "1440px",
       },
     },
     extend: {
       colors: {
-        // Base
-        ink: "#050506",
-        graphite: "#0E1014",
-        card: "#151821",
-        cream: "#F7F4EC",
-        muted: "#A7ADB8",
-        // Accents
-        spark: "#FF7A1A",
-        electric: "#2F6BFF",
-        lime: "#B8FF4D",
-        glow: "#8B5CF6",
+        // ——— Base (near-black / off-white) ———
+        ink: "#0D0D0D", // base profunda (cor pedida)
+        graphite: "#0D0D0D",
+        card: "#141416", // superfície elevada
+        cream: "#FCFCFC", // texto/branco (cor pedida)
+        muted: "#8B9499", // texto secundário
+
+        // ——— Acento único (teal) e derivados para profundidade ———
+        accent: "#00A4C6", // cor de acento pedida
+        // Aliases legados remapeados para a família teal (cohesão monocromática):
+        spark: "#00A4C6",
+        electric: "#2FD2EE",
+        glow: "#00788F",
+        lime: "#38E5CE",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -36,14 +39,18 @@ const config: Config = {
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       borderRadius: {
-        card: "22px",
-        "card-lg": "28px",
+        // Brutalismo = cantos mais contidos; glass cards usam estes.
+        card: "16px",
+        "card-lg": "20px",
       },
       boxShadow: {
-        soft: "0 10px 40px -12px rgba(0,0,0,0.6)",
-        glow: "0 0 60px -12px rgba(255,122,26,0.35)",
-        "glow-blue": "0 0 60px -12px rgba(47,107,255,0.35)",
-        plan: "0 30px 80px -30px rgba(0,0,0,0.85)",
+        soft: "0 10px 40px -12px rgba(0,0,0,0.7)",
+        glow: "0 0 60px -12px rgba(0,164,198,0.45)",
+        "glow-blue": "0 0 60px -12px rgba(0,164,198,0.45)",
+        plan: "0 30px 90px -30px rgba(0,0,0,0.9)",
+        // borda dura brutalista
+        hard: "4px 4px 0 0 rgba(0,164,198,0.9)",
+        "hard-cream": "4px 4px 0 0 rgba(252,252,252,0.9)",
       },
       keyframes: {
         "fade-up": {
@@ -55,16 +62,20 @@ const config: Config = {
           "50%": { transform: "translateY(-10px)" },
         },
         "pulse-soft": {
-          "0%, 100%": { opacity: "0.6" },
+          "0%, 100%": { opacity: "0.5" },
           "50%": { opacity: "1" },
         },
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
-        typing: {
-          "0%, 60%, 100%": { opacity: "0.3", transform: "translateY(0)" },
-          "30%": { opacity: "1", transform: "translateY(-3px)" },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "border-spin": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
       },
       animation: {
@@ -72,6 +83,8 @@ const config: Config = {
         float: "float 6s ease-in-out infinite",
         "pulse-soft": "pulse-soft 3s ease-in-out infinite",
         shimmer: "shimmer 3s linear infinite",
+        marquee: "marquee 28s linear infinite",
+        "border-spin": "border-spin 6s linear infinite",
       },
     },
   },

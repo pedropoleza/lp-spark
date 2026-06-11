@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Loader2, Lock, ShieldCheck } from "lucide-react";
+import { AlertCircle, Check, Loader2, Lock, ShieldCheck } from "lucide-react";
 import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
 import { checkoutFormSchema, type CheckoutFormValues, BR_STATES, US_STATES } from "@/lib/validation";
@@ -12,7 +12,7 @@ import { PLAN_CONTENT } from "@/content/pt-br";
 import { trackEvent } from "@/lib/analytics";
 
 export function CheckoutModal() {
-  const { checkoutPlan, closeCheckout, prefillEmail, quizResult, openCheckout } = useSpark();
+  const { checkoutPlan, closeCheckout, prefillEmail, quizResult, openQuiz } = useSpark();
   const open = checkoutPlan !== null;
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -39,7 +39,7 @@ export function CheckoutModal() {
     }
   }, [open, checkoutPlan, prefillEmail, setValue]);
 
-  if (!checkoutPlan) return <Modal open={false} onClose={closeCheckout}>{null}</Modal>;
+  if (!checkoutPlan) return <Modal open={false} onClose={closeCheckout} variant="page">{null}</Modal>;
 
   const plan = PLAN_CONTENT.find((p) => p.id === checkoutPlan)!;
   const price = PLAN_PRICES[checkoutPlan];
@@ -48,23 +48,14 @@ export function CheckoutModal() {
     setSubmitting(true);
     setServerError(null);
     trackEvent("checkout_form_submitted", { plan: checkoutPlan });
-
     try {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          plan: checkoutPlan,
-          quizScore: quizResult?.score,
-        }),
+        body: JSON.stringify({ ...values, plan: checkoutPlan, quizScore: quizResult?.score }),
       });
       const data = await res.json();
-
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || "Não foi possível iniciar o checkout.");
-      }
-
+      if (!res.ok || !data.url) throw new Error(data.error || "Não foi possível iniciar o checkout.");
       trackEvent("checkout_session_created", { plan: checkoutPlan });
       trackEvent("checkout_redirected", { plan: checkoutPlan });
       window.location.href = data.url;
@@ -80,146 +71,156 @@ export function CheckoutModal() {
 
   function handleClose() {
     closeCheckout();
-    setTimeout(() => reset(), 250);
+    setTimeout(() => reset(), 300);
   }
 
   return (
-    <Modal open={open} onClose={handleClose} labelledBy="checkout-title" fullscreenMobile>
-      <div className="p-6 sm:p-8">
-        <span className="label-mono">Quase lá</span>
-        <h2 id="checkout-title" className="mt-2 font-display text-2xl font-bold">
-          Seus dados para o plano {plan.name}
-        </h2>
-        <p className="mt-1 text-sm text-muted">
-          Preencha os campos abaixo. O pagamento acontece em seguida, no Stripe.
-        </p>
+    <Modal open={open} onClose={handleClose} labelledBy="checkout-title" variant="page" topLabel={`ADQUIRIR · ${plan.name.toUpperCase()}`}>
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        {/* —— Resumo do plano (esquerda, brutalista) —— */}
+        <aside className="lg:sticky lg:top-24 lg:self-start">
+          <span className="label-mono">Seu plano</span>
+          <h2 id="checkout-title" className="mt-3 font-display font-bold leading-[1.02]" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+            <span className="gradient-text">{plan.name}</span>
+          </h2>
+          <p className="mt-3 max-w-sm text-muted">{plan.tagline}</p>
 
-        {serverError && (
-          <div className="mt-4 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-200">
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-            <div>
-              <p className="font-medium">Não conseguimos iniciar o checkout.</p>
-              <p className="text-red-200/80">{serverError}</p>
+          <div className="mt-6 flex items-end gap-2">
+            <span className="font-display text-5xl font-bold">US$ {price}</span>
+            <span className="mb-2 text-muted">/mês</span>
+          </div>
+
+          <div className="glass-card mt-8 rounded-card p-5">
+            <ul className="grid gap-2.5">
+              {plan.features.filter((f) => !f.endsWith(":")).slice(0, 6).map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-muted">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" /> {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-2 text-xs text-muted">
+            <span className="flex items-center gap-1.5"><Lock className="h-3 w-3 text-accent" /> Pagamento seguro via Stripe</span>
+            <span className="flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 text-accent" /> Cancele quando quiser · sem fidelidade</span>
+          </div>
+        </aside>
+
+        {/* —— Formulário (direita, glass) —— */}
+        <div className="glass-card rounded-card-lg p-6 sm:p-8">
+          <h3 className="font-display text-xl font-bold">Seus dados</h3>
+          <p className="mt-1 text-sm text-muted">Preencha abaixo. O pagamento acontece em seguida, no Stripe.</p>
+
+          {serverError && (
+            <div className="mt-5 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-200">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <div>
+                <p className="font-medium">Não conseguimos iniciar o checkout.</p>
+                <p className="text-red-200/80">{serverError}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-5 flex flex-col gap-4" noValidate>
-          <Field label="Nome completo" error={errors.fullName?.message} htmlFor="fullName">
-            <input id="fullName" {...register("fullName")} className="input-spark" autoComplete="name" />
-          </Field>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Email" error={errors.email?.message} htmlFor="email">
-              <input id="email" type="email" {...register("email")} className="input-spark" autoComplete="email" />
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex flex-col gap-4" noValidate>
+            <Field label="Nome completo" error={errors.fullName?.message} htmlFor="fullName">
+              <input id="fullName" {...register("fullName")} className="input-spark" autoComplete="name" />
             </Field>
-            <Field
-              label="Telefone"
-              error={errors.phone?.message}
-              htmlFor="phone"
-              hint="Formato internacional, ex: +5511999998888"
-            >
-              <input id="phone" {...register("phone")} placeholder="+5511999998888" className="input-spark" autoComplete="tel" />
-            </Field>
-          </div>
 
-          <Field label="Nome do negócio" error={errors.businessName?.message} htmlFor="businessName">
-            <input id="businessName" {...register("businessName")} className="input-spark" autoComplete="organization" />
-          </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Email" error={errors.email?.message} htmlFor="email">
+                <input id="email" type="email" {...register("email")} className="input-spark" autoComplete="email" />
+              </Field>
+              <Field label="Telefone" error={errors.phone?.message} htmlFor="phone" hint="Ex: +5511999998888">
+                <input id="phone" {...register("phone")} placeholder="+5511999998888" className="input-spark" autoComplete="tel" />
+              </Field>
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="País" htmlFor="country">
-              <select id="country" {...register("country")} className="input-spark">
-                <option value="Brasil">Brasil</option>
-                <option value="EUA">EUA</option>
-                <option value="Outro">Outro</option>
-              </select>
+            <Field label="Nome do negócio" error={errors.businessName?.message} htmlFor="businessName">
+              <input id="businessName" {...register("businessName")} className="input-spark" autoComplete="organization" />
             </Field>
-            <Field label="Estado" htmlFor="state">
-              {states ? (
-                <select id="state" {...register("state")} className="input-spark">
-                  <option value="">Selecione</option>
-                  {states.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="País" htmlFor="country">
+                <select id="country" {...register("country")} className="input-spark">
+                  <option value="Brasil">Brasil</option>
+                  <option value="EUA">EUA</option>
+                  <option value="Outro">Outro</option>
                 </select>
+              </Field>
+              <Field label="Estado" htmlFor="state">
+                {states ? (
+                  <select id="state" {...register("state")} className="input-spark">
+                    <option value="">Selecione</option>
+                    {states.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input id="state" {...register("state")} className="input-spark" />
+                )}
+              </Field>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Cidade" htmlFor="city">
+                <input id="city" {...register("city")} className="input-spark" autoComplete="address-level2" />
+              </Field>
+              <Field label="CEP / ZIP" htmlFor="postalCode">
+                <input id="postalCode" {...register("postalCode")} className="input-spark" autoComplete="postal-code" />
+              </Field>
+            </div>
+
+            <p className="text-[11px] leading-relaxed text-muted">
+              Usamos seus dados apenas para criar sua assinatura, preparar sua conta e enviar instruções de acesso.
+              Não pedimos senha nem cartão aqui — o cartão é informado apenas no Stripe Checkout.
+            </p>
+
+            <button type="submit" disabled={submitting} className="btn-primary w-full">
+              {submitting ? (
+                <><Loader2 className="h-4 w-4 animate-spin" /> Preparando checkout seguro...</>
               ) : (
-                <input id="state" {...register("state")} className="input-spark" />
+                <>Continuar para pagamento → US$ {price}/mês</>
               )}
-            </Field>
-          </div>
+            </button>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Cidade" htmlFor="city">
-              <input id="city" {...register("city")} className="input-spark" autoComplete="address-level2" />
-            </Field>
-            <Field label="CEP / ZIP" htmlFor="postalCode">
-              <input id="postalCode" {...register("postalCode")} className="input-spark" autoComplete="postal-code" />
-            </Field>
-          </div>
+            <p className="flex items-center justify-center gap-1.5 text-center text-[11px] text-muted">
+              <ShieldCheck className="h-3 w-3 text-accent" /> Você será redirecionado para o Stripe Checkout
+            </p>
 
-          <p className="text-[11px] leading-relaxed text-muted">
-            Usamos seus dados apenas para criar sua assinatura, preparar sua conta e enviar
-            instruções de acesso. Não pedimos senha nem cartão aqui — o cartão é informado apenas no
-            Stripe Checkout.
-          </p>
-
-          <button type="submit" disabled={submitting} className="btn-primary w-full">
-            {submitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Preparando checkout seguro...
-              </>
-            ) : (
-              <>Continuar para pagamento → US$ {price}/mês</>
-            )}
-          </button>
-
-          <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted">
-            <Lock className="h-3 w-3" /> Pagamento seguro via Stripe • Cancele quando quiser • Sem
-            fidelidade
-          </p>
-          <p className="flex items-center justify-center gap-1.5 text-center text-[11px] text-muted">
-            <ShieldCheck className="h-3 w-3 text-lime" /> Você será redirecionado para o Stripe
-            Checkout
-          </p>
-
-          <button
-            type="button"
-            onClick={() => {
-              const order: ("starter" | "growth" | "agency")[] = ["starter", "growth", "agency"];
-              handleClose();
-              setTimeout(() => {
-                document.getElementById("planos")?.scrollIntoView({ behavior: "smooth" });
-              }, 300);
-              void order;
-            }}
-            className="text-center text-xs text-muted underline-offset-4 hover:text-cream hover:underline"
-          >
-            Voltar e escolher outro plano
-          </button>
-        </form>
+            <div className="flex items-center justify-center gap-4 text-xs">
+              <button type="button" onClick={handleClose} className="text-muted underline-offset-4 hover:text-cream hover:underline">
+                Voltar e escolher outro plano
+              </button>
+              <span className="text-cream/20">·</span>
+              <button type="button" onClick={() => { handleClose(); setTimeout(openQuiz, 350); }} className="text-muted underline-offset-4 hover:text-cream hover:underline">
+                Não tenho certeza, fazer o quiz
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
       <style jsx global>{`
         .input-spark {
           width: 100%;
           border-radius: 0.75rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(252, 252, 252, 0.1);
+          background: rgba(252, 252, 252, 0.03);
           padding: 0.7rem 0.9rem;
           font-size: 0.875rem;
-          color: #f7f4ec;
+          color: #fcfcfc;
           outline: none;
           transition: all 0.2s;
         }
         .input-spark:focus {
-          border-color: rgba(255, 122, 26, 0.5);
-          box-shadow: 0 0 0 2px rgba(255, 122, 26, 0.25);
+          border-color: rgba(0, 164, 198, 0.6);
+          box-shadow: 0 0 0 2px rgba(0, 164, 198, 0.25);
         }
         .input-spark::placeholder {
-          color: rgba(167, 173, 184, 0.6);
+          color: rgba(139, 148, 153, 0.7);
+        }
+        select.input-spark option {
+          background: #141416;
         }
       `}</style>
     </Modal>
@@ -241,9 +242,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="mb-1.5 block text-xs font-medium text-cream">
-        {label}
-      </label>
+      <label htmlFor={htmlFor} className="mb-1.5 block text-xs font-medium text-cream">{label}</label>
       {children}
       {hint && !error && <p className="mt-1 text-[11px] text-muted">{hint}</p>}
       {error && (

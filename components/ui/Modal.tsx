@@ -5,25 +5,30 @@ import { X } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
+type Variant = "center" | "page";
+
 export function Modal({
   open,
   onClose,
   children,
   labelledBy,
   className,
-  fullscreenMobile = false,
+  variant = "center",
+  topLabel,
 }: {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
   labelledBy?: string;
   className?: string;
-  fullscreenMobile?: boolean;
+  /** "center" = card centralizado · "page" = experiência de tela cheia (brutalista). */
+  variant?: Variant;
+  /** Rótulo mono exibido no topo da variante "page". */
+  topLabel?: string;
 }) {
   const reduce = useReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Bloqueia scroll do body e prende foco.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -60,6 +65,51 @@ export function Modal({
     };
   }, [open, onClose]);
 
+  if (variant === "page") {
+    return (
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={labelledBy}
+            className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-ink"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* fundo decorativo */}
+            <div className="halo left-[-5%] top-[-5%] h-[30rem] w-[30rem] bg-accent/20" />
+            <div className="halo right-[-5%] bottom-[-5%] h-[28rem] w-[28rem] bg-accent/10" />
+            <div className="pointer-events-none absolute inset-0 grid-bg opacity-30" />
+
+            {/* header brutalista com close no canto superior direito */}
+            <header className="sticky top-0 z-20 border-b border-cream/10 bg-ink/70 backdrop-blur-md">
+              <div className="container-spark flex h-16 items-center justify-between">
+                <span className="label-mono">{topLabel ?? "Spark Leads"}</span>
+                <button
+                  onClick={onClose}
+                  aria-label="Fechar"
+                  className="group inline-flex items-center gap-2 rounded-none border border-cream/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted transition hover:border-accent hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  Fechar
+                  <X className="h-4 w-4 transition group-hover:rotate-90" />
+                </button>
+              </div>
+            </header>
+
+            <div className={cn("container-spark relative z-10 flex-1 py-10 sm:py-16", className)}>
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    );
+  }
+
+  // —— variante centralizada ——
   return (
     <AnimatePresence>
       {open && (
@@ -70,11 +120,7 @@ export function Modal({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <div
-            className="absolute inset-0 bg-ink/80 backdrop-blur-sm"
-            onClick={onClose}
-            aria-hidden="true"
-          />
+          <div className="absolute inset-0 bg-ink/85 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
           <motion.div
             ref={panelRef}
             role="dialog"
@@ -85,17 +131,15 @@ export function Modal({
             exit={reduce ? undefined : { opacity: 0, scale: 0.96, y: 16 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
-              "relative z-10 w-full overflow-y-auto border border-white/10 bg-graphite shadow-plan",
-              fullscreenMobile
-                ? "h-full max-h-full rounded-none sm:h-auto sm:max-h-[90vh] sm:max-w-lg sm:rounded-card-lg"
-                : "max-h-[92vh] max-w-lg rounded-card-lg",
+              "glass-card relative z-10 max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-card-lg shadow-plan",
+              "h-full max-h-full rounded-none sm:h-auto sm:max-h-[90vh] sm:rounded-card-lg",
               className,
             )}
           >
             <button
               onClick={onClose}
               aria-label="Fechar"
-              className="absolute right-4 top-4 z-20 grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/5 text-muted transition hover:bg-white/10 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-spark"
+              className="absolute right-4 top-4 z-20 grid h-9 w-9 place-items-center rounded-full border border-cream/10 bg-cream/5 text-muted transition hover:bg-cream/10 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <X className="h-4 w-4" />
             </button>

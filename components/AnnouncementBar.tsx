@@ -11,7 +11,7 @@ export function AnnouncementBar() {
       className="group relative hidden w-full items-center justify-center gap-2 overflow-hidden border-b border-white/10 px-4 py-2 text-center text-xs text-cream/90 transition sm:flex"
       style={{
         backgroundImage:
-          "linear-gradient(90deg, rgba(255,122,26,0.14), rgba(47,107,255,0.14))",
+          "linear-gradient(90deg, rgba(0,164,198,0.16), rgba(0,164,198,0.06))",
       }}
     >
       <span className="text-muted">{content.announcement.text}</span>
