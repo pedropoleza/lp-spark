@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { PLAN_CONTENT } from "@/content/pt-br";
 import { content } from "@/content/pt-br";
 import "./globals.css";
@@ -12,11 +12,6 @@ const sans = Plus_Jakarta_Sans({
 const display = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
-  display: "swap",
-});
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
   display: "swap",
 });
 
@@ -118,7 +113,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${sans.variable} ${display.variable} ${mono.variable}`}
+      className={`${sans.variable} ${display.variable}`}
     >
       <body>
         <JsonLd />

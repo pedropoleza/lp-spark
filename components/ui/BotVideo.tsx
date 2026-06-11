@@ -66,7 +66,7 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
 
   if (reduced) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={`${src}.jpg`} alt="SparkBot" className={cn(base, className)} style={style} />;
+    return <img src={`${src}.webp`} alt="SparkBot" className={cn(base, className)} style={style} />;
   }
 
   return (
@@ -76,7 +76,7 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
       muted
       playsInline
       preload="none"
-      poster={`${src}.jpg`}
+      poster={`${src}.webp`}
       onMouseEnter={replay}
       className={cn(base, "cursor-pointer", className)}
       style={style}

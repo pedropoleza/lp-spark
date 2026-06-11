@@ -5,10 +5,6 @@ import { Curtain } from "./Curtain";
 import { AnnouncementBar } from "./AnnouncementBar";
 import { Header } from "./Header";
 import { Hero } from "./Hero";
-import { Plans } from "./Plans";
-import { ComparisonTable } from "./ComparisonTable";
-import { FAQAccordion } from "./FAQAccordion";
-import { Footer } from "./Footer";
 import dynamic from "next/dynamic";
 
 // Overlays: code-split (não entram no JS inicial — melhor carregamento no 3G)
@@ -24,9 +20,15 @@ import { SparkBackdrop } from "./ui/SparkBackdrop";
 import { SmoothScroll } from "./ui/SmoothScroll";
 import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
-import { SparkBotSection } from "./sections/Product";
-import { CrmShowcase } from "./sections/CrmShowcase";
-import { Statement } from "./sections/Statement";
+
+// Seções abaixo da dobra: code-split (SSR mantido p/ SEO; JS sai do bundle inicial)
+const SparkBotSection = dynamic(() => import("./sections/Product").then((m) => m.SparkBotSection));
+const CrmShowcase = dynamic(() => import("./sections/CrmShowcase").then((m) => m.CrmShowcase));
+const Statement = dynamic(() => import("./sections/Statement").then((m) => m.Statement));
+const Plans = dynamic(() => import("./Plans").then((m) => m.Plans));
+const ComparisonTable = dynamic(() => import("./ComparisonTable").then((m) => m.ComparisonTable));
+const FAQAccordion = dynamic(() => import("./FAQAccordion").then((m) => m.FAQAccordion));
+const Footer = dynamic(() => import("./Footer").then((m) => m.Footer));
 
 /**
  * Landing enxuta, conduzida pelo SparkBot:

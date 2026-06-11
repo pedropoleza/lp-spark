@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { GitBranch, Bot, BarChart3, Play } from "lucide-react";
 import { Container, Section } from "../ui/primitives";
-import { Logo } from "../ui/Logo";
 
 const FEATURES = [
   {
@@ -72,30 +71,42 @@ export function CrmShowcase() {
               </div>
             </div>
 
-            {/* tela: vídeo do CRM (Loom) — carrega o player só ao clicar (leve no 3G) */}
+            {/* tela: vídeo nativo self-hosted — só o poster (16KB) carrega; o vídeo
+                só baixa ao clicar (leve no 3G, sem player de terceiros) */}
             <div className="relative aspect-video w-full bg-ink">
               {loaded ? (
-                <iframe
-                  src="https://www.loom.com/embed/8958ea9c307c4360999d702d54682394?autoplay=1&hide_owner=true&hideEmbedTopBar=true&hide_share=true"
-                  title="CRM Spark Leads"
-                  allowFullScreen
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full"
+                <video
+                  src="/crm/demo.mp4"
+                  poster="/crm/demo-poster.webp"
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="auto"
+                  className="absolute inset-0 h-full w-full bg-ink object-contain"
                 />
               ) : (
                 <button
                   onClick={() => setLoaded(true)}
                   aria-label="Reproduzir vídeo do CRM"
-                  className="group absolute inset-0 grid place-items-center bg-ink"
+                  className="group absolute inset-0"
                 >
-                  <div className="absolute inset-0 blueprint-grid opacity-40 [mask-image:radial-gradient(70%_70%_at_50%_50%,black,transparent)]" />
-                  <Logo variant="mark" className="absolute h-16 w-16 opacity-10" />
-                  <span className="relative flex flex-col items-center gap-3">
-                    <span className="grid h-16 w-16 place-items-center rounded-full bg-accent text-ink shadow-glow transition-transform duration-300 group-hover:scale-110">
-                      <Play className="ml-0.5 h-6 w-6 fill-current" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/crm/demo-poster.webp"
+                    alt="CRM Spark Leads"
+                    loading="lazy"
+                    width={1280}
+                    height={720}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <span className="absolute inset-0 bg-ink/45 transition-colors duration-300 group-hover:bg-ink/25" />
+                  <span className="absolute inset-0 grid place-items-center">
+                    <span className="flex flex-col items-center gap-3">
+                      <span className="grid h-16 w-16 place-items-center rounded-full bg-accent text-ink shadow-glow transition-transform duration-300 group-hover:scale-110">
+                        <Play className="ml-0.5 h-6 w-6 fill-current" />
+                      </span>
+                      <span className="text-sm font-medium text-cream">Ver o CRM em ação</span>
                     </span>
-                    <span className="text-sm font-medium text-cream">Ver o CRM em ação</span>
-                    <span className="text-xs text-muted">vídeo · ~1 min</span>
                   </span>
                 </button>
               )}

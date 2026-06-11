@@ -86,7 +86,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
       >
         {reduce ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`${clip}.jpg`} alt="SparkBot" className="h-full w-full object-cover" style={mediaStyle} />
+          <img src={`${clip}.webp`} alt="SparkBot" className="h-full w-full object-cover" style={mediaStyle} />
         ) : (
           <video
             ref={videoRef}
@@ -94,7 +94,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
             muted
             playsInline
             preload="none"
-            poster={`${clip}.jpg`}
+            poster={`${clip}.webp`}
             className="h-full w-full object-cover"
             style={mediaStyle}
           >
