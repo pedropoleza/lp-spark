@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Container, Section, SectionHeading, Reveal, AnimatedBadge } from "../ui/primitives";
 import { BotVideo } from "../ui/BotVideo";
+import { SparkBotChat } from "../SparkBotChat";
 import { cn } from "@/lib/utils";
 
 /** Seção 10 — vista explodida do produto. */
@@ -196,28 +197,7 @@ export function SparkBotSection() {
             <BotVideo src="/bot/bot-smile" blend className="relative" />
           </div>
 
-          <div className="card-spark relative z-0 p-5 pt-12">
-            <div className="mb-4 flex items-center justify-center gap-2">
-              <span className="font-semibold">SparkBot</span>
-              <span className="flex items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[11px] text-accent">
-                <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-accent" /> online
-              </span>
-            </div>
-            <div className="space-y-3">
-              <div className="ml-auto max-w-[80%] rounded-2xl rounded-tr-sm bg-accent/15 p-3 text-sm text-cream">
-                Me ajuda a responder um lead que pediu desconto?
-              </div>
-              <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white/[0.05] p-3 text-sm text-cream/90">
-                Claro! Sugiro reforçar valor antes de preço: “Entendo! Antes de falar de valores, posso
-                te mostrar o que está incluso? Assim você compara melhor.”
-              </div>
-              <div className="flex items-center gap-1.5 px-2">
-                <span className="typing-dot h-2 w-2 rounded-full bg-muted" />
-                <span className="typing-dot h-2 w-2 rounded-full bg-muted" />
-                <span className="typing-dot h-2 w-2 rounded-full bg-muted" />
-              </div>
-            </div>
-          </div>
+          <SparkBotChat />
         </Reveal>
       </Container>
     </Section>
