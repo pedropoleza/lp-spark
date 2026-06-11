@@ -25,11 +25,11 @@ export const content = {
   },
 
   hero: {
-    label: "SPARK LEADS PLANS",
-    headline: "Escolha o plano certo para transformar leads em clientes.",
-    sub: "CRM, automações, templates bilíngues, dashboards e SparkBot em uma operação pronta para agentes de seguros que querem vender mais, recrutar melhor e perder menos oportunidades.",
+    label: "O SISTEMA DOS AGENTES DE SEGUROS",
+    headline: "Sua operação de seguros, rodando no automático.",
+    sub: "CRM com pipeline pronto, follow-up automático e o SparkBot agendando reuniões enquanto você atende. Escolha seu plano e coloque pra rodar.",
     ctaPrimary: "Descobrir meu plano ideal",
-    ctaSecondary: "Comparar planos",
+    ctaSecondary: "Ver planos",
     floatingCards: [
       "Lead respondeu agora",
       "Follow-up automático enviado",
@@ -37,12 +37,7 @@ export const content = {
       "Lead Score: Hot",
       "Pipeline: Conhecer → Convidar → Encontrar",
     ],
-    stats: [
-      "18+ templates no Starter",
-      "Até 1500 mensagens SparkBot",
-      "Pipelines prontos",
-      "Checkout seguro via Stripe",
-    ],
+    stats: ["Pipeline pronto pra usar", "SparkBot agenda por você", "Follow-up no automático"],
   },
 
   socialProof: {

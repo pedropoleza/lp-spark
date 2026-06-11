@@ -18,7 +18,7 @@ import { ScrollProgress, Grain } from "./ui/effects";
 import { SparkBackdrop } from "./ui/SparkBackdrop";
 import { Seam } from "./ui/Seam";
 import { BrandMarquee } from "./ui/motion2d";
-import { Problem, Security, FinalCta } from "./sections/Story";
+import { Problem } from "./sections/Story";
 import { SparkBotSection } from "./sections/Product";
 import { CompareStrip, DiagnoseTerminal } from "./sections/Brutalist";
 
@@ -60,10 +60,7 @@ export function Landing() {
         <CompareStrip />
         <ComparisonTable />
         <Seam />
-        <Security />
         <FAQAccordion />
-        <Seam />
-        <FinalCta />
       </main>
 
       <Footer />
