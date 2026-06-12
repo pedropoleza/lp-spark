@@ -6,7 +6,7 @@ import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
 import { PAYMENT_LINKS, PLAN_PRICES } from "@/lib/plans";
 import { PLAN_CONTENT } from "@/content/pt-br";
-import { searchCoupons } from "@/content/coupons";
+import { searchCoupons, labelForCode } from "@/content/coupons";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -75,6 +75,7 @@ export function CheckoutModal() {
   const price = PLAN_PRICES[checkoutPlan];
   const paymentLink = PAYMENT_LINKS[checkoutPlan];
   const iframeSrc = linkWithCoupon(paymentLink, applied);
+  const appliedLabel = applied ? labelForCode(applied) : null;
 
   /* —— campo de busca + resultados (reutilizado no desktop e no bottom sheet) —— */
   const couponSearch = (
@@ -106,7 +107,7 @@ export function CheckoutModal() {
             >
               <div className="w-full min-w-0">
                 <p className="truncate text-sm font-medium text-cream">{c.company}</p>
-                {c.note && <p className="truncate text-[11px] text-muted">{c.note}</p>}
+                <p className="truncate text-[11px] text-muted">Cupom de indicação</p>
               </div>
               <span
                 className={cn(
@@ -114,7 +115,7 @@ export function CheckoutModal() {
                   active ? "border-accent bg-accent text-ink" : "border-accent/40 bg-accent/10 text-accent",
                 )}
               >
-                <span className="break-all">{c.code}</span>
+                <span className="break-all">{c.label}</span>
                 {active ? <Check className="h-3.5 w-3.5 shrink-0" /> : <Copy className="h-3.5 w-3.5 shrink-0 opacity-70" />}
               </span>
             </button>
@@ -179,7 +180,7 @@ export function CheckoutModal() {
               <Ticket className="h-4 w-4 shrink-0 text-accent" />
               <span className="truncate">
                 {applied ? (
-                  <>Cupom <span className="font-mono font-semibold text-accent">{applied}</span> aplicado</>
+                  <>Cupom <span className="font-mono font-semibold text-accent">{appliedLabel}</span> aplicado</>
                 ) : (
                   "Tem um cupom? Toque para buscar"
                 )}
@@ -193,7 +194,7 @@ export function CheckoutModal() {
             <div className="mb-3 hidden shrink-0 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 p-3 text-sm text-cream md:flex">
               <Check className="h-4 w-4 shrink-0 text-accent" />
               <span>
-                Cupom <span className="font-mono font-semibold text-accent">{applied}</span> copiado.
+                Cupom <span className="font-mono font-semibold text-accent">{appliedLabel}</span> copiado.
                 Se não aparecer aplicado, cole no campo <strong>Cupom</strong> do checkout.
               </span>
             </div>
@@ -259,7 +260,7 @@ export function CheckoutModal() {
               {couponSearch}
               {applied && (
                 <p className="mt-3 rounded-lg border border-accent/30 bg-accent/10 p-2.5 text-[11px] text-cream">
-                  Cupom <span className="font-mono font-semibold text-accent">{applied}</span> copiado. Se não
+                  Cupom <span className="font-mono font-semibold text-accent">{appliedLabel}</span> copiado. Se não
                   aplicar sozinho, cole no campo <strong>Cupom</strong> do checkout.
                 </p>
               )}

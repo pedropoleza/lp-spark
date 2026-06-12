@@ -34,14 +34,26 @@ export function slugifyCompany(name: string): string {
   );
 }
 
+/** Código público "amigável" da empresa: nome compacto + "off" (ex.: jonathanduqueoff). */
+export function offCodeFor(name: string): string {
+  const compact = name
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+  return `${compact || "empresa"}off`;
+}
+
 export type Company = {
   slug: string;
   name: string;
-  /** Código de cupom por plano (ex.: { starter: "FIVERINGSSTARTER", ... }). */
+  /** Código público exibido ao cliente (nome+off). É só rótulo de busca. */
+  offCode: string;
+  /** Códigos REAIS do GHL por plano (ex.: { starter: "FIVERINGSSTARTER", ... }). */
   coupons: Partial<Record<PlanFilter, string>>;
 };
 
-/** Empresas agrupadas (1 entrada por empresa, com os 3 códigos de plano). */
+/** Empresas agrupadas (1 entrada por empresa, com os 3 códigos reais de plano). */
 export const COMPANIES: Company[] = (() => {
   const byName = new Map<string, Company>();
   for (const c of COUPONS) {
@@ -49,7 +61,7 @@ export const COMPANIES: Company[] = (() => {
     if (!plan) continue;
     let entry = byName.get(c.company);
     if (!entry) {
-      entry = { slug: "", name: c.company, coupons: {} };
+      entry = { slug: "", name: c.company, offCode: offCodeFor(c.company), coupons: {} };
       byName.set(c.company, entry);
     }
     entry.coupons[plan] = c.code;
@@ -67,28 +79,48 @@ export const COMPANIES: Company[] = (() => {
   return list;
 })();
 
+/** code REAL (uppercase) → offCode público, para exibir o rótulo no checkout. */
+const CODE_TO_OFF = new Map<string, string>();
+for (const c of COMPANIES) {
+  for (const p of PLAN_KEYS) {
+    const real = c.coupons[p];
+    if (real) CODE_TO_OFF.set(real.toUpperCase(), c.offCode);
+  }
+}
+/** Rótulo público (nome+off) a partir do código real do GHL. */
+export function labelForCode(code: string): string {
+  return CODE_TO_OFF.get(code.toUpperCase()) ?? code;
+}
+
 /** Busca empresa pelo slug (QR ?empresa=slug). */
 export function findCompanyBySlug(slug: string): Company | undefined {
   return COMPANIES.find((c) => c.slug === slug.toLowerCase());
 }
 
-/** Resolve um código de cupom (QR ?cupom=CODE) → { code exato, plano }. */
-export function findCoupon(code: string): { code: string; plan: PlanFilter } | undefined {
-  const lc = code.trim().toLowerCase();
-  const found = COUPONS.find((c) => c.code.toLowerCase() === lc);
-  const plan = planOf(lc);
-  return found && plan ? { code: found.code, plan } : undefined;
-}
+/** Resultado de busca exibido ao cliente: rótulo público + código real aplicado. */
+export type CouponHit = {
+  company: string;
+  /** Rótulo público mostrado/buscado (nome+off). */
+  label: string;
+  /** Código REAL do GHL que é de fato aplicado no checkout. */
+  code: string;
+};
 
 /**
- * Busca cupons por empresa (contém, case-insensitive).
- * Se `plan` for informado, retorna só os cupons daquele plano — o código sempre
- * termina no nome do plano (ex.: "...starter" / "...growth" / "...agency").
+ * Busca por empresa OU pelo código público (nome+off) — 1 resultado por empresa.
+ * `label` é o cupom público (ex.: fiveringsoff); `code` é o cupom real do GHL
+ * correspondente ao `plan` (ex.: FIVERINGSSTARTER), que é o aplicado no checkout.
  */
-export function searchCoupons(query: string, plan?: PlanFilter, limit = 12): Coupon[] {
+export function searchCoupons(query: string, plan?: PlanFilter, limit = 12): CouponHit[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  return COUPONS.filter(
-    (c) => c.company.toLowerCase().includes(q) && (!plan || c.code.toLowerCase().endsWith(plan)),
-  ).slice(0, limit);
+  const hits: CouponHit[] = [];
+  for (const c of COMPANIES) {
+    if (!c.name.toLowerCase().includes(q) && !c.offCode.includes(q)) continue;
+    const code = plan ? c.coupons[plan] : c.coupons.starter ?? c.coupons.growth ?? c.coupons.agency;
+    if (!code) continue;
+    hits.push({ company: c.name, label: c.offCode, code });
+    if (hits.length >= limit) break;
+  }
+  return hits;
 }
