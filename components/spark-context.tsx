@@ -22,7 +22,9 @@ type SparkContextValue = {
 
   // Checkout
   checkoutPlan: PlanId | null;
-  openCheckout: (plan: PlanId) => void;
+  /** Cupom a pré-aplicar no checkout (vindo do buscador/QR). */
+  checkoutCoupon: string | null;
+  openCheckout: (plan: PlanId, coupon?: string | null) => void;
   closeCheckout: () => void;
 };
 
@@ -33,10 +35,14 @@ export function SparkProvider({ children }: { children: ReactNode }) {
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const [prefillEmail, setPrefillEmail] = useState("");
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
+  const [checkoutCoupon, setCheckoutCoupon] = useState<string | null>(null);
 
   const openQuiz = useCallback(() => setQuizOpen(true), []);
   const closeQuiz = useCallback(() => setQuizOpen(false), []);
-  const openCheckout = useCallback((plan: PlanId) => setCheckoutPlan(plan), []);
+  const openCheckout = useCallback((plan: PlanId, coupon: string | null = null) => {
+    setCheckoutCoupon(coupon);
+    setCheckoutPlan(plan);
+  }, []);
   const closeCheckout = useCallback(() => setCheckoutPlan(null), []);
 
   return (
@@ -50,6 +56,7 @@ export function SparkProvider({ children }: { children: ReactNode }) {
         prefillEmail,
         setPrefillEmail,
         checkoutPlan,
+        checkoutCoupon,
         openCheckout,
         closeCheckout,
       }}

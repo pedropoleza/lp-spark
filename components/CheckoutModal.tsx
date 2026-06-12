@@ -22,7 +22,7 @@ function linkWithCoupon(base: string, code: string | null) {
 }
 
 export function CheckoutModal() {
-  const { checkoutPlan, closeCheckout } = useSpark();
+  const { checkoutPlan, checkoutCoupon, closeCheckout } = useSpark();
   const open = checkoutPlan !== null;
   const [query, setQuery] = useState("");
   const [applied, setApplied] = useState<string | null>(null);
@@ -30,12 +30,12 @@ export function CheckoutModal() {
 
   useEffect(() => {
     if (open) {
-      trackEvent("checkout_form_opened", { plan: checkoutPlan });
+      trackEvent("checkout_form_opened", { plan: checkoutPlan, coupon: checkoutCoupon });
       setQuery("");
-      setApplied(null);
+      setApplied(checkoutCoupon ?? null); // cupom vindo de QR/deep-link já entra aplicado
       setSheetOpen(false);
     }
-  }, [open, checkoutPlan]);
+  }, [open, checkoutPlan, checkoutCoupon]);
 
   // Trava o auto-zoom do iOS (input <16px e campos do iframe) enquanto o
   // checkout está aberto; restaura o viewport original ao fechar.
