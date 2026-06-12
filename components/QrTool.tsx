@@ -70,6 +70,7 @@ export function QrTool() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Company | null>(null);
   const [origin, setOrigin] = useState("");
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   useEffect(() => setOrigin(window.location.origin), []);
 
@@ -99,7 +100,7 @@ export function QrTool() {
             <QrCard
               title="QR geral (totem)"
               subtitle="Para totem/divulgação ampla — qualquer empresa digita o nome."
-              url={`${origin}/cupom`}
+              url={`${origin}${base}/cupom`}
               file="qr-spark-cupom-geral.png"
             />
           </div>
@@ -147,7 +148,7 @@ export function QrTool() {
           <QrCard
             title={selected.name}
             subtitle={`Cupom ${selected.offCode} · pré-preenche o nome em /cupom`}
-            url={`${origin}/cupom?empresa=${selected.slug}`}
+            url={`${origin}${base}/cupom?empresa=${selected.slug}`}
             file={`qr-${selected.slug}.png`}
           />
         ) : (

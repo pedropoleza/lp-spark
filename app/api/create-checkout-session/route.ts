@@ -60,7 +60,9 @@ export async function POST(req: Request) {
   // Usa a apiVersion default fixada pelo SDK instalado.
   const stripe = new Stripe(secretKey);
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const baseUrl =
+    (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000") +
+    (process.env.NEXT_PUBLIC_BASE_PATH || "");
 
   // Desmembra nome completo em first/last para metadata.
   const nameParts = data.fullName.trim().split(/\s+/);
