@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { ChevronLeft, ChevronRight, Zap, RotateCcw } from "lucide-react";
 import { SparkProvider } from "@/components/spark-context";
 import { SparkBackdrop } from "@/components/ui/SparkBackdrop";
+import { FullscreenToggle } from "@/components/ui/FullscreenToggle";
 import { DemoProvider, useDemo } from "./demo-context";
 import { ProgressLadder } from "./ProgressLadder";
 import { cn } from "@/lib/utils";
@@ -71,7 +72,10 @@ function DemoInner() {
       else if (e.key === "ArrowLeft") prev();
       else if (e.key === "b" || e.key === "B") toggleBlackout();
       else if (e.key === "r" || e.key === "R") resetDemo();
-      else if (/^[1-9]$/.test(e.key)) setScene(Number(e.key) - 1);
+      else if (e.key === "f" || e.key === "F") {
+        if (document.fullscreenElement) document.exitFullscreen?.();
+        else document.documentElement.requestFullscreen?.().catch(() => {});
+      } else if (/^[1-9]$/.test(e.key)) setScene(Number(e.key) - 1);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -104,6 +108,7 @@ function DemoInner() {
           <button onClick={resetDemo} title="Reiniciar (R)" className="grid h-8 w-8 place-items-center rounded-full border border-white/10 text-muted transition hover:text-cream">
             <RotateCcw className="h-3.5 w-3.5" />
           </button>
+          <FullscreenToggle className="!h-8 !w-8" />
           <span className="font-mono text-[11px] tabular-nums text-muted">
             {scene + 1}/{SCENES.length}
           </span>
