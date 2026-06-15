@@ -15,6 +15,8 @@ import { Quiz } from "./scenes/Quiz";
 import { Diagnosis } from "./scenes/Diagnosis";
 import { RecommendedPlan } from "./scenes/RecommendedPlan";
 import { Showcase } from "./scenes/Showcase";
+import { Journey } from "./scenes/Journey";
+import { Trust } from "./scenes/Trust";
 import { Close } from "./scenes/Close";
 
 const CheckoutModal = dynamic(() => import("@/components/CheckoutModal").then((m) => m.CheckoutModal), { ssr: false });
@@ -26,6 +28,8 @@ const SCENES: { id: string; label: string; Comp: FC }[] = [
   { id: "diagnostico", label: "Sua dor", Comp: Diagnosis },
   { id: "plano", label: "Seu plano", Comp: RecommendedPlan },
   { id: "showcase", label: "Funcionando", Comp: Showcase },
+  { id: "jornada", label: "Jornada", Comp: Journey },
+  { id: "confianca", label: "Confiança", Comp: Trust },
   { id: "fechamento", label: "Começar", Comp: Close },
 ];
 const LABELS = SCENES.map((s) => s.label);

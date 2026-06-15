@@ -20,12 +20,12 @@ import { cn } from "@/lib/utils";
 export type ScreenId = "dashboard" | "conversations" | "funil" | "contacts" | "calendars" | "automation" | "ai";
 
 const NAV: { id: ScreenId; label: string; icon: LucideIcon; live?: boolean }[] = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "conversations", label: "Conversations", icon: MessagesSquare },
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, live: true },
+  { id: "conversations", label: "Conversations", icon: MessagesSquare, live: true },
   { id: "funil", label: "Opportunities", icon: Columns3, live: true },
-  { id: "contacts", label: "Contacts", icon: Users },
-  { id: "calendars", label: "Calendars", icon: Calendar },
-  { id: "automation", label: "Automation", icon: Workflow },
+  { id: "contacts", label: "Contacts", icon: Users, live: true },
+  { id: "calendars", label: "Calendars", icon: Calendar, live: true },
+  { id: "automation", label: "Automation", icon: Workflow, live: true },
   { id: "ai", label: "AI Hub · SparkBot", icon: Sparkles, live: true },
 ];
 
@@ -81,7 +81,6 @@ export function AppShell({ active, onNavigate, children }: { active: ScreenId; o
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 <span className="truncate">{item.label}</span>
-                {item.live && !isActive && <i className="ml-auto h-1.5 w-1.5 rounded-full bg-accent/70" />}
               </button>
             );
           })}
