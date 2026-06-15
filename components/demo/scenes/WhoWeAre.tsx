@@ -7,7 +7,7 @@ import { SceneFrame } from "../SceneFrame";
 /** Cena "quem somos" — autoridade calorosa + frame consultivo. Números = placeholders do fundador. */
 const stats = [
   { icon: Clock, value: "4 anos", label: "de operação real", todo: false },
-  { icon: Users, value: "____", label: "agentes ativos", todo: true },
+  { icon: Users, value: "250", label: "agentes ativos", todo: false },
   { icon: MessageCircle, value: "PT-BR", label: "suporte humano", todo: false },
 ];
 

@@ -23,6 +23,6 @@ export const TESTIMONIALS: { name: string; role: string; avatar: string; quote: 
 
 export const SOCIAL_STATS: { value: string; label: string; todo?: boolean }[] = [
   { value: "4 anos", label: "de operação" },
-  { value: "____", label: "agentes ativos", todo: true },
+  { value: "250", label: "agentes ativos" },
   { value: "____", label: "leads gerenciados", todo: true },
 ];
