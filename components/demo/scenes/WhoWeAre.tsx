@@ -45,7 +45,7 @@ export function WhoWeAre() {
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
         <p className="text-[15px] leading-relaxed text-cream">
           “Não vim te vender mais um software. Vim te mostrar, em 5 minutos, onde você está deixando
-          dinheiro na mesa — e como recuperar.”
+          dinheiro na mesa, e como recuperar.”
         </p>
       </div>
     </SceneFrame>

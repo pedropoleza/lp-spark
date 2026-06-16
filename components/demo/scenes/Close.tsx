@@ -52,7 +52,7 @@ export function Close() {
         <button onClick={() => openCheckout(planId)} className="btn-primary px-8 py-4 text-base">
           {mode === "solo" ? `Assinar o ${p.name} agora` : "Começar agora"} <ArrowRight className="h-5 w-5" />
         </button>
-        <p className="text-xs text-muted/70">Condição de fundador — [placeholder: o fundador define a oferta/vagas].</p>
+        <p className="text-xs text-muted/70">Condição de fundador. [placeholder: o fundador define a oferta/vagas].</p>
       </div>
     </SceneFrame>
   );

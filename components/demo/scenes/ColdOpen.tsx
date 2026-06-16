@@ -85,7 +85,7 @@ export function ColdOpen() {
             className="mt-4 max-w-md text-lg text-muted"
           >
             Antes de você abrir o computador, o Spark já organizou sua agenda e reativou um lead que
-            ia esfriar. <span className="text-cream">Isso é o fim da demo — vou te mostrar como chega aqui.</span>
+            ia esfriar. <span className="text-cream">Isso é o fim da demo. Vou te mostrar como chega aqui.</span>
           </motion.p>
 
           {mode === "solo" && (

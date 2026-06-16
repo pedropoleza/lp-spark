@@ -66,7 +66,7 @@ export function SparkBotPanel() {
       <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
         {msgs.length === 0 && (
           <p className="mx-auto max-w-[240px] pt-6 text-center text-xs text-muted">
-            Diga em português o que precisa — toque numa sugestão abaixo. 👇
+            Diga em português o que precisa. Toque numa sugestão abaixo. 👇
           </p>
         )}
         {msgs.map((m) => (

@@ -45,7 +45,7 @@ export type AgendaEvent = { id: string; title: string; when: string; kind: "disc
 
 export const INITIAL_AGENDA: AgendaEvent[] = [
   { id: "a1", title: "João Bittencourt", when: "Hoje · 10:00", kind: "discovery" },
-  { id: "a2", title: "Revisão anual — Família Oliveira", when: "Hoje · 16:00", kind: "review" },
+  { id: "a2", title: "Revisão anual da Família Oliveira", when: "Hoje · 16:00", kind: "review" },
 ];
 
 export const fmtUSD = (n: number) =>
@@ -78,19 +78,19 @@ export const BOT_SCRIPTS: BotScript[] = [
       {
         role: "bot",
         kind: "action",
-        action: { type: "agenda.add", event: { id: "ev-ana", title: "Ana Souza — Discovery Call", when: "Qui · 14:00", kind: "discovery" } },
+        action: { type: "agenda.add", event: { id: "ev-ana", title: "Discovery Call com Ana Souza", when: "Qui · 14:00", kind: "discovery" } },
         text: "✅ Agendado: Ana Souza, quinta 14h (Discovery Call). Mandei a confirmação e programei um lembrete 1h antes. Quer também na véspera?",
       },
       { role: "user", kind: "text", text: "👍" },
       { role: "bot", kind: "typing", ms: 700 },
-      { role: "bot", kind: "text", text: "Feito. Tá tudo na sua agenda — é só aparecer." },
+      { role: "bot", kind: "text", text: "Feito. Tá tudo na sua agenda, é só aparecer." },
     ],
   },
   {
     id: "subscricao",
-    chip: "🎤 Cliente diabético tipo 2 — qual rate no FlexLife?",
+    chip: "🎤 Cliente diabético tipo 2, qual rate no FlexLife?",
     steps: [
-      { role: "user", kind: "audio", text: "cliente diabético tipo 2 controlado, 52 anos — qual produto e tabela na National Life?", meta: "0:08" },
+      { role: "user", kind: "audio", text: "cliente diabético tipo 2 controlado, 52 anos, qual produto e tabela na National Life?", meta: "0:08" },
       { role: "bot", kind: "typing", ms: 1300 },
       {
         role: "bot",
@@ -109,7 +109,7 @@ export const BOT_SCRIPTS: BotScript[] = [
   },
   {
     id: "briefing",
-    chip: "Bom dia — o que tenho hoje?",
+    chip: "Bom dia, o que tenho hoje?",
     steps: [
       { role: "user", kind: "text", text: "bom dia, o que eu tenho hoje?" },
       { role: "bot", kind: "typing", ms: 1200 },
@@ -124,7 +124,7 @@ export const BOT_SCRIPTS: BotScript[] = [
         role: "bot",
         kind: "action",
         action: { type: "opp.move", id: "o3", toStage: "apresentacao" },
-        text: "✅ Mandei a mensagem certa pro momento dele e o Pedro respondeu — movi pra Apresentação e bloqueei um horário sugerido. 😉",
+        text: "✅ Mandei a mensagem certa pro momento dele e o Pedro respondeu, movi pra Apresentação e bloqueei um horário sugerido. 😉",
       },
     ],
   },

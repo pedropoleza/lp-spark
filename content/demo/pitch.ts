@@ -4,7 +4,7 @@ import type { PlanId } from "@/lib/plans";
 export const LADDER: { plan: PlanId; stage: string; title: string; desc: string }[] = [
   { plan: "starter", stage: "Pré-Jaqueta", title: "Começando", desc: "Organize os leads, padronize o follow-up e feche seus primeiros clientes." },
   { plan: "growth", stage: "VP", title: "Estabelecido", desc: "Cresça com previsibilidade, retenha clientes e comece a recrutar." },
-  { plan: "agency", stage: "Black Jacket", title: "Líder de equipe", desc: "Rode sua agência inteira — recrutamento, field training e KPIs — num lugar só." },
+  { plan: "agency", stage: "Black Jacket", title: "Líder de equipe", desc: "Rode sua agência inteira (recrutamento, field training e KPIs) num lugar só." },
 ];
 
 export const SECURITY: { icon: "lock" | "shield" | "download" | "headset"; title: string; body: string }[] = [

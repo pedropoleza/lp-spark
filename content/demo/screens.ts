@@ -61,28 +61,28 @@ export type Contact = {
 export const CONTACTS: Contact[] = [
   {
     id: "ct1", name: "Ana Souza", avatar: "ana", phone: "+1 (407) 555-0142", email: "ana.souza@email.com", business: "Souza Cleaning LLC",
-    created: "12 jun", lastActivity: "hoje", tags: ["Lead Quente", "WhatsApp"], leadScore: 82, source: "Indicação — Família Oliveira",
+    created: "12 jun", lastActivity: "hoje", tags: ["Lead Quente", "WhatsApp"], leadScore: 82, source: "Indicação: Família Oliveira",
     objection: "Quer entender custo x cobertura", status: "Apresentação agendada",
     timeline: [
       { kind: "msg", text: "Confirmou Discovery Call (quinta 14h)", time: "hoje 09:12" },
-      { kind: "note", text: "Indicada pela Família Oliveira — já é cliente", time: "ontem" },
+      { kind: "note", text: "Indicada pela Família Oliveira, já é cliente", time: "ontem" },
       { kind: "msg", text: "Primeiro contato via WhatsApp", time: "12 jun" },
     ],
   },
   {
     id: "ct2", name: "Pedro Lima", avatar: "pedro", phone: "+1 (407) 555-0199", email: "pedro.lima@email.com", business: "Lima Auto Repair",
-    created: "02 jun", lastActivity: "hoje", tags: ["Follow-up"], leadScore: 64, source: "Tráfego pago — Facebook",
+    created: "02 jun", lastActivity: "hoje", tags: ["Follow-up"], leadScore: 64, source: "Tráfego pago: Facebook",
     objection: "Achou que ia esquecer / sumiu", status: "Reativado pelo SparkBot",
     timeline: [
       { kind: "msg", text: "Respondeu o follow-up automático", time: "hoje 08:31" },
-      { kind: "note", text: "Estava parado há 5 dias — SparkBot reativou", time: "hoje 08:20" },
+      { kind: "note", text: "Estava parado há 5 dias. SparkBot reativou", time: "hoje 08:20" },
       { kind: "call", text: "Ligação não atendida", time: "06 jun" },
     ],
   },
   {
-    id: "ct3", name: "Família Oliveira", phone: "+1 (321) 555-0117", email: "oliveira@email.com", business: "—",
+    id: "ct3", name: "Família Oliveira", phone: "+1 (321) 555-0117", email: "oliveira@email.com", business: "Pessoa física",
     created: "20 mai", lastActivity: "hoje", tags: ["Cliente"], leadScore: 95, source: "Cliente ativo",
-    objection: "—", status: "Revisão anual hoje 16h",
+    objection: "Nenhuma", status: "Revisão anual hoje 16h",
     timeline: [
       { kind: "meeting", text: "Revisão anual agendada", time: "hoje 16:00" },
       { kind: "note", text: "Apólice ativa · indicou a Ana Souza", time: "10 jun" },

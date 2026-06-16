@@ -73,7 +73,7 @@ export function Trust() {
             </motion.div>
           ))}
         </div>
-        <p className="mt-3 text-center text-[10px] text-muted/60">Depoimentos ilustrativos — o fundador substitui pelos reais. Claims de segurança a confirmar antes de publicar.</p>
+        <p className="mt-3 text-center text-[10px] text-muted/60">Depoimentos ilustrativos. O fundador substitui pelos reais. Claims de segurança a confirmar antes de publicar.</p>
       </div>
     </SceneFrame>
   );

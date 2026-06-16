@@ -85,7 +85,7 @@ export function AppShell({ active, onNavigate, children }: { active: ScreenId; o
             );
           })}
         </nav>
-        <p className="px-4 py-3 text-[10px] text-muted/60">Demo — dados ilustrativos</p>
+        <p className="px-4 py-3 text-[10px] text-muted/60">Demo · dados ilustrativos</p>
       </aside>
 
       {/* main */}

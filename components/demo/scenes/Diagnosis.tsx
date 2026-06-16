@@ -43,11 +43,11 @@ export function Diagnosis() {
         <div>
           <p className="font-display text-2xl font-bold tabular-nums text-cream">~{fmtUSD(monthlyLost)}/mês</p>
           <p className="text-sm text-muted">
-            estimados saindo pela porta — ~{ROI.lostLeadsPerMonth} leads que esfriam, a {fmtUSD(ROI.commissionPerClient)} de comissão cada.
+            estimados saindo pela porta. São ~{ROI.lostLeadsPerMonth} leads que esfriam, a {fmtUSD(ROI.commissionPerClient)} de comissão cada.
           </p>
         </div>
       </motion.div>
-      <p className="mt-4 text-center text-xs text-muted/70">Estimativa ilustrativa — ajustável com seus números reais.</p>
+      <p className="mt-4 text-center text-xs text-muted/70">Estimativa ilustrativa, ajustável com seus números reais.</p>
     </SceneFrame>
   );
 }

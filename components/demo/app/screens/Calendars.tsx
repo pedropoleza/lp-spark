@@ -41,7 +41,7 @@ export function Calendars() {
       <div className="rounded-xl border border-white/10 bg-ink/40 p-5">
         <p className="text-[11px] uppercase tracking-wide text-accent">Página de agendamento</p>
         <h3 className="font-display text-lg font-bold text-cream">Discovery Call · 30 min</h3>
-        <p className="mb-4 text-xs text-muted">O lead escolhe o horário — entra direto na sua agenda.</p>
+        <p className="mb-4 text-xs text-muted">O lead escolhe o horário e entra direto na sua agenda.</p>
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
           {SLOTS.map((t) => {
             const taken = TAKEN.has(t);
@@ -62,7 +62,7 @@ export function Calendars() {
         </div>
         {justBooked && (
           <p className="mt-4 flex items-center gap-1.5 rounded-lg border border-lime/30 bg-lime/10 px-3 py-2 text-[13px] text-lime">
-            <Check className="h-4 w-4" /> Agendado {justBooked} — confirmação enviada e lembrete programado.
+            <Check className="h-4 w-4" /> Agendado {justBooked}. Confirmação enviada e lembrete programado.
           </p>
         )}
       </div>

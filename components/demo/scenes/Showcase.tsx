@@ -30,7 +30,7 @@ export function Showcase() {
   };
 
   return (
-    <SceneFrame wide label="O Spark, funcionando" hint="Toque nas sugestões do SparkBot — e abra o funil pra ver o que mudou. Clique na lateral pra explorar.">
+    <SceneFrame wide label="O Spark, funcionando" hint="Toque nas sugestões do SparkBot e abra o funil pra ver o que mudou. Clique na lateral pra explorar.">
       <div className="h-[72vh] min-h-[540px]">
         <AppShell active={active} onNavigate={setActive}>
           {screens[active]}
@@ -38,7 +38,7 @@ export function Showcase() {
       </div>
       <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-muted">
         Quando o SparkBot agenda ou reativa um lead, a <span className="text-cream">agenda</span> e o{" "}
-        <span className="text-cream">funil</span> mudam na hora. Explore as telas na lateral — tudo é clicável.
+        <span className="text-cream">funil</span> mudam na hora. Explore as telas na lateral. Tudo é clicável.
       </p>
     </SceneFrame>
   );

@@ -14,10 +14,10 @@ export function Journey() {
   return (
     <SceneFrame label="A sua jornada" hint="→ continue">
       <h2 className="text-center font-display font-bold leading-tight" style={{ fontSize: "clamp(1.9rem, 4.5vw, 3rem)" }}>
-        Onde você está hoje — e <span className="gradient-text">até onde o Spark te leva.</span>
+        Onde você está hoje, e <span className="gradient-text">até onde o Spark te leva.</span>
       </h2>
       <p className="mx-auto mt-3 max-w-xl text-center text-muted">
-        Os planos não são níveis de preço. São os três momentos da sua carreira — e o Spark cresce com você.
+        Os planos não são níveis de preço. São os três momentos da sua carreira, e o Spark cresce com você.
       </p>
 
       <div className="mt-9 grid items-end gap-3 sm:grid-cols-3">
@@ -52,7 +52,7 @@ export function Journey() {
       </div>
 
       <p className="mt-7 flex items-center justify-center gap-2 text-center text-sm text-muted">
-        <Check className="h-4 w-4 text-accent" /> Comece onde faz sentido hoje. Subir de degrau é 1 clique — seus dados vão junto.
+        <Check className="h-4 w-4 text-accent" /> Comece onde faz sentido hoje. Subir de degrau é 1 clique, e seus dados vão junto.
       </p>
     </SceneFrame>
   );
