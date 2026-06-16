@@ -40,6 +40,12 @@ type DemoCtx = {
   plan: PlanId | null;
   pain: PainKey | null;
   setDiagnosis: (plan: PlanId, pain: PainKey) => void;
+  // plano ativo na apresentação (começa no recomendado; o apresentador troca)
+  activePlan: PlanId;
+  setActivePlan: (p: PlanId) => void;
+  // app do showcase em tela cheia
+  appFullscreen: boolean;
+  toggleAppFullscreen: () => void;
   // store compartilhado (o SparkBot e o funil mutam isto)
   store: Store;
   dispatch: (a: StoreAction) => void;
@@ -56,25 +62,30 @@ export function DemoProvider({ total, children }: { total: number; children: Rea
   const [scene, setSceneRaw] = useState(0);
   const [plan, setPlan] = useState<PlanId | null>(null);
   const [pain, setPain] = useState<PainKey | null>(null);
+  const [activePlan, setActivePlan] = useState<PlanId>("growth");
+  const [appFullscreen, setAppFullscreen] = useState(false);
   const [blackout, setBlackout] = useState(false);
   const [store, dispatch] = useReducer(storeReducer, { opps: INITIAL_OPPS, agenda: INITIAL_AGENDA });
 
   const setScene = useCallback((i: number) => setSceneRaw(Math.max(0, Math.min(total - 1, i))), [total]);
   const next = useCallback(() => setSceneRaw((s) => Math.min(total - 1, s + 1)), [total]);
   const prev = useCallback(() => setSceneRaw((s) => Math.max(0, s - 1)), []);
-  const setDiagnosis = useCallback((p: PlanId, k: PainKey) => { setPlan(p); setPain(k); }, []);
+  const setDiagnosis = useCallback((p: PlanId, k: PainKey) => { setPlan(p); setPain(k); setActivePlan(p); }, []);
   const toggleBlackout = useCallback(() => setBlackout((b) => !b), []);
+  const toggleAppFullscreen = useCallback(() => setAppFullscreen((v) => !v), []);
   const resetDemo = useCallback(() => {
     dispatch({ type: "reset" });
     setPlan(null);
     setPain(null);
+    setActivePlan("growth");
+    setAppFullscreen(false);
     setBlackout(false);
     setSceneRaw(0);
   }, []);
 
   const value = useMemo<DemoCtx>(
-    () => ({ mode, setMode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, store, dispatch, resetDemo, blackout, toggleBlackout }),
-    [mode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, store, resetDemo, blackout, toggleBlackout],
+    () => ({ mode, setMode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, activePlan, setActivePlan, appFullscreen, toggleAppFullscreen, store, dispatch, resetDemo, blackout, toggleBlackout }),
+    [mode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, activePlan, appFullscreen, toggleAppFullscreen, store, resetDemo, blackout, toggleBlackout],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

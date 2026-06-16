@@ -18,7 +18,9 @@ import { RecommendedPlan } from "./scenes/RecommendedPlan";
 import { Showcase } from "./scenes/Showcase";
 import { Journey } from "./scenes/Journey";
 import { Trust } from "./scenes/Trust";
+import { Onboarding } from "./scenes/Onboarding";
 import { Close } from "./scenes/Close";
+import { PlanSwitcher } from "./PlanSwitcher";
 
 const CheckoutModal = dynamic(() => import("@/components/CheckoutModal").then((m) => m.CheckoutModal), { ssr: false });
 
@@ -31,6 +33,7 @@ const SCENES: { id: string; label: string; Comp: FC }[] = [
   { id: "showcase", label: "Funcionando", Comp: Showcase },
   { id: "jornada", label: "Jornada", Comp: Journey },
   { id: "confianca", label: "Confiança", Comp: Trust },
+  { id: "onboarding", label: "Implementação", Comp: Onboarding },
   { id: "fechamento", label: "Começar", Comp: Close },
 ];
 const LABELS = SCENES.map((s) => s.label);
@@ -94,6 +97,7 @@ function DemoInner() {
           <span className="font-display text-sm font-bold">Spark Live Demo</span>
         </span>
         <div className="flex items-center gap-3">
+          <PlanSwitcher className="hidden sm:flex" />
           <div className="flex rounded-full border border-white/10 bg-white/[0.03] p-0.5 text-[11px] font-medium">
             {(["zoom", "solo"] as const).map((m) => (
               <button

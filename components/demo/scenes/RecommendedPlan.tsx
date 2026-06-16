@@ -7,8 +7,8 @@ import { useDemo } from "../demo-context";
 import { PLAN_CONTENT } from "@/content/pt-br";
 
 export function RecommendedPlan() {
-  const { plan } = useDemo();
-  const p = PLAN_CONTENT.find((x) => x.id === (plan ?? "growth")) ?? PLAN_CONTENT[1];
+  const { activePlan } = useDemo();
+  const p = PLAN_CONTENT.find((x) => x.id === activePlan) ?? PLAN_CONTENT[1];
 
   return (
     <SceneFrame label="A sua prescrição" hint="→ veja funcionando">

@@ -128,6 +128,18 @@ export const BOT_SCRIPTS: BotScript[] = [
       },
     ],
   },
+  {
+    id: "importar",
+    chip: "📎 Importa esses 47 leads do evento",
+    steps: [
+      { role: "user", kind: "file", text: "lista-evento.csv" },
+      { role: "bot", kind: "typing", ms: 1200 },
+      { role: "bot", kind: "text", text: 'Achei 47 contatos (nome, telefone, cidade). Importo com a tag "Evento Maio" e já disparo a sequência de boas-vindas?' },
+      { role: "user", kind: "text", text: "sim" },
+      { role: "bot", kind: "typing", ms: 900 },
+      { role: "bot", kind: "text", text: "✅ 47 importados e sequência de boas-vindas ativada. Te aviso quem responder primeiro." },
+    ],
+  },
 ];
 
 /* Premissas da calculadora de ROI no fechamento (o fundador pode ajustar). */

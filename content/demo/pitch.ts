@@ -26,3 +26,17 @@ export const SOCIAL_STATS: { value: string; label: string; todo?: boolean }[] = 
   { value: "250", label: "agentes ativos" },
   { value: "____", label: "leads gerenciados", todo: true },
 ];
+
+/** Onboarding: 3 passos universais, feitos na mesma reunião. */
+export const ONBOARDING_STEPS: { title: string; body: string }[] = [
+  { title: "Conexão técnica", body: "Alguém entra no seu Zoom e conecta WhatsApp, CRM, calendário e Five Rings. Você não mexe em nada sozinho." },
+  { title: "Explicação da plataforma", body: "Tour rápido focado na sua necessidade: como usar as ferramentas no seu dia a dia." },
+  { title: "Acompanhamento", body: "Suporte contínuo e check-ups periódicos da sua conta." },
+];
+
+/** O acompanhamento muda por plano (nível de suporte). */
+export const ONBOARDING_SUPPORT: Record<PlanId, string> = {
+  starter: "Suporte por WhatsApp e check-ups da sua conta.",
+  growth: "Suporte prioritário e revisões periódicas com o time.",
+  agency: "Onboarding 1:1 com o fundador e suporte 24/7.",
+};

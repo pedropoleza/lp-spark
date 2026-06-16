@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 /** A jornada: os 3 planos são 3 degraus da carreira. Onde você está → até onde cresce. */
 export function Journey() {
-  const { plan } = useDemo();
+  const { activePlan } = useDemo();
   return (
     <SceneFrame label="A sua jornada" hint="→ continue">
       <h2 className="text-center font-display font-bold leading-tight" style={{ fontSize: "clamp(1.9rem, 4.5vw, 3rem)" }}>
@@ -23,7 +23,7 @@ export function Journey() {
       <div className="mt-9 grid items-end gap-3 sm:grid-cols-3">
         {LADDER.map((rung, i) => {
           const p = PLAN_CONTENT.find((x) => x.id === rung.plan)!;
-          const isYou = plan === rung.plan;
+          const isYou = activePlan === rung.plan;
           return (
             <motion.div
               key={rung.plan}

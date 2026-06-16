@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, MessageCircle, Phone, CalendarCheck, StickyNote } from "lucide-react";
+import { ChevronLeft, MessageCircle, Phone, CalendarCheck, StickyNote, Lock, FileText, CheckSquare, Square } from "lucide-react";
 import { CONTACTS, type Contact } from "@/content/demo/screens";
+import { useDemo } from "../../demo-context";
+import { PLAN_HAS, FEATURE_MINPLAN, PLAN_NAME } from "@/content/demo/plans-features";
 import { Avatar } from "../Avatar";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +16,8 @@ function scoreTone(s: number) {
 const TL = { msg: MessageCircle, call: Phone, meeting: CalendarCheck, note: StickyNote };
 
 export function Contacts() {
+  const { activePlan } = useDemo();
+  const hasLeadScore = PLAN_HAS[activePlan].leadScore;
   const [sel, setSel] = useState<Contact | null>(null);
 
   if (!sel) {
@@ -71,13 +75,24 @@ export function Contacts() {
           <p className="text-sm text-muted">{sel.business} · {sel.phone}</p>
           <p className="text-xs text-muted">{sel.email}</p>
         </div>
-        {/* Lead Score */}
+        {/* Lead Score (bloqueado fora do Growth/Agency) */}
         <div className="w-40 shrink-0 rounded-xl border border-white/10 bg-ink/40 p-3 text-center">
           <p className="text-[10px] uppercase tracking-wide text-muted">Lead Score</p>
-          <p className={cn("font-display text-3xl font-bold tabular-nums", tone.t)}>{sel.leadScore}</p>
-          <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-            <div className={cn("h-full rounded-full", tone.b)} style={{ width: `${sel.leadScore}%` }} />
-          </div>
+          {hasLeadScore ? (
+            <>
+              <p className={cn("font-display text-3xl font-bold tabular-nums", tone.t)}>{sel.leadScore}</p>
+              <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                <div className={cn("h-full rounded-full", tone.b)} style={{ width: `${sel.leadScore}%` }} />
+              </div>
+            </>
+          ) : (
+            <>
+              <Lock className="mx-auto my-1.5 h-5 w-5 text-muted/60" />
+              <p className="text-[11px] text-muted">
+                no <span className="font-semibold text-accent">{PLAN_NAME[FEATURE_MINPLAN.leadScore]}</span>
+              </p>
+            </>
+          )}
         </div>
       </div>
 
@@ -88,6 +103,23 @@ export function Contacts() {
             <p className="mt-0.5 text-[13px] text-cream">{v}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-lg border border-white/10 bg-ink/30 p-3">
+          <p className="mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted"><StickyNote className="h-3 w-3" /> Notas</p>
+          <p className="text-[12px] text-cream/85">{sel.objection !== "Nenhuma" ? sel.objection : "Cliente fiel, já indicou novos contatos."}</p>
+        </div>
+        <div className="rounded-lg border border-white/10 bg-ink/30 p-3">
+          <p className="mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted"><FileText className="h-3 w-3" /> Documentos</p>
+          <p className="flex items-center gap-1.5 text-[12px] text-cream/85"><FileText className="h-3 w-3 text-accent" /> Proposta_FlexLife.pdf</p>
+          <p className="mt-1 flex items-center gap-1.5 text-[12px] text-cream/85"><FileText className="h-3 w-3 text-accent" /> Documento_ID.jpg</p>
+        </div>
+        <div className="rounded-lg border border-white/10 bg-ink/30 p-3">
+          <p className="mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted"><CheckSquare className="h-3 w-3" /> Tarefas</p>
+          <p className="flex items-center gap-1.5 text-[12px] text-cream/85"><Square className="h-3 w-3 text-muted" /> Enviar proposta</p>
+          <p className="mt-1 flex items-center gap-1.5 text-[12px] text-muted line-through"><CheckSquare className="h-3 w-3 text-lime" /> Ligar pós-apresentação</p>
+        </div>
       </div>
 
       <p className="mb-2 mt-6 text-[11px] uppercase tracking-wide text-muted">Linha do tempo</p>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Zap,
   Search,
@@ -12,9 +13,12 @@ import {
   Sparkles,
   Bell,
   ChevronDown,
+  Info,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { useDemo } from "../demo-context";
+import { MODULE_INFO } from "@/content/demo/plans-features";
 import { cn } from "@/lib/utils";
 
 export type ScreenId = "dashboard" | "conversations" | "funil" | "contacts" | "calendars" | "automation" | "ai";
@@ -42,6 +46,8 @@ const TITLES: Record<ScreenId, string> = {
 /** Moldura fiel do app: sidebar + topbar. `live` = telas clicáveis nesta demo. */
 export function AppShell({ active, onNavigate, children }: { active: ScreenId; onNavigate: (id: ScreenId) => void; children: React.ReactNode }) {
   const { store } = useDemo();
+  const [info, setInfo] = useState(false);
+  const mod = MODULE_INFO[active];
   return (
     <div className="flex h-full overflow-hidden rounded-2xl border border-white/10 bg-ink shadow-plan">
       {/* sidebar */}
@@ -93,6 +99,15 @@ export function AppShell({ active, onNavigate, children }: { active: ScreenId; o
         <header className="flex items-center gap-3 border-b border-white/10 bg-white/[0.02] px-4 py-3">
           <h3 className="text-sm font-semibold text-cream">{TITLES[active]}</h3>
           <div className="ml-auto flex items-center gap-2">
+            <button
+              onClick={() => setInfo((v) => !v)}
+              className={cn(
+                "flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium transition",
+                info ? "border-accent bg-accent/15 text-accent" : "border-white/10 text-muted hover:text-cream",
+              )}
+            >
+              <Info className="h-3.5 w-3.5" /> O que faz
+            </button>
             <span className="flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-accent">
               <Sparkles className="h-3.5 w-3.5" /> Ask AI
             </span>
@@ -104,7 +119,27 @@ export function AppShell({ active, onNavigate, children }: { active: ScreenId; o
             <span className="grid h-7 w-7 place-items-center rounded-full bg-electric/20 text-[11px] font-semibold text-electric">MA</span>
           </div>
         </header>
-        <div className="min-h-0 flex-1 overflow-hidden p-4">{children}</div>
+        <div className="relative min-h-0 flex-1 overflow-hidden">
+          <div className="h-full overflow-hidden p-4">{children}</div>
+          {info && mod && (
+            <div className="absolute right-0 top-0 h-full w-72 overflow-y-auto border-l border-white/10 bg-card/95 p-4 backdrop-blur">
+              <div className="mb-3 flex items-start justify-between gap-2">
+                <p className="text-sm font-semibold text-cream">{mod.title}</p>
+                <button onClick={() => setInfo(false)} aria-label="Fechar" className="text-muted hover:text-cream">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <ul className="space-y-2.5">
+                {mod.points.map((p) => (
+                  <li key={p} className="flex gap-2 text-[13px] leading-snug text-cream/85">
+                    <i className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
