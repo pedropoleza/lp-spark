@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import dynamic from "next/dynamic";
-import { ChevronLeft, ChevronRight, Zap, RotateCcw } from "lucide-react";
+import { ChevronLeft, ChevronRight, Zap, RotateCcw, StickyNote, X } from "lucide-react";
 import { SparkProvider } from "@/components/spark-context";
 import { SparkBackdrop } from "@/components/ui/SparkBackdrop";
 import { FullscreenToggle } from "@/components/ui/FullscreenToggle";
@@ -21,6 +21,7 @@ import { Trust } from "./scenes/Trust";
 import { Onboarding } from "./scenes/Onboarding";
 import { Close } from "./scenes/Close";
 import { PlanSwitcher } from "./PlanSwitcher";
+import { NOTES } from "@/content/demo/notes";
 
 const CheckoutModal = dynamic(() => import("@/components/CheckoutModal").then((m) => m.CheckoutModal), { ssr: false });
 
@@ -52,6 +53,7 @@ export function DemoExperience() {
 function DemoInner() {
   const { scene, setScene, next, prev, mode, setMode, resetDemo, blackout, toggleBlackout } = useDemo();
   const Current = SCENES[scene].Comp;
+  const [notesOn, setNotesOn] = useState(false);
 
   // entrada por URL: ?modo=solo e #cena=N
   useEffect(() => {
@@ -78,11 +80,12 @@ function DemoInner() {
       else if (e.key === "f" || e.key === "F") {
         if (document.fullscreenElement) document.exitFullscreen?.();
         else document.documentElement.requestFullscreen?.().catch(() => {});
-      } else if (/^[1-9]$/.test(e.key)) setScene(Number(e.key) - 1);
+      } else if ((e.key === "n" || e.key === "N") && mode === "zoom") setNotesOn((v) => !v);
+      else if (/^[1-9]$/.test(e.key)) setScene(Number(e.key) - 1);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [next, prev, resetDemo, toggleBlackout, setScene]);
+  }, [next, prev, resetDemo, toggleBlackout, setScene, mode]);
 
   return (
     <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-ink text-cream">
@@ -112,6 +115,15 @@ function DemoInner() {
           <button onClick={resetDemo} title="Reiniciar (R)" className="grid h-8 w-8 place-items-center rounded-full border border-white/10 text-muted transition hover:text-cream">
             <RotateCcw className="h-3.5 w-3.5" />
           </button>
+          {mode === "zoom" && (
+            <button
+              onClick={() => setNotesOn((v) => !v)}
+              title="Suas notas (N)"
+              className={cn("grid h-8 w-8 place-items-center rounded-full border transition", notesOn ? "border-accent bg-accent/15 text-accent" : "border-white/10 text-muted hover:text-cream")}
+            >
+              <StickyNote className="h-3.5 w-3.5" />
+            </button>
+          )}
           <FullscreenToggle className="!h-8 !w-8" />
           <span className="font-mono text-[11px] tabular-nums text-muted">
             {scene + 1}/{SCENES.length}
@@ -149,6 +161,26 @@ function DemoInner() {
           <ChevronRight className="h-5 w-5" />
         </button>
       </footer>
+
+      {/* notas do apresentador (N) — só no Zoom, é a sua cola */}
+      {mode === "zoom" && notesOn && (
+        <div className="fixed bottom-24 left-4 z-[55] w-72 rounded-xl border border-accent/30 bg-ink/95 p-3 shadow-plan backdrop-blur">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="label-mono text-accent">Suas notas · N</span>
+            <button onClick={() => setNotesOn(false)} aria-label="Fechar" className="text-muted hover:text-cream">
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+          <ul className="space-y-1.5">
+            {(NOTES[SCENES[scene].id] ?? []).map((n) => (
+              <li key={n} className="flex gap-1.5 text-[12px] leading-snug text-cream/90">
+                <span className="text-accent">•</span>
+                {n}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* blackout (B) — foco total no apresentador */}
       {blackout && (
