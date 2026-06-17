@@ -11,7 +11,7 @@
 
 export const TALK = {
   /** Personalização padrão quando não vem ?agencia= / ?logo= na URL. */
-  agencyFallback: "sua agência",
+  agencyFallback: "Dream Team",
 
   /**
    * Estatística do follow-up (enquete + lacuna).
@@ -100,7 +100,7 @@ export const REASONS: { title: string; body: string }[] = [
   },
   {
     title: "Responda em segundos, feche mais",
-    body: "Mensagens prontas e o SparkBot no WhatsApp. Você fala, ele faz — e a venda anda.",
+    body: "Mensagens prontas e o SparkBot no WhatsApp. Você fala, ele faz, e a venda anda.",
   },
 ];
 
@@ -119,9 +119,9 @@ export const PRESENTER = {
  * [Pedro: ajuste com a SUA história real — quanto mais verdadeiro e específico,
  * mais a sala se conecta. Os beats abaixo são um esqueleto editável.] */
 export const FOUNDER = {
-  eyebrow: "Antes de tudo — quem está falando com você",
+  eyebrow: "Antes de tudo, quem está falando com você",
   /** Frase de abertura que gera curiosidade (open loop). */
-  lead: "Eu não vim te vender nada hoje. Vim te contar o que eu descobri vendo gente boa perder dinheiro bobo.",
+  lead: "Deixa eu te contar rápido de onde eu venho. E o que eu descobri vendo gente boa perder dinheiro bobo.",
   beats: [
     {
       strong: "Eu vivo dentro desse mundo de vendas e agências.",
@@ -139,7 +139,7 @@ export const FOUNDER = {
   /** Punch line: por que o Spark existe. */
   punch: "A Spark nasceu disso: pra nenhum agente perder de novo uma venda que já era dele.",
   /** Open loop para a próxima cena. */
-  hook: "E eu vou te mostrar exatamente onde esse dinheiro some — começando pelo seu dia.",
+  hook: "E eu vou te mostrar exatamente onde esse dinheiro some. Começa pelo seu dia.",
 } as const;
 
 /* "Um dia na sua vida" — cena de identificação (relatabilidade).
@@ -160,12 +160,12 @@ export const TOUCH_SCRIPTS: { tag: string; text: string }[] = [
   {
     tag: "Dia 0 · WhatsApp",
     text:
-      "Oi [nome]! Aqui é o [você], da [agência]. Recebi seu contato sobre proteger a família — bati aqui pra te explicar em 2 minutos, sem enrolação. Pode falar agora ou prefere mais tarde?",
+      "Oi [nome]! Aqui é o [você], da [agência]. Recebi seu contato sobre proteger a família. Bati aqui pra te explicar em 2 minutos, sem enrolação. Pode falar agora ou prefere mais tarde?",
   },
   {
     tag: "Dia 7 · Resgate",
     text:
-      "[nome], lembrei de você. A maioria das famílias que atendo adia isso até acontecer algo — e aí fica caro. Te mando uma simulação rápida? Leva 1 minuto.",
+      "[nome], lembrei de você. A maioria das famílias que atendo adia isso até acontecer algo, e aí fica caro. Te mando uma simulação rápida? Leva 1 minuto.",
   },
   {
     tag: "Dia 14 · Despedida",
@@ -183,12 +183,12 @@ export const GOLD_MINE = {
   title: "Seus leads “mortos” são o dinheiro mais barato do mercado.",
   points: [
     "Você já pagou por eles. Já falaram com você. Já demonstraram interesse uma vez.",
-    "Um “não” de 6 meses atrás quase nunca é “não pra sempre” — é um “agora não”.",
+    "Um “não” de 6 meses atrás quase nunca é “não pra sempre”. É um “agora não”.",
   ],
   script: {
     tag: "Mensagem de reativação",
     text:
-      "Oi [nome], faz um tempo que a gente não conversa! Passando só pra saber: como está a proteção da sua família hoje? Mudou alguma coisa — casa, filho, trabalho? Tenho novidades que podem te interessar.",
+      "Oi [nome], faz um tempo que a gente não conversa! Passando só pra saber: como está a proteção da sua família hoje? Mudou alguma coisa, tipo casa, filho ou trabalho? Tenho novidades que podem te interessar.",
   },
   punch: "Captar lead novo custa caro. Reativar a sua base custa quase zero. Comece pelo que já é seu.",
 } as const;

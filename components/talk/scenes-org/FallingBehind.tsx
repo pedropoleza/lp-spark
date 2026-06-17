@@ -10,7 +10,7 @@ export function FallingBehind() {
     <TalkSceneFrame label="O mercado não espera">
       <h2 className="text-center font-display font-bold leading-[1.12]" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.7rem)" }}>
         Quem não se organiza{" "}
-        <span className="gradient-text">fica para trás</span> — devagar, sem perceber.
+        <span className="gradient-text">fica para trás</span>, devagar, sem perceber.
       </h2>
 
       <ul className="mx-auto mt-8 max-w-xl space-y-3">

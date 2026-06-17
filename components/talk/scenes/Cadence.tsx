@@ -64,7 +64,7 @@ export function Cadence() {
           E velocidade conta: responder nos primeiros{" "}
           <span className="font-bold text-accent">{TALK.speedToLead.minutes} minutos</span> deixa você{" "}
           <span className="font-bold text-accent">{TALK.speedToLead.multiplier}× mais</span> propenso a qualificar o
-          lead. O 1º toque é uma corrida — os outros quatro são teimosia.
+          lead. O 1º toque é uma corrida. Os outros quatro são teimosia.
           <span className="mt-1 block text-[11px] text-muted/70">Fonte: {TALK.speedToLead.source}.</span>
         </p>
       </motion.div>

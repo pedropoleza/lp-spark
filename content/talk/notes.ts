@@ -14,19 +14,19 @@ export const TALK_NOTES: Record<string, string[]> = {
     "“Não é falta de lead. É lead que você já tinha”",
   ],
   pedro: [
-    "Conte SUA história real — vulnerabilidade gera conexão",
+    "Conte SUA história real, vulnerabilidade gera conexão",
     "Foque na virada: dinheiro escorrendo por falta de sistema",
     "Feche abrindo um loop: “vou te mostrar onde some”",
-    "Dado forte e real (LIMRA): ~85-90% dos agentes saem em 4 anos — a diferença é follow-up",
+    "Dado forte e real (LIMRA): ~85-90% dos agentes saem em 4 anos. A diferença é follow-up",
   ],
   rotina: [
-    "Leia o dia devagar — deixe a sala se reconhecer",
+    "Leia o dia devagar, deixe a sala se reconhecer",
     "Não culpe o agente: o vilão é o caos, não a pessoa",
     "“Esforço demais, espalhado em lugar nenhum”",
   ],
   enquete: [
     "Peça pra galera responder em voz alta ANTES de clicar",
-    "Só então revele o dado — o contraste é o impacto",
+    "Só então revele o dado, o contraste é o impacto",
     "Enquadre 44%/80% como “o ditado das vendas diz” (é folclore, não dado duro)",
     "A âncora dura vem na cadência: a regra dos 5 min (MIT/HBR)",
   ],
@@ -45,13 +45,13 @@ export const TALK_NOTES: Record<string, string[]> = {
   ],
   cadencia: [
     "Entregue de graça: eles anotam, ganham valor",
-    "5 toques simples — qualquer um consegue seguir",
+    "5 toques simples, qualquer um consegue seguir",
     "Reforce a velocidade: os primeiros minutos valem ouro",
   ],
   roteiro: [
-    "Scripts prontos — mande eles fotografarem a tela",
+    "Scripts prontos, mande eles fotografarem a tela",
     "Destaque a mensagem de despedida (break-up): traz resposta",
-    "“Saber QUANDO não basta — tem que saber O QUÊ dizer”",
+    "“Saber QUANDO não basta, tem que saber O QUÊ dizer”",
   ],
   mina: [
     "A base parada é dinheiro que já é deles",
@@ -64,7 +64,7 @@ export const TALK_NOTES: Record<string, string[]> = {
   ],
   ponte: [
     "Prova social forte: a agência DELES já confia no Spark",
-    "“Disciplina é difícil — por isso ela vira sistema”",
+    "“Disciplina é difícil, por isso ela vira sistema”",
   ],
   spark: [
     "Mostre, não conte: abra Automação (a esteira)",
@@ -77,7 +77,7 @@ export const TALK_NOTES: Record<string, string[]> = {
   ],
   fechamento: [
     "Retome o número da calculadora: “lembra dos $X?”",
-    "CTA simples pro agente — gere o QR (Zoom)",
+    "CTA simples pro agente, gere o QR (Zoom)",
     "Peça o próximo passo e FIQUE EM SILÊNCIO",
   ],
 };

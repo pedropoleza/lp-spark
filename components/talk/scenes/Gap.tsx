@@ -56,7 +56,7 @@ export function Gap() {
             className="rounded-card-lg border border-lime/30 bg-lime/[0.06] p-4 text-center"
           >
             <p className="font-display text-sm font-bold text-lime">A zona do dinheiro</p>
-            <p className="mt-1 text-xs text-muted">Do 5º toque em diante. Quase ninguém chega — e é aqui que se fecha.</p>
+            <p className="mt-1 text-xs text-muted">Do 5º toque em diante. Quase ninguém chega, e é aqui que se fecha.</p>
           </motion.div>
         </div>
       </div>

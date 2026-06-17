@@ -6,25 +6,25 @@ export const ORG_NOTES: Record<string, string[]> = {
   capa: [
     "Cumprimente o time pelo nome da agência",
     "Frame: hoje é sobre virar EMPRESA, não sobre software",
-    "“Você sai com algo pra organizar amanhã — de graça”",
+    "“Você sai com algo pra organizar amanhã, de graça”",
   ],
   gancho: [
-    "Pausa depois da pergunta — deixe doer um pouco",
+    "Pausa depois da pergunta, deixe doer um pouco",
     "“Se o sistema é a sua memória, você é o gargalo”",
     "Abra um loop: “vou te mostrar como sair disso”",
   ],
   pedro: [
-    "Conte SUA história real — vi gente talentosa sem estrutura",
+    "Conte SUA história real, vi gente talentosa sem estrutura",
     "Vulnerabilidade gera conexão; credibilidade vem antes do pitch",
     "Feche abrindo loop: “começa pelo seu dia”",
   ],
   "amador-pro": [
     "Pergunte: em qual coluna você está hoje, sincero?",
-    "Não humilhe — todo mundo começou amador. O ponto é a direção",
+    "Não humilhe: todo mundo começou amador. O ponto é a direção",
     "Identidade: “profissional” é quem você decide ser",
   ],
   caos: [
-    "Leia devagar — a sala tem que se reconhecer",
+    "Leia devagar, a sala tem que se reconhecer",
     "O vilão é o caos, não a pessoa",
     "“O cliente percebe a sua organização, não o seu esforço”",
   ],
@@ -42,17 +42,17 @@ export const ORG_NOTES: Record<string, string[]> = {
   crm: [
     "Desmistifique: CRM = organizar o relacionamento (3 perguntas)",
     "Tire o medo de “sistema complicado”",
-    "Quem/O que rolou/E agora — qualquer um entende",
+    "Quem/O que rolou/E agora: qualquer um entende",
   ],
   "ja-tem": [
-    "Desarme: você JÁ tem um CRM — só que vaza",
+    "Desarme: você JÁ tem um CRM, só que vaza",
     "Cabeça, WhatsApp, caderno… todo mundo ri e concorda",
     "A pergunta não é SE organiza, é se segura o crescimento",
   ],
   "comece-simples": [
     "DÊ valor de graça: a planilha de 5 colunas",
     "Mande fotografar a tela. Reciprocidade gera confiança",
-    "“Não precisa do Spark pra começar — precisa começar”",
+    "“Não precisa do Spark pra começar, precisa começar”",
   ],
   "planilha-quebra": [
     "Ponte honesta: a planilha não lembra, não fala no WhatsApp",
@@ -71,7 +71,7 @@ export const ORG_NOTES: Record<string, string[]> = {
   oferta: [
     "Apresente o desconto com clareza (ajuste os termos reais!)",
     "Urgência honesta: condição pra quem agenda HOJE",
-    "Não enrole — uma oferta, um passo",
+    "Não enrole: uma oferta, um passo",
   ],
   fechamento: [
     "Feche o loop da abertura: deixe de ser o gargalo",

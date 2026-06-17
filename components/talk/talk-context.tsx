@@ -40,15 +40,18 @@ type TalkCtx = {
 const Ctx = createContext<TalkCtx | null>(null);
 
 const STORE_KEY = "spark-talk-agency";
-const DEFAULT_CTA = "https://sparkleads.pro"; // [ajustar: link de cadastro/contato do agente]
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const DEFAULT_CTA = "https://internal.sparkleads.pro/widget/bookings/demo-sparkleads";
+const DEFAULT_LOGO = `${BASE_PATH}/agency-logo.png`;
+const DEFAULT_PHOTO = `${BASE_PATH}/presenter.jpg`;
 
 export function TalkProvider({ total, children }: { total: number; children: ReactNode }) {
   const [mode, setMode] = useState<TalkMode>("zoom");
   const [scene, setSceneRaw] = useState(0);
   const [blackout, setBlackout] = useState(false);
   const [agency, setAgency] = useState<string>(TALK.agencyFallback);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [presenterPhoto, setPresenterPhoto] = useState<string | null>(null);
+  const [logoUrl, setLogoUrl] = useState<string | null>(DEFAULT_LOGO);
+  const [presenterPhoto, setPresenterPhoto] = useState<string | null>(DEFAULT_PHOTO);
   const [ctaUrl, setCtaUrl] = useState(DEFAULT_CTA);
 
   const [leadsPerMonth, setLeadsPerMonth] = useState(CALC.leadsPerMonth);

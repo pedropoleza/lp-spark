@@ -11,7 +11,7 @@ export function ReasonsOrg() {
   return (
     <TalkSceneFrame wide label="Por que o Spark, pra você">
       <h2 className="text-center font-display font-bold leading-[1.1]" style={{ fontSize: "clamp(1.9rem, 5vw, 3rem)" }}>
-        De caos a <span className="gradient-text">empresa</span> — em três frentes.
+        De caos a <span className="gradient-text">empresa</span>, em três frentes.
       </h2>
 
       <div className="mx-auto mt-10 grid max-w-4xl gap-4 md:grid-cols-3">

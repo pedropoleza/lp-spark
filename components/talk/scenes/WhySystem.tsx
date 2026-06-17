@@ -42,7 +42,7 @@ export function WhySystem() {
         transition={{ delay: 0.9 }}
         className="mx-auto mt-9 max-w-lg text-center text-lg text-muted"
       >
-        Você não esquece o lead porque não liga. Esquece porque a sua cabeça não é um CRM —{" "}
+        Você não esquece o lead porque não liga. Esquece porque a sua cabeça não é um CRM,{" "}
         <span className="text-cream">e ninguém devia pedir isso dela.</span>
       </motion.p>
     </TalkSceneFrame>

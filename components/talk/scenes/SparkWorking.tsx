@@ -42,7 +42,7 @@ export function SparkWorking() {
   }
 
   return (
-    <TalkSceneFrame wide label="O Spark, funcionando" hint="Clique nas telas na lateral. Comece pela Automação — a esteira de follow-up.">
+    <TalkSceneFrame wide label="O Spark, funcionando" hint="Clique nas telas na lateral. Comece pela Automação, a esteira de follow-up.">
       <div className="mb-3 flex items-center justify-center gap-3">
         <p className="text-center text-sm text-muted">
           Cada lead entra numa esteira. <span className="text-cream">O sistema lembra e age por você.</span>

@@ -51,7 +51,7 @@ export { fmtUSD };
 
 /* Gancho — side hustle x empresa. */
 export const HOOK_ORG = {
-  question: "Você tem um negócio — ou um emprego que te liga às 22h?",
+  question: "Você tem um negócio, ou um emprego que te liga às 22h?",
   sub: "Se o seu sistema é a sua memória, você não tem uma empresa. Você é o gargalo dela.",
 };
 
@@ -66,21 +66,21 @@ export const AMATEUR_PRO: { amateur: string; pro: string }[] = [
 /* Um dia desorganizado (relatabilidade — o que escorre). tone igual ao da outra palestra. */
 export const CHAOS_DAY: { time: string; text: string; tone: "busy" | "slip" | "cold" }[] = [
   { time: "09:00", text: "Cliente liga e você não lembra qual apólice ele tem. Procura em 3 lugares.", tone: "busy" },
-  { time: "11:20", text: "Uma renovação venceu ontem. Ninguém avisou — nem você.", tone: "slip" },
+  { time: "11:20", text: "Uma renovação venceu ontem. Ninguém avisou, nem você.", tone: "slip" },
   { time: "15:00", text: "Promete retorno “até amanhã” pra 4 pessoas. Anota em 4 lugares diferentes.", tone: "busy" },
   { time: "18:30", text: "Indicação quente de um cliente antigo. Some no meio das conversas.", tone: "slip" },
   { time: "23:10", text: "Você é o único que sabe como o negócio funciona. E não dá pra desligar.", tone: "cold" },
 ];
 export const CHAOS_DAY_CLOSER =
-  "O cliente não percebe o seu esforço. Ele percebe a sua organização — ou a falta dela.";
+  "O cliente não percebe o seu esforço. Ele percebe a sua organização, ou a falta dela.";
 
 /* Quem não se organiza fica para trás (aversão à perda / FOMO / prova social). */
 export const FALLING_BEHIND = {
   title: "O mercado está se profissionalizando. Com ou sem você.",
   points: [
     "O concorrente mais organizado é quem o seu cliente liga de volta.",
-    "Não é o mais barato nem o mais simpático que ganha — é o que aparece na hora certa.",
-    "Toda tecnologia entra primeiro pelos cedo-adotantes e depois vira maioria. A pergunta é: você quer estar cedo — ou nos últimos a mudar?",
+    "Não é o mais barato nem o mais simpático que ganha. É o que aparece na hora certa.",
+    "Toda tecnologia entra primeiro pelos cedo-adotantes e depois vira maioria. A pergunta é: você quer estar cedo, ou entre os últimos a mudar?",
   ],
 };
 
@@ -89,9 +89,9 @@ export const WHAT_IS_CRM = {
   title: "CRM não é software caro. É uma ideia simples.",
   lead: "CRM quer dizer “gestão do relacionamento com o cliente”. No fundo, são três perguntas que você sempre consegue responder:",
   pillars: [
-    { q: "Quem?", body: "Quem é cada pessoa — contato, situação, o que importa pra ela." },
+    { q: "Quem?", body: "Quem é cada pessoa: contato, situação, o que importa pra ela." },
     { q: "O que rolou?", body: "O histórico: o que vocês já conversaram e combinaram." },
-    { q: "E agora?", body: "O próximo passo — e quando. Nada fica solto." },
+    { q: "E agora?", body: "O próximo passo, e quando. Nada fica solto." },
   ],
 };
 
@@ -100,7 +100,7 @@ export const ALREADY_CRM = {
   title: "Você já tem um CRM hoje.",
   sub: "Só que ele vaza.",
   items: ["a sua cabeça", "o seu WhatsApp", "um caderno", "post-its na tela", "a sua memória às 23h"],
-  punch: "Tudo isso é um CRM — só que esquece, não lembra você e não escala. A pergunta não é SE você organiza. É se organiza de um jeito que segura o seu crescimento.",
+  punch: "Tudo isso é um CRM, só que esquece, não lembra você e não escala. A pergunta não é SE você organiza. É se organiza de um jeito que segura o seu crescimento.",
 };
 
 /* Comece simples (valor de graça — você não precisa do Spark pra começar). */
@@ -117,7 +117,7 @@ export const SPREADSHEET_BREAKS = {
   limits: [
     "Ela não te avisa do follow-up na hora certa.",
     "Não conversa com o WhatsApp nem com o seu calendário.",
-    "Quando a base cresce, vira outro caos — só que organizado.",
+    "Quando a base cresce, vira outro caos, só que organizado.",
   ],
   bridge: "Aí a organização precisa virar sistema de verdade. E olha: a [agência] já confia no Spark pra isso. Agora é a sua vez.",
 };
@@ -125,7 +125,7 @@ export const SPREADSHEET_BREAKS = {
 /* Três motivos (pitch leve) — foco em organização/eficiência. */
 export const REASONS_ORG: { title: string; body: string }[] = [
   { title: "Sua base organizada e viva", body: "Cada cliente num lugar só, com histórico. Acabou o “procura em três apps”." },
-  { title: "O sistema te diz o próximo passo", body: "Renovação, follow-up, retorno prometido. Nada escapa — sem depender da sua memória." },
+  { title: "O sistema te diz o próximo passo", body: "Renovação, follow-up, retorno prometido. Nada escapa, sem depender da sua memória." },
   { title: "Você vira empresa, não gargalo", body: "O processo roda sozinho. Você cresce e a estrutura aguenta junto." },
 ];
 
@@ -135,7 +135,7 @@ export const REASONS_ORG: { title: string; body: string }[] = [
  * Regra de ouro (pesquisa): toda promessa de escassez/desconto tem que ser real. */
 export const OFFER = {
   badge: "Condição exclusiva para o time da",
-  headline: "Comece organizado — com uma condição que é só de vocês.",
+  headline: "Comece organizado, com uma condição que é só de vocês.",
   /** Ex.: { from: "US$149/mês", to: "US$79/mês" }. null = não mostra preço. */
   price: null as { from: string; to: string } | null,
   perks: [
@@ -149,6 +149,6 @@ export const OFFER = {
 /* Fechamento — QR para AGENDAR A DEMO. */
 export const CLOSE_ORG = {
   headline: "Pare de ser o gargalo do seu próprio negócio.",
-  sub: "Agende 20 minutos comigo. Eu te mostro a sua base organizada — e você decide.",
+  sub: "Agende 20 minutos comigo. Eu te mostro a sua base organizada, e você decide.",
   caption: "Aponte a câmera e escolha um horário.",
 };

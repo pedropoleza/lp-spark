@@ -23,7 +23,7 @@ export function StartSimple() {
       >
         <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-4 py-2.5">
           <Table2 className="h-4 w-4 text-lime" />
-          <span className="text-sm font-semibold text-cream">Minha base — planilha simples</span>
+          <span className="text-sm font-semibold text-cream">Minha base · planilha simples</span>
         </div>
         <div className="grid grid-cols-5 divide-x divide-white/5 bg-white/[0.02] text-center">
           {START_SIMPLE.columns.map((c, i) => (

@@ -44,7 +44,7 @@ export function BeforeAfter() {
         transition={{ delay: 1.6 }}
         className="mx-auto mt-9 max-w-lg text-center text-lg text-muted"
       >
-        A diferença não é talento. É <span className="text-cream">constância</span> — e ninguém é constante de cabeça.
+        A diferença não é talento. É <span className="text-cream">constância</span>, e ninguém é constante de cabeça.
       </motion.p>
       <p className="mt-2 text-center text-xs text-muted/60">Números ilustrativos.</p>
     </TalkSceneFrame>

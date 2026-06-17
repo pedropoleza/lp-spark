@@ -18,9 +18,9 @@ export function CoverOrg() {
         transition={{ duration: 0.6 }}
         className="mb-9 flex items-center justify-center gap-5"
       >
-        <div className="grid h-16 min-w-[8rem] place-items-center rounded-2xl border border-white/10 bg-white/[0.03] px-5">
+        <div className={`grid h-16 min-w-[8rem] place-items-center rounded-2xl border px-5 ${logoUrl ? "border-black/5 bg-white" : "border-white/10 bg-white/[0.03]"}`}>
           {logoUrl ? (
-            <img src={logoUrl} alt={agency} className="max-h-10 w-auto object-contain" draggable={false} />
+            <img src={logoUrl} alt={agency} className="max-h-12 w-auto object-contain" draggable={false} />
           ) : (
             <span className="font-display text-base font-bold text-cream/90">{agency}</span>
           )}
@@ -73,7 +73,7 @@ export function CoverOrg() {
         className="mx-auto mt-6 max-w-xl text-center text-lg text-muted"
       >
         Os próximos 20 minutos não são sobre software. São sobre parar de tocar o seu negócio
-        <span className="text-cream"> de cabeça</span> — e começar a operar como gente grande.
+        <span className="text-cream"> de cabeça</span>, e começar a operar como gente grande.
       </motion.p>
     </TalkSceneFrame>
   );

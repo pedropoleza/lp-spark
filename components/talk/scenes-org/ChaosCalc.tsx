@@ -86,7 +86,7 @@ export function ChaosCalc() {
             />
           </div>
           <p className="mt-2 text-sm text-muted">
-            ≈ <CountUp value={cost} format={fmtUSD} className="font-semibold text-cream" /> do seu tempo —
+            ≈ <CountUp value={cost} format={fmtUSD} className="font-semibold text-cream" /> do seu tempo,
             mais os negócios que escorrem sem você ver.
           </p>
 
@@ -98,7 +98,7 @@ export function ChaosCalc() {
             <Sparkles className="h-5 w-5 shrink-0 text-lime" />
             <p className="text-sm text-cream/90">
               Isso são <span className="font-bold text-lime">semanas inteiras</span> por ano que você poderia estar
-              vendendo — não caçando informação.
+              vendendo, não caçando informação.
             </p>
           </motion.div>
 

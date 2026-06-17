@@ -58,7 +58,7 @@ export function AmateurPro() {
         transition={{ delay: 1 }}
         className="mx-auto mt-7 max-w-xl text-center text-muted"
       >
-        Ninguém nasce na coluna da direita. <span className="text-cream">Profissional é quem você decide ser</span> — e
+        Ninguém nasce na coluna da direita. <span className="text-cream">Profissional é quem você decide ser</span>, e
         a decisão começa na organização.
       </motion.p>
     </TalkSceneFrame>

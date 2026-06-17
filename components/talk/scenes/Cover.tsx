@@ -19,9 +19,9 @@ export function Cover() {
         transition={{ duration: 0.6 }}
         className="mb-9 flex items-center justify-center gap-5"
       >
-        <div className="grid h-16 min-w-[8rem] place-items-center rounded-2xl border border-white/10 bg-white/[0.03] px-5">
+        <div className={`grid h-16 min-w-[8rem] place-items-center rounded-2xl border px-5 ${logoUrl ? "border-black/5 bg-white" : "border-white/10 bg-white/[0.03]"}`}>
           {logoUrl ? (
-            <img src={logoUrl} alt={agency} className="max-h-10 w-auto object-contain" draggable={false} />
+            <img src={logoUrl} alt={agency} className="max-h-12 w-auto object-contain" draggable={false} />
           ) : (
             <span className="font-display text-base font-bold text-cream/90">{agency}</span>
           )}
@@ -64,8 +64,8 @@ export function Cover() {
         className="mt-4 text-center font-display font-bold leading-[1.04]"
         style={{ fontSize: "clamp(2.3rem, 6vw, 4.2rem)" }}
       >
-        O dinheiro que <span className="gradient-text">você já tem</span>
-        <br className="hidden sm:block" /> — e está perdendo.
+        O dinheiro que <span className="gradient-text">você já tem</span>,
+        <br className="hidden sm:block" /> e está perdendo.
       </motion.h1>
 
       <motion.p
@@ -75,7 +75,7 @@ export function Cover() {
         className="mx-auto mt-6 max-w-xl text-center text-lg text-muted"
       >
         Os próximos 20 minutos não são sobre software. São sobre as vendas que estão na sua lista
-        de leads <span className="text-cream">agora</span> — esperando o seu 5º contato.
+        de leads <span className="text-cream">agora</span>, esperando o seu 5º contato.
       </motion.p>
     </TalkSceneFrame>
   );

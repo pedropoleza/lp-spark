@@ -14,7 +14,7 @@ export function HookOrg() {
         className="text-center font-display font-bold leading-[1.1]"
         style={{ fontSize: "clamp(1.9rem, 5.2vw, 3.5rem)" }}
       >
-        Você tem um negócio —{" "}
+        Você tem um negócio,{" "}
         <span className="gradient-text">ou um emprego que te liga às 22h?</span>
       </motion.h2>
 
