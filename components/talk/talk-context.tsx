@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useMemo, useEffect, type ReactNode } from "react";
 import { CALC, TALK } from "@/content/talk/copy";
+import { CALC_ORG } from "@/content/talk/copy-org";
 
 export type TalkMode = "zoom" | "solo";
 
@@ -28,6 +29,11 @@ type TalkCtx = {
   setCommission: (n: number) => void;
   followOf10: number;
   setFollowOf10: (n: number) => void;
+  // estado da calculadora do caos (palestra de organização)
+  chaosHours: number;
+  setChaosHours: (n: number) => void;
+  hourlyValue: number;
+  setHourlyValue: (n: number) => void;
   resetTalk: () => void;
 };
 
@@ -48,6 +54,8 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
   const [leadsPerMonth, setLeadsPerMonth] = useState(CALC.leadsPerMonth);
   const [commission, setCommission] = useState(CALC.commission);
   const [followOf10, setFollowOf10] = useState(CALC.followOf10);
+  const [chaosHours, setChaosHours] = useState(CALC_ORG.hoursPerWeek);
+  const [hourlyValue, setHourlyValue] = useState(CALC_ORG.hourlyValue);
 
   // Personalização por URL: ?agencia=Nome&logo=URL&cta=URL  (com fallback no localStorage)
   useEffect(() => {
@@ -83,6 +91,8 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
     setLeadsPerMonth(CALC.leadsPerMonth);
     setCommission(CALC.commission);
     setFollowOf10(CALC.followOf10);
+    setChaosHours(CALC_ORG.hoursPerWeek);
+    setHourlyValue(CALC_ORG.hourlyValue);
   }, []);
 
   const value = useMemo<TalkCtx>(
@@ -107,9 +117,13 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
       setCommission,
       followOf10,
       setFollowOf10,
+      chaosHours,
+      setChaosHours,
+      hourlyValue,
+      setHourlyValue,
       resetTalk,
     }),
-    [mode, total, scene, setScene, next, prev, blackout, toggleBlackout, agency, setAgencyPersist, logoUrl, presenterPhoto, ctaUrl, leadsPerMonth, commission, followOf10, resetTalk],
+    [mode, total, scene, setScene, next, prev, blackout, toggleBlackout, agency, setAgencyPersist, logoUrl, presenterPhoto, ctaUrl, leadsPerMonth, commission, followOf10, chaosHours, hourlyValue, resetTalk],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

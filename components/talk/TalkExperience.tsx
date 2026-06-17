@@ -8,6 +8,7 @@ import { FullscreenToggle } from "@/components/ui/FullscreenToggle";
 import { DemoProvider } from "@/components/demo/demo-context";
 import { TalkProvider, useTalk } from "./talk-context";
 import { TALK_NOTES } from "@/content/talk/notes";
+import { ORG_NOTES } from "@/content/talk/notes-org";
 import { cn } from "@/lib/utils";
 
 import { Cover } from "./scenes/Cover";
@@ -27,7 +28,24 @@ import { SparkWorking } from "./scenes/SparkWorking";
 import { Reasons } from "./scenes/Reasons";
 import { Close } from "./scenes/Close";
 
-const SCENES: { id: string; label: string; Comp: FC }[] = [
+import { CoverOrg } from "./scenes-org/CoverOrg";
+import { HookOrg } from "./scenes-org/HookOrg";
+import { AmateurPro } from "./scenes-org/AmateurPro";
+import { ChaosDay } from "./scenes-org/ChaosDay";
+import { ChaosCalc } from "./scenes-org/ChaosCalc";
+import { FallingBehind } from "./scenes-org/FallingBehind";
+import { WhatIsCrm } from "./scenes-org/WhatIsCrm";
+import { AlreadyHaveCrm } from "./scenes-org/AlreadyHaveCrm";
+import { StartSimple } from "./scenes-org/StartSimple";
+import { SpreadsheetBreaks } from "./scenes-org/SpreadsheetBreaks";
+import { ReasonsOrg } from "./scenes-org/ReasonsOrg";
+import { OfferOrg } from "./scenes-org/OfferOrg";
+import { CloseOrg } from "./scenes-org/CloseOrg";
+
+type SceneDef = { id: string; label: string; Comp: FC };
+type Deck = { scenes: SceneDef[]; notes: Record<string, string[]>; brand: string };
+
+const FOLLOWUP_SCENES: SceneDef[] = [
   { id: "capa", label: "Capa", Comp: Cover },
   { id: "gancho", label: "O gancho", Comp: Hook },
   { id: "pedro", label: "Quem sou eu", Comp: Founder },
@@ -45,25 +63,50 @@ const SCENES: { id: string; label: string; Comp: FC }[] = [
   { id: "motivos", label: "3 motivos", Comp: Reasons },
   { id: "fechamento", label: "Começar", Comp: Close },
 ];
-const LABELS = SCENES.map((s) => s.label);
 
-export function TalkExperience() {
+const ORG_SCENES: SceneDef[] = [
+  { id: "capa", label: "Capa", Comp: CoverOrg },
+  { id: "gancho", label: "O gancho", Comp: HookOrg },
+  { id: "pedro", label: "Quem sou eu", Comp: Founder },
+  { id: "amador-pro", label: "Amador × Pro", Comp: AmateurPro },
+  { id: "caos", label: "Seu dia", Comp: ChaosDay },
+  { id: "calculadora", label: "Custo do caos", Comp: ChaosCalc },
+  { id: "ficar-atras", label: "Ficar pra trás", Comp: FallingBehind },
+  { id: "crm", label: "O que é CRM", Comp: WhatIsCrm },
+  { id: "ja-tem", label: "Você já tem", Comp: AlreadyHaveCrm },
+  { id: "comece-simples", label: "Comece simples", Comp: StartSimple },
+  { id: "planilha-quebra", label: "A virada", Comp: SpreadsheetBreaks },
+  { id: "spark", label: "Funcionando", Comp: SparkWorking },
+  { id: "motivos", label: "3 motivos", Comp: ReasonsOrg },
+  { id: "oferta", label: "A oferta", Comp: OfferOrg },
+  { id: "fechamento", label: "Agendar demo", Comp: CloseOrg },
+];
+
+const DECKS: Record<string, Deck> = {
+  followup: { scenes: FOLLOWUP_SCENES, notes: TALK_NOTES, brand: "Spark · Palestra" },
+  organizacao: { scenes: ORG_SCENES, notes: ORG_NOTES, brand: "Spark · Organização" },
+};
+
+export type TalkVariant = keyof typeof DECKS;
+
+export function TalkExperience({ variant = "followup" }: { variant?: TalkVariant }) {
+  const deck = DECKS[variant] ?? DECKS.followup;
   return (
     <SparkProvider>
       <DemoProvider total={1}>
-        <TalkProvider total={SCENES.length}>
-          <TalkInner />
+        <TalkProvider total={deck.scenes.length}>
+          <TalkInner deck={deck} />
         </TalkProvider>
       </DemoProvider>
     </SparkProvider>
   );
 }
 
-function TalkProgress() {
+function TalkProgress({ labels }: { labels: string[] }) {
   const { scene, setScene } = useTalk();
   return (
     <div className="flex items-center gap-1.5">
-      {LABELS.map((l, i) => (
+      {labels.map((l, i) => (
         <button key={i} onClick={() => setScene(i)} title={l} aria-label={l} className="py-2">
           <span
             className={cn(
@@ -77,9 +120,11 @@ function TalkProgress() {
   );
 }
 
-function TalkInner() {
+function TalkInner({ deck }: { deck: Deck }) {
+  const { scenes, notes, brand } = deck;
+  const labels = scenes.map((s) => s.label);
   const { scene, setScene, next, prev, mode, setMode, resetTalk, blackout, toggleBlackout } = useTalk();
-  const Current = SCENES[scene].Comp;
+  const Current = scenes[scene].Comp;
   const [notesOn, setNotesOn] = useState(false);
 
   // entrada por URL: ?modo=solo e #cena=N
@@ -119,7 +164,7 @@ function TalkInner() {
           <span className="grid h-7 w-7 place-items-center rounded-lg bg-accent text-ink">
             <Zap className="h-4 w-4" />
           </span>
-          <span className="font-display text-sm font-bold">Spark · Palestra</span>
+          <span className="font-display text-sm font-bold">{brand}</span>
         </span>
         <div className="flex items-center gap-3">
           <div className="flex rounded-full border border-white/10 bg-white/[0.03] p-0.5 text-[11px] font-medium">
@@ -147,7 +192,7 @@ function TalkInner() {
           )}
           <FullscreenToggle className="!h-8 !w-8" />
           <span className="font-mono text-[11px] tabular-nums text-muted">
-            {scene + 1}/{SCENES.length}
+            {scene + 1}/{scenes.length}
           </span>
         </div>
       </header>
@@ -170,12 +215,12 @@ function TalkInner() {
           <ChevronLeft className="h-5 w-5" />
         </button>
         <div className="flex flex-col items-center gap-1.5">
-          <TalkProgress />
-          <span className="text-[10px] uppercase tracking-wider text-muted">{SCENES[scene].label}</span>
+          <TalkProgress labels={labels} />
+          <span className="text-[10px] uppercase tracking-wider text-muted">{scenes[scene].label}</span>
         </div>
         <button
           onClick={next}
-          disabled={scene === SCENES.length - 1}
+          disabled={scene === scenes.length - 1}
           className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-muted transition enabled:hover:border-accent/50 enabled:hover:text-cream disabled:opacity-30"
           aria-label="Próximo"
         >
@@ -193,7 +238,7 @@ function TalkInner() {
             </button>
           </div>
           <ul className="space-y-1.5">
-            {(TALK_NOTES[SCENES[scene].id] ?? []).map((n) => (
+            {(notes[scenes[scene].id] ?? []).map((n) => (
               <li key={n} className="flex gap-1.5 text-[12px] leading-snug text-cream/90">
                 <span className="text-accent">•</span>
                 {n}
