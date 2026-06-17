@@ -228,20 +228,22 @@ function TalkInner({ deck }: { deck: Deck }) {
         </button>
       </footer>
 
-      {/* notas do apresentador (N) — só no Zoom */}
+      {/* roteiro do apresentador (N), só no Zoom */}
       {mode === "zoom" && notesOn && (
-        <div className="fixed bottom-24 left-4 z-[55] w-72 rounded-xl border border-accent/30 bg-ink/95 p-3 shadow-plan backdrop-blur">
-          <div className="mb-1.5 flex items-center justify-between">
-            <span className="label-mono text-accent">Suas notas · N</span>
+        <div className="fixed bottom-24 left-4 z-[55] max-h-[64vh] w-[23rem] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-2xl border border-accent/30 bg-ink/95 p-4 shadow-plan backdrop-blur">
+          <div className="mb-2.5 flex items-center justify-between">
+            <span className="label-mono text-accent">
+              Roteiro · {scene + 1}/{scenes.length} · {scenes[scene].label}
+            </span>
             <button onClick={() => setNotesOn(false)} aria-label="Fechar" className="text-muted hover:text-cream">
-              <X className="h-3.5 w-3.5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
-          <ul className="space-y-1.5">
+          <ul className="space-y-2.5">
             {(notes[scenes[scene].id] ?? []).map((n) => (
-              <li key={n} className="flex gap-1.5 text-[12px] leading-snug text-cream/90">
-                <span className="text-accent">•</span>
-                {n}
+              <li key={n} className="flex gap-2 text-[14.5px] leading-relaxed text-cream">
+                <span className="mt-[3px] text-accent">•</span>
+                <span>{n}</span>
               </li>
             ))}
           </ul>
