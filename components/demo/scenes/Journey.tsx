@@ -17,7 +17,7 @@ export function Journey() {
         Onde você está hoje, e <span className="gradient-text">até onde o Spark te leva.</span>
       </h2>
       <p className="mx-auto mt-3 max-w-xl text-center text-muted">
-        Os planos não são níveis de preço. São os três momentos da sua carreira, e o Spark cresce com você.
+        Os planos são 3 momentos da sua carreira. O Spark cresce com você.
       </p>
 
       <div className="mt-9 grid items-end gap-3 sm:grid-cols-3">

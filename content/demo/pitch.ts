@@ -2,16 +2,16 @@
 import type { PlanId } from "@/lib/plans";
 
 export const LADDER: { plan: PlanId; stage: string; title: string; desc: string }[] = [
-  { plan: "starter", stage: "Pré-Jaqueta", title: "Começando", desc: "Organize os leads, padronize o follow-up e feche seus primeiros clientes." },
-  { plan: "growth", stage: "VP", title: "Estabelecido", desc: "Cresça com previsibilidade, retenha clientes e comece a recrutar." },
-  { plan: "agency", stage: "Black Jacket", title: "Líder de equipe", desc: "Rode sua agência inteira (recrutamento, field training e KPIs) num lugar só." },
+  { plan: "starter", stage: "Pré-Jaqueta", title: "Começando", desc: "Organize leads e feche os primeiros clientes." },
+  { plan: "growth", stage: "VP", title: "Estabelecido", desc: "Cresça, retenha e comece a recrutar." },
+  { plan: "agency", stage: "Black Jacket", title: "Líder de equipe", desc: "Rode a agência inteira num lugar só." },
 ];
 
 export const SECURITY: { icon: "lock" | "shield" | "download" | "headset"; title: string; body: string }[] = [
-  { icon: "lock", title: "Criptografia de ponta a ponta", body: "Seus dados protegidos em trânsito e em repouso." },
-  { icon: "shield", title: "Conformidade e infraestrutura enterprise", body: "Padrões internacionais de privacidade, backups e controle de acesso. [confirmar certificações]" },
-  { icon: "download", title: "Seus dados são seus", body: "Exporte quando quiser. Se cancelar, 15 dias pra transferir tudo e backup por 6 meses." },
-  { icon: "headset", title: "Suporte humano em PT", body: "4 anos de operação e gente de verdade do seu lado." },
+  { icon: "lock", title: "Criptografia ponta a ponta", body: "Em trânsito e em repouso." },
+  { icon: "shield", title: "Conformidade enterprise", body: "Backups e controle de acesso. [confirmar certificações]" },
+  { icon: "download", title: "Seus dados são seus", body: "Exporte quando quiser. 15 dias + backup 6 meses se cancelar." },
+  { icon: "headset", title: "Suporte humano em PT", body: "Gente de verdade, sem robô." },
 ];
 
 /** Depoimentos — EXEMPLOS. O fundador substitui pelos reais antes de publicar. */
@@ -29,9 +29,9 @@ export const SOCIAL_STATS: { value: string; label: string; todo?: boolean }[] = 
 
 /** Onboarding: 3 passos universais, feitos na mesma reunião. */
 export const ONBOARDING_STEPS: { title: string; body: string }[] = [
-  { title: "Conexão técnica", body: "Alguém entra no seu Zoom e conecta WhatsApp, CRM, calendário e Five Rings. Você não mexe em nada sozinho." },
-  { title: "Explicação da plataforma", body: "Tour rápido focado na sua necessidade: como usar as ferramentas no seu dia a dia." },
-  { title: "Acompanhamento", body: "Suporte contínuo e check-ups periódicos da sua conta." },
+  { title: "Conexão técnica", body: "Conectamos WhatsApp, CRM, calendário e Five Rings por você." },
+  { title: "Explicação da plataforma", body: "Tour rápido, focado na sua rotina." },
+  { title: "Acompanhamento", body: "Suporte contínuo e check-ups da conta." },
 ];
 
 /** O acompanhamento muda por plano (nível de suporte). */
