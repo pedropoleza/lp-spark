@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { Maximize2, Minimize2, Check } from "lucide-react";
 import { SceneFrame } from "../SceneFrame";
 import { AppShell, type ScreenId } from "../app/AppShell";
@@ -83,18 +84,24 @@ export function Showcase() {
       />
     ) : null;
 
-  if (appFullscreen) {
-    return (
-      <div className="fixed inset-0 z-40 bg-ink p-3">
-        <button
-          onClick={toggleAppFullscreen}
-          className="absolute right-5 top-5 z-50 flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/80 px-3 py-1.5 text-xs text-cream backdrop-blur"
-        >
-          <Minimize2 className="h-3.5 w-3.5" /> Reduzir
-        </button>
-        <div className="h-full">{body}</div>
+  // Portamos o overlay pro <body>: o <main> da demo é `relative z-10` (cria
+  // stacking context), então um overlay aninhado nunca ficaria acima do header
+  // e do footer (z-20). No body, ele fica realmente em cima de tudo.
+  if (appFullscreen && typeof document !== "undefined") {
+    return createPortal(
+      <div className="fixed inset-0 z-[60] flex flex-col bg-ink p-3">
+        <div className="mb-2 flex shrink-0 justify-end">
+          <button
+            onClick={toggleAppFullscreen}
+            className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs text-cream transition hover:border-accent/50"
+          >
+            <Minimize2 className="h-3.5 w-3.5" /> Reduzir
+          </button>
+        </div>
+        <div className="min-h-0 flex-1">{body}</div>
         {tourEl}
-      </div>
+      </div>,
+      document.body,
     );
   }
 
