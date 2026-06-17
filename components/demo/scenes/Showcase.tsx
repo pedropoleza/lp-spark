@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Maximize2, Minimize2 } from "lucide-react";
+import { Maximize2, Minimize2, Check } from "lucide-react";
 import { SceneFrame } from "../SceneFrame";
 import { AppShell, type ScreenId } from "../app/AppShell";
 import { SparkBotPanel } from "../app/SparkBotPanel";
@@ -15,10 +15,30 @@ import { LockedModule } from "../app/LockedModule";
 import { useDemo } from "../demo-context";
 import { PLAN_HAS, FEATURE_MINPLAN } from "@/content/demo/plans-features";
 import { Tour } from "../Tour";
-import { TOUR } from "@/content/demo/tour";
+import { TOUR, BENEFITS } from "@/content/demo/tour";
+
+/** Painel-guia do apresentador (Zoom): vantagens de cada módulo, em bullets. */
+function BenefitsPanel({ active }: { active: ScreenId }) {
+  const b = BENEFITS[active];
+  if (!b) return null;
+  return (
+    <aside className="hidden w-60 shrink-0 flex-col overflow-y-auto rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:flex">
+      <p className="label-mono">Pra que serve</p>
+      <p className="mt-1 font-display text-base font-bold text-cream">{b.title}</p>
+      <ul className="mt-3 space-y-2.5">
+        {b.points.map((p) => (
+          <li key={p} className="flex gap-2 text-[13px] leading-snug text-cream/85">
+            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+            {p}
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+}
 
 export function Showcase() {
-  const { activePlan, appFullscreen, toggleAppFullscreen } = useDemo();
+  const { activePlan, appFullscreen, toggleAppFullscreen, mode } = useDemo();
   const [active, setActive] = useState<ScreenId>("ai");
   const [completed, setCompleted] = useState<Set<ScreenId>>(new Set());
   const [skipped, setSkipped] = useState(false);
@@ -39,15 +59,22 @@ export function Showcase() {
     dashboard: <Dashboard />,
   };
 
-  const shell = (
-    <AppShell active={active} onNavigate={setActive}>
-      {screens[active]}
-    </AppShell>
+  const body = (
+    <div className="flex h-full gap-3">
+      <div className="min-w-0 flex-1">
+        <AppShell active={active} onNavigate={setActive}>
+          {screens[active]}
+        </AppShell>
+      </div>
+      {mode === "zoom" && <BenefitsPanel active={active} />}
+    </div>
   );
 
+  // Tour interativo (spotlight) só no modo solo (usuário final). No Zoom, o
+  // apresentador se guia pelo painel de benefícios à direita.
   const tourSteps = TOUR[active];
   const tourEl =
-    !skipped && tourSteps && !completed.has(active) ? (
+    mode === "solo" && !skipped && tourSteps && !completed.has(active) ? (
       <Tour
         key={active}
         steps={tourSteps}
@@ -65,7 +92,7 @@ export function Showcase() {
         >
           <Minimize2 className="h-3.5 w-3.5" /> Reduzir
         </button>
-        <div className="h-full">{shell}</div>
+        <div className="h-full">{body}</div>
         {tourEl}
       </div>
     );
@@ -73,22 +100,18 @@ export function Showcase() {
 
   return (
     <>
-    <SceneFrame wide label="O Spark, funcionando" hint="Toque nas sugestões do SparkBot e abra o funil pra ver o que mudou. Use a lateral pra explorar.">
-      <div className="relative h-[72vh] min-h-[540px]">
-        <button
-          onClick={toggleAppFullscreen}
-          className="absolute -top-8 right-0 flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-muted transition hover:text-cream"
-        >
-          <Maximize2 className="h-3.5 w-3.5" /> Tela cheia
-        </button>
-        {shell}
-      </div>
-      <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-muted">
-        Quando o SparkBot agenda ou reativa um lead, a <span className="text-cream">agenda</span> e o{" "}
-        <span className="text-cream">funil</span> mudam na hora. Toque em <span className="text-accent">O que faz</span> pra explicar cada módulo.
-      </p>
-    </SceneFrame>
-    {tourEl}
+      <SceneFrame wide label="O Spark, funcionando" hint="Navegue pelas telas na lateral. O painel à direita resume o valor de cada uma.">
+        <div className="relative h-[72vh] min-h-[540px]">
+          <button
+            onClick={toggleAppFullscreen}
+            className="absolute -top-8 right-0 flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-muted transition hover:text-cream"
+          >
+            <Maximize2 className="h-3.5 w-3.5" /> Tela cheia
+          </button>
+          {body}
+        </div>
+      </SceneFrame>
+      {tourEl}
     </>
   );
 }

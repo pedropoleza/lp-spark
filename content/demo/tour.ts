@@ -36,3 +36,38 @@ export const TOUR: Record<string, TourStep[]> = {
     { target: "dash-askai", text: "Peça qualquer métrica pra IA e agende o resumo da semana toda sexta." },
   ],
 };
+
+/**
+ * Benefícios por módulo (bullets curtos). Vira o painel-guia do apresentador no
+ * modo Zoom: o foco é "pra que serve / vantagem", não onde clicar.
+ */
+export const BENEFITS: Record<string, { title: string; points: string[] }> = {
+  ai: {
+    title: "SparkBot",
+    points: ["Um funcionário de IA no seu WhatsApp", "Agenda, importa, reativa e responde por você", "Sabe o underwriting da National Life", "Proativo: te cobra o lead parado"],
+  },
+  contacts: {
+    title: "Contatos",
+    points: ["Tudo do cliente num lugar só", "Lead Score mostra quem está quente", "Notas, documentos e tarefas juntos"],
+  },
+  funil: {
+    title: "Funil de vendas",
+    points: ["Ninguém fica pra trás", "Você enxerga onde o dinheiro trava", "Clientes entram sozinhos da Five Rings"],
+  },
+  calendars: {
+    title: "Agenda",
+    points: ["O lead marca pelo seu link", "Lembretes automáticos, menos no-show"],
+  },
+  conversations: {
+    title: "Conversas",
+    points: ["WhatsApp, Instagram e ligações num lugar", "Backup de tudo, automático"],
+  },
+  automation: {
+    title: "Automações",
+    points: ["Pós-venda no automático", "Evita cancelamento e chargeback"],
+  },
+  dashboard: {
+    title: "Dashboard",
+    points: ["Seus números sem esforço", "A IA monta a métrica que você pedir"],
+  },
+};
