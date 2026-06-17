@@ -147,7 +147,7 @@ export function Funnel() {
         </div>
       )}
       <DndContext sensors={sensors} onDragEnd={onDragEnd}>
-        <div className="flex flex-1 gap-3 overflow-x-auto pb-2">
+        <div data-tour="funil-board" className="flex flex-1 gap-3 overflow-x-auto pb-2">
           {current.stages.map((stage) => (
             <Column key={stage.id} stage={stage} opps={opps.filter((o) => o.stageId === stage.id)} />
           ))}

@@ -49,14 +49,14 @@ export function Calendars() {
         <p className="text-[11px] uppercase tracking-wide text-accent">Página de agendamento</p>
         <h3 className="font-display text-lg font-bold text-cream">Discovery Call · 30 min</h3>
         <p className="mb-3 text-xs text-muted">O lead escolhe o horário e entra direto na sua agenda.</p>
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
+        <div data-tour="cal-link" className="mb-4 flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
           <Link2 className="h-3.5 w-3.5 shrink-0 text-accent" />
           <span className="flex-1 truncate font-mono text-[11px] text-muted">spark.link/marcos/discovery</span>
           <button onClick={copyLink} className="shrink-0 text-[11px] font-semibold text-accent">
             {linkCopied ? "copiado" : "copiar link"}
           </button>
         </div>
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+        <div data-tour="cal-slots" className="grid grid-cols-3 gap-2 sm:grid-cols-6">
           {SLOTS.map((t) => {
             const taken = TAKEN.has(t);
             return (

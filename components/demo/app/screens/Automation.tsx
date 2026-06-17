@@ -41,7 +41,7 @@ export function Automation() {
   }
 
   return (
-    <div className="h-full overflow-y-auto rounded-xl border border-white/10 bg-white/[0.02] p-4">
+    <div data-tour="auto-list" className="h-full overflow-y-auto rounded-xl border border-white/10 bg-white/[0.02] p-4">
       <div className="mb-4 flex items-center justify-end gap-2">
         <button className="flex items-center gap-1.5 rounded-lg border border-accent/40 bg-accent/10 px-3 py-1.5 text-[12px] font-medium text-accent">
           <Sparkles className="h-3.5 w-3.5" /> Build using AI

@@ -50,7 +50,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div data-tour="dash-cards" className="grid grid-cols-3 gap-3">
         {cards.map((c) => {
           const Icon = c.icon;
           return (
@@ -80,7 +80,7 @@ export function Dashboard() {
       </div>
 
       {/* Pergunte à IA */}
-      <div className="mt-3 rounded-xl border border-accent/20 bg-accent/[0.04] p-4">
+      <div data-tour="dash-askai" className="mt-3 rounded-xl border border-accent/20 bg-accent/[0.04] p-4">
         <p className="flex items-center gap-1.5 text-[13px] font-semibold text-cream">
           <Sparkles className="h-3.5 w-3.5 text-accent" /> Pergunte à IA
         </p>

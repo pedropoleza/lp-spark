@@ -14,10 +14,14 @@ import { Dashboard } from "../app/screens/Dashboard";
 import { LockedModule } from "../app/LockedModule";
 import { useDemo } from "../demo-context";
 import { PLAN_HAS, FEATURE_MINPLAN } from "@/content/demo/plans-features";
+import { Tour } from "../Tour";
+import { TOUR } from "@/content/demo/tour";
 
 export function Showcase() {
   const { activePlan, appFullscreen, toggleAppFullscreen } = useDemo();
   const [active, setActive] = useState<ScreenId>("ai");
+  const [completed, setCompleted] = useState<Set<ScreenId>>(new Set());
+  const [skipped, setSkipped] = useState(false);
 
   const screens: Record<ScreenId, ReactNode> = {
     ai: PLAN_HAS[activePlan].sparkbot ? (
@@ -41,6 +45,17 @@ export function Showcase() {
     </AppShell>
   );
 
+  const tourSteps = TOUR[active];
+  const tourEl =
+    !skipped && tourSteps && !completed.has(active) ? (
+      <Tour
+        key={active}
+        steps={tourSteps}
+        onComplete={() => setCompleted((s) => new Set(s).add(active))}
+        onSkip={() => setSkipped(true)}
+      />
+    ) : null;
+
   if (appFullscreen) {
     return (
       <div className="fixed inset-0 z-40 bg-ink p-3">
@@ -51,11 +66,13 @@ export function Showcase() {
           <Minimize2 className="h-3.5 w-3.5" /> Reduzir
         </button>
         <div className="h-full">{shell}</div>
+        {tourEl}
       </div>
     );
   }
 
   return (
+    <>
     <SceneFrame wide label="O Spark, funcionando" hint="Toque nas sugestões do SparkBot e abra o funil pra ver o que mudou. Use a lateral pra explorar.">
       <div className="relative h-[72vh] min-h-[540px]">
         <button
@@ -71,5 +88,7 @@ export function Showcase() {
         <span className="text-cream">funil</span> mudam na hora. Toque em <span className="text-accent">O que faz</span> pra explicar cada módulo.
       </p>
     </SceneFrame>
+    {tourEl}
+    </>
   );
 }

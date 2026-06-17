@@ -81,7 +81,7 @@ export function SparkBotPanel() {
       </div>
 
       {/* chips */}
-      <div className="flex flex-wrap gap-2 px-4 pb-2">
+      <div data-tour="bot-chips" className="flex flex-wrap gap-2 px-4 pb-2">
         {BOT_SCRIPTS.map((s) => (
           <button
             key={s.id}
@@ -98,7 +98,7 @@ export function SparkBotPanel() {
       </div>
 
       {/* composer */}
-      <div className="flex items-center gap-2 border-t border-white/10 bg-white/[0.03] px-3 py-3">
+      <div data-tour="bot-composer" className="flex items-center gap-2 border-t border-white/10 bg-white/[0.03] px-3 py-3">
         <Paperclip className="h-4 w-4 shrink-0 text-muted" />
         <div className="flex-1 truncate rounded-full border border-white/10 bg-ink/40 px-3 py-2 text-xs text-muted">
           Escreva ou fale com o SparkBot…

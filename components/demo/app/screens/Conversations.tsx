@@ -21,7 +21,7 @@ export function Conversations() {
   return (
     <div className="grid h-full grid-cols-[260px_1fr_220px] overflow-hidden rounded-xl border border-white/10">
       {/* lista */}
-      <div className="overflow-y-auto border-r border-white/10 bg-white/[0.02]">
+      <div data-tour="conv-list" className="overflow-y-auto border-r border-white/10 bg-white/[0.02]">
         {CONVERSATIONS.map((c) => {
           const Ch = CH[c.channel].icon;
           return (

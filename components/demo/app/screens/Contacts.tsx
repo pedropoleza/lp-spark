@@ -22,7 +22,7 @@ export function Contacts() {
 
   if (!sel) {
     return (
-      <div className="h-full overflow-y-auto rounded-xl border border-white/10">
+      <div data-tour="contacts-table" className="h-full overflow-y-auto rounded-xl border border-white/10">
         <table className="w-full text-left text-[13px]">
           <thead className="sticky top-0 bg-card text-[11px] uppercase tracking-wide text-muted">
             <tr>
