@@ -91,7 +91,10 @@ export function AppShell({ active, onNavigate, children }: { active: ScreenId; o
             );
           })}
         </nav>
-        <p className="px-4 py-3 text-[10px] text-muted/60">Demo · dados ilustrativos</p>
+        <div className="px-4 py-3 text-[10px] text-muted/60">
+          <p>Web · iPad · iPhone · WhatsApp</p>
+          <p>Demo · dados ilustrativos</p>
+        </div>
       </aside>
 
       {/* main */}

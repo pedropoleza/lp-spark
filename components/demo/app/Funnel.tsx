@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   DndContext,
   PointerSensor,
@@ -11,7 +12,7 @@ import {
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDemo } from "../demo-context";
-import { STAGES, fmtUSD, type Opp, type Tone } from "@/content/demo/data";
+import { PIPELINES, PLAN_RANK, fmtUSD, type Opp, type Stage, type Tone } from "@/content/demo/data";
 import { Avatar } from "./Avatar";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,7 @@ function tagClass(tag: string) {
 
 function Card({ opp }: { opp: Opp }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: opp.id });
+  const hasValue = opp.value > 0;
   return (
     <div
       ref={setNodeRef}
@@ -48,18 +50,28 @@ function Card({ opp }: { opp: Opp }) {
         <Avatar name={opp.name} src={opp.avatar} size={34} />
         <div className="min-w-0 flex-1">
           <p className="truncate text-[13px] font-semibold text-cream">{opp.name}</p>
-          <p className="font-mono text-[11px] tabular-nums text-muted">{fmtUSD(opp.value)}/ano</p>
+          <p className="truncate font-mono text-[11px] tabular-nums text-muted">{hasValue ? `${fmtUSD(opp.value)}/ano` : opp.tag}</p>
         </div>
       </div>
+      {opp.fiveRings && (opp.birthday || opp.review) && (
+        <div className="mt-2 flex flex-wrap gap-2 text-[10px] text-muted">
+          {opp.birthday && <span>🎂 {opp.birthday}</span>}
+          {opp.review && <span>🔄 {opp.review}</span>}
+        </div>
+      )}
       <div className="mt-2.5 flex items-center justify-between">
-        <span className={cn("rounded-md px-1.5 py-0.5 text-[10px] font-medium", tagClass(opp.tag))}>{opp.tag}</span>
+        {hasValue ? (
+          <span className={cn("rounded-md px-1.5 py-0.5 text-[10px] font-medium", tagClass(opp.tag))}>{opp.tag}</span>
+        ) : (
+          <span />
+        )}
         <span className="text-[10px] text-muted">{opp.ageDays === 0 ? "hoje" : `${opp.ageDays}d`}</span>
       </div>
     </div>
   );
 }
 
-function Column({ stage, opps }: { stage: (typeof STAGES)[number]; opps: Opp[] }) {
+function Column({ stage, opps }: { stage: Stage; opps: Opp[] }) {
   const { setNodeRef, isOver } = useDroppable({ id: stage.id });
   const total = opps.reduce((s, o) => s + o.value, 0);
   const tone = TONE[stage.tone];
@@ -72,7 +84,7 @@ function Column({ stage, opps }: { stage: (typeof STAGES)[number]; opps: Opp[] }
         </span>
         <span className="text-[11px] text-muted">{opps.length}</span>
       </div>
-      <p className={cn("mb-2 px-1 font-mono text-[11px] tabular-nums", tone.text)}>{fmtUSD(total)}</p>
+      {total > 0 && <p className={cn("mb-2 px-1 font-mono text-[11px] tabular-nums", tone.text)}>{fmtUSD(total)}</p>}
       <div
         ref={setNodeRef}
         className={cn(
@@ -88,24 +100,59 @@ function Column({ stage, opps }: { stage: (typeof STAGES)[number]; opps: Opp[] }
   );
 }
 
-/** Funil kanban com drag & drop real — os totais por coluna recalculam ao arrastar. */
+/** Funil kanban com drag & drop + seletor de pipeline (por plano) e Five Rings. */
 export function Funnel() {
-  const { store, dispatch } = useDemo();
+  const { store, dispatch, activePlan } = useDemo();
+  const available = PIPELINES.filter((p) => PLAN_RANK[activePlan] >= PLAN_RANK[p.minPlan]);
+  const [pid, setPid] = useState("vendas");
+  const current = available.find((p) => p.id === pid) ?? available[0];
+  const [localOpps, setLocalOpps] = useState<Record<string, Opp[]>>(() =>
+    Object.fromEntries(PIPELINES.filter((p) => !p.mutable).map((p) => [p.id, p.opps])),
+  );
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+
+  const isVendas = !!current.mutable;
+  const opps = isVendas ? store.opps : localOpps[current.id] ?? current.opps;
 
   function onDragEnd(e: DragEndEvent) {
     const id = String(e.active.id);
     const toStage = e.over ? String(e.over.id) : null;
-    if (toStage && STAGES.some((s) => s.id === toStage)) dispatch({ type: "opp.move", id, toStage });
+    if (!toStage || !current.stages.some((s) => s.id === toStage)) return;
+    if (isVendas) dispatch({ type: "opp.move", id, toStage });
+    else setLocalOpps((prev) => ({ ...prev, [current.id]: (prev[current.id] ?? current.opps).map((o) => (o.id === id ? { ...o, stageId: toStage } : o)) }));
   }
 
   return (
-    <DndContext sensors={sensors} onDragEnd={onDragEnd}>
-      <div className="flex gap-3 overflow-x-auto pb-2">
-        {STAGES.map((stage) => (
-          <Column key={stage.id} stage={stage} opps={store.opps.filter((o) => o.stageId === stage.id)} />
-        ))}
-      </div>
-    </DndContext>
+    <div className="flex h-full flex-col">
+      {available.length > 1 && (
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <span className="text-[11px] text-muted">Funil:</span>
+          {available.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setPid(p.id)}
+              className={cn(
+                "rounded-full border px-2.5 py-1 text-[11px] transition",
+                current.id === p.id ? "border-accent bg-accent/15 text-accent" : "border-white/10 text-muted hover:text-cream",
+              )}
+            >
+              {p.name}
+            </button>
+          ))}
+          {current.fiveRings && (
+            <span className="ml-auto flex items-center gap-1.5 text-[10px] text-muted">
+              <i className="h-1.5 w-1.5 rounded-full bg-lime" /> Sincronizado da Five Rings
+            </span>
+          )}
+        </div>
+      )}
+      <DndContext sensors={sensors} onDragEnd={onDragEnd}>
+        <div className="flex flex-1 gap-3 overflow-x-auto pb-2">
+          {current.stages.map((stage) => (
+            <Column key={stage.id} stage={stage} opps={opps.filter((o) => o.stageId === stage.id)} />
+          ))}
+        </div>
+      </DndContext>
+    </div>
   );
 }

@@ -50,6 +50,15 @@ export function Close() {
         <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-accent" /> Suporte humano em PT</span>
       </div>
 
+      <div className="mx-auto mt-5 max-w-xl rounded-card-lg border border-accent/20 bg-accent/[0.05] p-4 text-center">
+        <p className="text-sm text-cream">
+          <span className="font-semibold text-accent">Taxa de ativação US$ 80 isenta</span> pra quem veio do evento.
+        </p>
+        <p className="mt-1 text-[12px] text-muted">
+          Indique outros agentes e ganhe desconto recorrente. Da 5ª indicação em diante, o Spark pode sair de graça.
+        </p>
+      </div>
+
       {mode === "zoom" ? (
         <div className="mt-7 flex flex-col items-center gap-3">
           <div className="rounded-2xl bg-white p-3">
@@ -63,7 +72,7 @@ export function Close() {
           <p className="flex items-center gap-1.5 text-sm text-cream">
             <Smartphone className="h-4 w-4 text-accent" /> Aponte a câmera do celular e finalize o {p.name}.
           </p>
-          <p className="text-xs text-muted/70">Condição de fundador. [placeholder: o fundador define a oferta/vagas].</p>
+          <p className="text-xs text-muted/70">Sem fidelidade. Cancele quando quiser.</p>
         </div>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-3">

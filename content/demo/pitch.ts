@@ -10,7 +10,7 @@ export const LADDER: { plan: PlanId; stage: string; title: string; desc: string 
 export const SECURITY: { icon: "lock" | "shield" | "download" | "headset"; title: string; body: string }[] = [
   { icon: "lock", title: "Criptografia de ponta a ponta", body: "Seus dados protegidos em trânsito e em repouso." },
   { icon: "shield", title: "Conformidade e infraestrutura enterprise", body: "Padrões internacionais de privacidade, backups e controle de acesso. [confirmar certificações]" },
-  { icon: "download", title: "Seus dados são seus", body: "Exporte tudo quando quiser. Zero aprisionamento." },
+  { icon: "download", title: "Seus dados são seus", body: "Exporte quando quiser. Se cancelar, 15 dias pra transferir tudo e backup por 6 meses." },
   { icon: "headset", title: "Suporte humano em PT", body: "4 anos de operação e gente de verdade do seu lado." },
 ];
 

@@ -5,7 +5,7 @@ export type Conversation = {
   id: string;
   name: string;
   avatar?: string;
-  channel: "whatsapp" | "sms" | "email";
+  channel: "whatsapp" | "sms" | "email" | "instagram" | "call";
   preview: string;
   time: string;
   unread?: number;
@@ -37,6 +37,17 @@ export const CONVERSATIONS: Conversation[] = [
     messages: [
       { from: "me", text: "Pedro, lembra que a gente tinha falado de revisar sua cobertura? Tenho um horário essa semana.", time: "08:20" },
       { from: "lead", text: "Desculpa a demora! Bora marcar sim", time: "08:31" },
+    ],
+  },
+  {
+    id: "c5", name: "Renata Dias", channel: "instagram", preview: "Vi seu story, quero saber do seguro de vida", time: "10:40", unread: 1,
+    messages: [{ from: "lead", text: "Oi! Vi seu story sobre proteção pra família, quero saber mais 🙏", time: "10:40" }],
+  },
+  {
+    id: "c6", name: "Carlos Pinheiro", channel: "call", preview: "Ligação · 4:12 (gravada)", time: "Ontem",
+    messages: [
+      { from: "me", text: "Ligação gravada · 4:12", time: "Ontem" },
+      { from: "lead", text: "Transcrição salva no contato automaticamente.", time: "Ontem" },
     ],
   },
 ];
@@ -100,7 +111,8 @@ export const WORKFLOW_FOLDERS: { folder: string; items: { name: string; status: 
     { name: "Reativar lead parado", status: "active", enrolled: 74, active: 5 },
   ]},
   { folder: "Pós-Venda", items: [
-    { name: "Aniversário de apólice", status: "active", enrolled: 340, active: 22 },
+    { name: "Follow-up mensal de clientes", status: "active", enrolled: 412, active: 38 },
+    { name: "Aniversário de apólice (com áudio)", status: "active", enrolled: 340, active: 22 },
     { name: "Revisão anual", status: "active", enrolled: 156, active: 8 },
   ]},
   { folder: "Recrutamento", items: [{ name: "Onboarding de recruta", status: "draft", enrolled: 0, active: 0 }] },

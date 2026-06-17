@@ -1,12 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, MessageSquare, Mail, Phone, Send } from "lucide-react";
+import { MessageCircle, MessageSquare, Mail, Phone, Send, Instagram, PhoneCall } from "lucide-react";
 import { CONVERSATIONS } from "@/content/demo/screens";
 import { Avatar } from "../Avatar";
 import { cn } from "@/lib/utils";
 
-const CH = { whatsapp: { icon: MessageCircle, c: "text-lime" }, sms: { icon: MessageSquare, c: "text-electric" }, email: { icon: Mail, c: "text-muted" } };
+const CH = {
+  whatsapp: { icon: MessageCircle, c: "text-lime" },
+  sms: { icon: MessageSquare, c: "text-electric" },
+  email: { icon: Mail, c: "text-muted" },
+  instagram: { icon: Instagram, c: "text-accent" },
+  call: { icon: PhoneCall, c: "text-amber-400" },
+};
 
 export function Conversations() {
   const [sel, setSel] = useState(CONVERSATIONS[0].id);
