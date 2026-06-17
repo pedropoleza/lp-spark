@@ -19,6 +19,7 @@ type TalkCtx = {
   agency: string;
   setAgency: (s: string) => void;
   logoUrl: string | null;
+  presenterPhoto: string | null;
   ctaUrl: string;
   // estado da calculadora (compartilhado p/ o fechamento retomar o número)
   leadsPerMonth: number;
@@ -41,6 +42,7 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
   const [blackout, setBlackout] = useState(false);
   const [agency, setAgency] = useState<string>(TALK.agencyFallback);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [presenterPhoto, setPresenterPhoto] = useState<string | null>(null);
   const [ctaUrl, setCtaUrl] = useState(DEFAULT_CTA);
 
   const [leadsPerMonth, setLeadsPerMonth] = useState(CALC.leadsPerMonth);
@@ -56,6 +58,8 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
     else if (stored) setAgency(stored);
     const logo = sp.get("logo");
     if (logo) setLogoUrl(logo);
+    const foto = sp.get("foto");
+    if (foto) setPresenterPhoto(foto);
     const cta = sp.get("cta");
     if (cta) setCtaUrl(cta);
   }, []);
@@ -95,6 +99,7 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
       agency,
       setAgency: setAgencyPersist,
       logoUrl,
+      presenterPhoto,
       ctaUrl,
       leadsPerMonth,
       setLeadsPerMonth,
@@ -104,7 +109,7 @@ export function TalkProvider({ total, children }: { total: number; children: Rea
       setFollowOf10,
       resetTalk,
     }),
-    [mode, total, scene, setScene, next, prev, blackout, toggleBlackout, agency, setAgencyPersist, logoUrl, ctaUrl, leadsPerMonth, commission, followOf10, resetTalk],
+    [mode, total, scene, setScene, next, prev, blackout, toggleBlackout, agency, setAgencyPersist, logoUrl, presenterPhoto, ctaUrl, leadsPerMonth, commission, followOf10, resetTalk],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

@@ -12,11 +12,15 @@ import { cn } from "@/lib/utils";
 
 import { Cover } from "./scenes/Cover";
 import { Hook } from "./scenes/Hook";
+import { Founder } from "./scenes/Founder";
+import { AgentDay } from "./scenes/AgentDay";
 import { Poll } from "./scenes/Poll";
 import { Gap } from "./scenes/Gap";
 import { WhySystem } from "./scenes/WhySystem";
 import { Calculator } from "./scenes/Calculator";
 import { Cadence } from "./scenes/Cadence";
+import { Scripts } from "./scenes/Scripts";
+import { GoldMine } from "./scenes/GoldMine";
 import { BeforeAfter } from "./scenes/BeforeAfter";
 import { Bridge } from "./scenes/Bridge";
 import { SparkWorking } from "./scenes/SparkWorking";
@@ -26,11 +30,15 @@ import { Close } from "./scenes/Close";
 const SCENES: { id: string; label: string; Comp: FC }[] = [
   { id: "capa", label: "Capa", Comp: Cover },
   { id: "gancho", label: "O gancho", Comp: Hook },
+  { id: "pedro", label: "Quem sou eu", Comp: Founder },
+  { id: "rotina", label: "Seu dia", Comp: AgentDay },
   { id: "enquete", label: "Enquete", Comp: Poll },
   { id: "lacuna", label: "A lacuna", Comp: Gap },
   { id: "sistema", label: "Falta sistema", Comp: WhySystem },
   { id: "calculadora", label: "Calculadora", Comp: Calculator },
   { id: "cadencia", label: "A cadência", Comp: Cadence },
+  { id: "roteiro", label: "O que dizer", Comp: Scripts },
+  { id: "mina", label: "Mina de ouro", Comp: GoldMine },
   { id: "antes-depois", label: "Antes × depois", Comp: BeforeAfter },
   { id: "ponte", label: "A virada", Comp: Bridge },
   { id: "spark", label: "Funcionando", Comp: SparkWorking },

@@ -13,9 +13,22 @@ export const TALK_NOTES: Record<string, string[]> = {
     "Deixe o card de lead esfriar na tela",
     "“Não é falta de lead. É lead que você já tinha”",
   ],
+  pedro: [
+    "Conte SUA história real — vulnerabilidade gera conexão",
+    "Foque na virada: dinheiro escorrendo por falta de sistema",
+    "Feche abrindo um loop: “vou te mostrar onde some”",
+    "Dado forte e real (LIMRA): ~85-90% dos agentes saem em 4 anos — a diferença é follow-up",
+  ],
+  rotina: [
+    "Leia o dia devagar — deixe a sala se reconhecer",
+    "Não culpe o agente: o vilão é o caos, não a pessoa",
+    "“Esforço demais, espalhado em lugar nenhum”",
+  ],
   enquete: [
     "Peça pra galera responder em voz alta ANTES de clicar",
     "Só então revele o dado — o contraste é o impacto",
+    "Enquadre 44%/80% como “o ditado das vendas diz” (é folclore, não dado duro)",
+    "A âncora dura vem na cadência: a regra dos 5 min (MIT/HBR)",
   ],
   lacuna: [
     "Mostre onde a maioria para vs onde a venda acontece",
@@ -33,6 +46,17 @@ export const TALK_NOTES: Record<string, string[]> = {
   cadencia: [
     "Entregue de graça: eles anotam, ganham valor",
     "5 toques simples — qualquer um consegue seguir",
+    "Reforce a velocidade: os primeiros minutos valem ouro",
+  ],
+  roteiro: [
+    "Scripts prontos — mande eles fotografarem a tela",
+    "Destaque a mensagem de despedida (break-up): traz resposta",
+    "“Saber QUANDO não basta — tem que saber O QUÊ dizer”",
+  ],
+  mina: [
+    "A base parada é dinheiro que já é deles",
+    "“Não” de 6 meses atrás = “agora não”, não “nunca”",
+    "Peça: quantos leads frios você tem largados aí?",
   ],
   "antes-depois": [
     "Mesmos 100 leads, resultados diferentes",

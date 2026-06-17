@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, MessageCircle, Mic } from "lucide-react";
+import { Phone, MessageCircle, Mic, Zap } from "lucide-react";
 import { TalkSceneFrame } from "../bits";
-import { CADENCE } from "@/content/talk/copy";
+import { CADENCE, TALK } from "@/content/talk/copy";
 
 function channelIcon(channel: string) {
   if (channel.toLowerCase().includes("liga")) return Phone;
@@ -51,6 +51,23 @@ export function Cadence() {
           );
         })}
       </div>
+
+      {/* velocidade: os primeiros minutos valem ouro */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 + CADENCE.length * 0.18 }}
+        className="mx-auto mt-2 flex max-w-2xl items-center gap-3 rounded-card-lg border border-accent/25 bg-accent/[0.05] px-4 py-3"
+      >
+        <Zap className="h-5 w-5 shrink-0 text-accent" />
+        <p className="text-sm text-cream/90">
+          E velocidade conta: responder nos primeiros{" "}
+          <span className="font-bold text-accent">{TALK.speedToLead.minutes} minutos</span> deixa você{" "}
+          <span className="font-bold text-accent">{TALK.speedToLead.multiplier}× mais</span> propenso a qualificar o
+          lead. O 1º toque é uma corrida — os outros quatro são teimosia.
+          <span className="mt-1 block text-[11px] text-muted/70">Fonte: {TALK.speedToLead.source}.</span>
+        </p>
+      </motion.div>
     </TalkSceneFrame>
   );
 }
