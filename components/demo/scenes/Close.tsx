@@ -12,20 +12,24 @@ import { PAYMENT_LINKS } from "@/lib/plans";
 import { ROI, fmtUSD } from "@/content/demo/data";
 
 export function Close() {
-  const { activePlan, mode } = useDemo();
+  const { activePlan, mode, pricing, agency } = useDemo();
   const { openCheckout } = useSpark();
   const p = PLAN_CONTENT.find((x) => x.id === activePlan) ?? PLAN_CONTENT[1];
+  const over = pricing?.[activePlan];
+  const price = over?.price ?? p.price;
+  const original = over?.originalPrice;
+  const paymentLink = over?.paymentLink ?? PAYMENT_LINKS[activePlan];
   const [qr, setQr] = useState("");
 
   useEffect(() => {
     if (mode !== "zoom") return;
-    QRCode.toDataURL(PAYMENT_LINKS[activePlan], { width: 480, margin: 2, color: { dark: "#0B0B0F", light: "#FFFFFF" } })
+    QRCode.toDataURL(paymentLink, { width: 480, margin: 2, color: { dark: "#0B0B0F", light: "#FFFFFF" } })
       .then(setQr)
       .catch(() => setQr(""));
-  }, [mode, activePlan]);
+  }, [mode, paymentLink]);
 
   const recoveredValue = ROI.lostLeadsPerMonth * ROI.recoveryRate * ROI.commissionPerClient;
-  const clientsToPayback = Math.max(1, Math.ceil(p.price / ROI.commissionPerClient));
+  const clientsToPayback = Math.max(1, Math.ceil(price / ROI.commissionPerClient));
 
   return (
     <SceneFrame label="O próximo passo">
@@ -39,7 +43,10 @@ export function Close() {
           <p className="mt-1 text-xs text-muted">recuperando só {Math.round(ROI.recoveryRate * 100)}% dos leads que hoje esfriam</p>
         </div>
         <div className="rounded-card-lg border border-white/10 bg-white/[0.03] p-5 text-center">
-          <p className="font-display text-2xl font-bold tabular-nums text-cream">US$ {p.price}/mês</p>
+          <p className="font-display text-2xl font-bold tabular-nums text-cream">
+            {original && <span className="mr-1.5 text-base font-semibold text-muted line-through">US$ {original}</span>}
+            US$ {price}/mês
+          </p>
           <p className="mt-1 text-xs text-muted">{clientsToPayback === 1 ? "1 cliente novo já paga o plano" : `${clientsToPayback} clientes pagam o plano`}</p>
         </div>
       </motion.div>

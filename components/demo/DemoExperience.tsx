@@ -22,6 +22,7 @@ import { Onboarding } from "./scenes/Onboarding";
 import { Close } from "./scenes/Close";
 import { PlanSwitcher } from "./PlanSwitcher";
 import { NOTES } from "@/content/demo/notes";
+import type { PricingOverride } from "@/content/demo/boss";
 
 const CheckoutModal = dynamic(() => import("@/components/CheckoutModal").then((m) => m.CheckoutModal), { ssr: false });
 
@@ -39,10 +40,10 @@ const SCENES: { id: string; label: string; Comp: FC }[] = [
 ];
 const LABELS = SCENES.map((s) => s.label);
 
-export function DemoExperience() {
+export function DemoExperience({ agency, pricing }: { agency?: string; pricing?: PricingOverride } = {}) {
   return (
     <SparkProvider>
-      <DemoProvider total={SCENES.length}>
+      <DemoProvider total={SCENES.length} agency={agency} pricing={pricing}>
         <DemoInner />
         <CheckoutModal />
       </DemoProvider>
@@ -51,7 +52,7 @@ export function DemoExperience() {
 }
 
 function DemoInner() {
-  const { scene, setScene, next, prev, mode, setMode, resetDemo, blackout, toggleBlackout } = useDemo();
+  const { scene, setScene, next, prev, mode, setMode, resetDemo, blackout, toggleBlackout, agency } = useDemo();
   const Current = SCENES[scene].Comp;
   const [notesOn, setNotesOn] = useState(false);
 
@@ -97,7 +98,7 @@ function DemoInner() {
           <span className="grid h-7 w-7 place-items-center rounded-lg bg-accent text-ink">
             <Zap className="h-4 w-4" />
           </span>
-          <span className="font-display text-sm font-bold">Spark Live Demo</span>
+          <span className="font-display text-sm font-bold">{agency ? `Spark · ${agency}` : "Spark Live Demo"}</span>
         </span>
         <div className="flex items-center gap-3">
           <PlanSwitcher className="hidden sm:flex" />

@@ -7,8 +7,11 @@ import { useDemo } from "../demo-context";
 import { PLAN_CONTENT } from "@/content/pt-br";
 
 export function RecommendedPlan() {
-  const { activePlan } = useDemo();
+  const { activePlan, pricing, agency } = useDemo();
   const p = PLAN_CONTENT.find((x) => x.id === activePlan) ?? PLAN_CONTENT[1];
+  const over = pricing?.[activePlan];
+  const price = over?.price ?? p.price;
+  const original = over?.originalPrice;
 
   return (
     <SceneFrame label="A sua prescrição" hint="→ veja funcionando">
@@ -49,9 +52,15 @@ export function RecommendedPlan() {
           transition={{ delay: 0.2 + p.features.length * 0.08 }}
           className="mt-7 flex items-end justify-center gap-2 border-t border-white/10 pt-6"
         >
-          <span className="font-display text-5xl font-bold">US$ {p.price}</span>
+          {original && <span className="mb-2 text-2xl font-semibold text-muted line-through">US$ {original}</span>}
+          <span className="font-display text-5xl font-bold">US$ {price}</span>
           <span className="mb-2 text-muted">/mês</span>
         </motion.div>
+        {original && (
+          <p className="mt-2 text-center text-sm font-semibold text-lime">
+            {agency ? `Condição ${agency}` : "Condição exclusiva"}: de US$ {original} por US$ {price}/mês.
+          </p>
+        )}
         <p className="mt-2 text-center text-sm text-muted">
           Tudo isso, pronto no dia 1. Agora deixa eu te mostrar funcionando.
         </p>

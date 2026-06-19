@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Search, Copy, Check, Lock, ShieldCheck, ExternalLink, Ticket, X } from "lucide-react";
 import { Modal } from "./ui/Modal";
 import { useSpark } from "./spark-context";
+import { useDemoOptional } from "./demo/demo-context";
 import { PAYMENT_LINKS, PLAN_PRICES } from "@/lib/plans";
 import { PLAN_CONTENT } from "@/content/pt-br";
 import { searchCoupons, labelForCode } from "@/content/coupons";
@@ -23,6 +24,7 @@ function linkWithCoupon(base: string, code: string | null) {
 
 export function CheckoutModal() {
   const { checkoutPlan, checkoutCoupon, closeCheckout } = useSpark();
+  const demo = useDemoOptional();
   const open = checkoutPlan !== null;
   const [query, setQuery] = useState("");
   const [applied, setApplied] = useState<string | null>(null);
@@ -72,8 +74,10 @@ export function CheckoutModal() {
   }
 
   const plan = PLAN_CONTENT.find((p) => p.id === checkoutPlan)!;
-  const price = PLAN_PRICES[checkoutPlan];
-  const paymentLink = PAYMENT_LINKS[checkoutPlan];
+  const over = demo?.pricing?.[checkoutPlan];
+  const price = over?.price ?? PLAN_PRICES[checkoutPlan];
+  const original = over?.originalPrice;
+  const paymentLink = over?.paymentLink ?? PAYMENT_LINKS[checkoutPlan];
   const iframeSrc = linkWithCoupon(paymentLink, applied);
   const appliedLabel = applied ? labelForCode(applied) : null;
 
@@ -144,6 +148,7 @@ export function CheckoutModal() {
             <span className="gradient-text">{plan.name}</span>
           </h2>
           <div className="mt-2 flex items-end gap-2">
+            {original && <span className="mb-0.5 text-lg font-semibold text-muted line-through">US$ {original}</span>}
             <span className="font-display text-3xl font-bold">US$ {price}</span>
             <span className="mb-1 text-sm text-muted">/mês</span>
           </div>

@@ -4,6 +4,7 @@ import { createContext, useContext, useReducer, useState, useCallback, useMemo, 
 import type { PlanId } from "@/lib/plans";
 import { INITIAL_OPPS, INITIAL_AGENDA, type Opp, type AgendaEvent, type BotAction } from "@/content/demo/data";
 import type { PainKey } from "@/content/demo/quiz";
+import type { PricingOverride } from "@/content/demo/boss";
 
 export type DemoMode = "zoom" | "solo";
 
@@ -53,11 +54,24 @@ type DemoCtx = {
   // apresentação
   blackout: boolean;
   toggleBlackout: () => void;
+  // personalização (ex.: demo da BOSS): nome da agência + preços/links por plano
+  agency?: string;
+  pricing?: PricingOverride;
 };
 
 const Ctx = createContext<DemoCtx | null>(null);
 
-export function DemoProvider({ total, children }: { total: number; children: ReactNode }) {
+export function DemoProvider({
+  total,
+  children,
+  agency,
+  pricing,
+}: {
+  total: number;
+  children: ReactNode;
+  agency?: string;
+  pricing?: PricingOverride;
+}) {
   const [mode, setMode] = useState<DemoMode>("zoom");
   const [scene, setSceneRaw] = useState(0);
   const [plan, setPlan] = useState<PlanId | null>(null);
@@ -84,8 +98,8 @@ export function DemoProvider({ total, children }: { total: number; children: Rea
   }, []);
 
   const value = useMemo<DemoCtx>(
-    () => ({ mode, setMode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, activePlan, setActivePlan, appFullscreen, toggleAppFullscreen, store, dispatch, resetDemo, blackout, toggleBlackout }),
-    [mode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, activePlan, appFullscreen, toggleAppFullscreen, store, resetDemo, blackout, toggleBlackout],
+    () => ({ mode, setMode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, activePlan, setActivePlan, appFullscreen, toggleAppFullscreen, store, dispatch, resetDemo, blackout, toggleBlackout, agency, pricing }),
+    [mode, total, scene, setScene, next, prev, plan, pain, setDiagnosis, activePlan, appFullscreen, toggleAppFullscreen, store, resetDemo, blackout, toggleBlackout, agency, pricing],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
@@ -95,4 +109,9 @@ export function useDemo() {
   const ctx = useContext(Ctx);
   if (!ctx) throw new Error("useDemo deve estar dentro de <DemoProvider>");
   return ctx;
+}
+
+/** Versão que NÃO lança fora do provider (ex.: CheckoutModal usado na landing). */
+export function useDemoOptional() {
+  return useContext(Ctx);
 }
