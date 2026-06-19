@@ -11,7 +11,7 @@ export function ParityBoss() {
   return (
     <TalkSceneFrame wide label="Tudo num lugar só">
       <h2 className="text-center font-display font-bold leading-[1.1]" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.6rem)" }}>
-        Tudo que o Como te dá. <span className="gradient-text">E o que ele não dá.</span>
+        Tudo que o Kommo te dá. <span className="gradient-text">E o que ele não dá.</span>
       </h2>
 
       <div className="mx-auto mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">

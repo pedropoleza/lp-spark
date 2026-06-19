@@ -10,21 +10,21 @@ export const BOSS_NOTES: Record<string, string[]> = {
   ],
   momento: [
     "Você é uma das maiores agências da Five Rings.",
-    "Hoje você está no Como, e pelo que conversamos, ele está subutilizado.",
+    "Hoje você está no Kommo, e pelo que conversamos, ele está subutilizado.",
     "Não é falta de capacidade sua. A estrutura não foi montada pra uma operação como a sua.",
     "A pergunta não é trocar de ferramenta. É ter uma estrutura que trabalha pra BO$$.",
   ],
   agenda: [
     "Pra não enrolar, são cinco coisas:",
     "Tudo que você já tem hoje, e mais.",
-    "Como te tiro do Como sem perder nada.",
+    "Como te tiro do Kommo sem perder nada.",
     "Sua estrutura replicada pros seus agentes.",
     "A integração com o portal Five Rings. E segurança.",
   ],
   paridade: [
     "Primeiro o básico bem feito: tudo num lugar só.",
     "Funil, conversas de WhatsApp, IG, SMS e ligação, contatos, automações.",
-    "Tudo que o Como te dá está aqui.",
+    "Tudo que o Kommo te dá está aqui.",
     "E aí vêm os “e mais”: calendário e gestão de agência nativos, SparkBot, Five Rings.",
   ],
   produto: [
@@ -36,9 +36,10 @@ export const BOSS_NOTES: Record<string, string[]> = {
   ],
   migracao: [
     "A maior dúvida de quem troca: “vou perder o que já tenho?”. Não vai.",
-    "A gente migra contatos, tags e oportunidades pro Spark.",
-    "[confirmar] E o histórico de conversa também.",
-    "E não é promessa: acabamos de fazer isso pra Jussara. Veio tudo.",
+    "Contatos, tags e oportunidades vêm 100% pro Spark.",
+    "Histórico de conversa depende do canal: o que passa por um canal que a gente controla vem como conversa real, com a data original.",
+    "[pergunte] Quais messengers vocês usam no Kommo hoje? WhatsApp nativo, algum terceiro tipo Wazzup, ou canal próprio?",
+    "E não é promessa: acabamos de fazer essa migração pra Jussara.",
   ],
   arquiteta: [
     "Agora a parte que muda o jogo pra uma agência do seu tamanho.",
@@ -68,7 +69,7 @@ export const BOSS_NOTES: Record<string, string[]> = {
   ],
   fechamento: [
     "Minha proposta de próximo passo é simples e sem risco:",
-    "A gente faz uma migração piloto. Eu trago a sua estrutura do Como pro Spark, com você.",
+    "A gente faz uma migração piloto. Eu trago a sua estrutura do Kommo pro Spark, com você.",
     "Você vê funcionando com os seus dados, e decide com base no real, não no slide.",
     "Topa começarmos por isso?",
   ],

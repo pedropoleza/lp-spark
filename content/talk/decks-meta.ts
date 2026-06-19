@@ -48,7 +48,7 @@ export const BOSS_SCENE_META: SceneMeta[] = [
   { id: "agenda", label: "Agenda" },
   { id: "paridade", label: "Tudo num lugar" },
   { id: "produto", label: "Funcionando" },
-  { id: "migracao", label: "Sair do Como" },
+  { id: "migracao", label: "Sair do Kommo" },
   { id: "arquiteta", label: "De usuária a arquiteta" },
   { id: "snapshots", label: "Snapshots" },
   { id: "fiverings", label: "Five Rings" },

@@ -1,12 +1,17 @@
 # Roteiro — Demo BO$$ (Natália Freguglia) · Zoom 1:1 · ~20-30 min
 
 Apresentação ÚNICA, conduzida pelo Pedro no Zoom (não interativa pra ela).
-Objetivo: Natália adotar o Spark começando por uma MIGRAÇÃO PILOTO do Como.
+Objetivo: Natália adotar o Spark começando por uma MIGRAÇÃO PILOTO do Kommo.
 Tese: não é trocar de CRM, é montar a estrutura da BO$$ (paridade + migração sem
 perda + snapshots pros agentes + integração Five Rings + segurança).
 
 Fala com suas palavras; os bullets são o guia. [colchetes] = ação de palco/tela.
-PENDENTE: confirmar se a migração do Como puxa o HISTÓRICO DE CONVERSA (cena 6).
+
+HISTÓRICO DE CONVERSA (resolvido por pesquisa): contatos, tags e oportunidades
+migram 100%. O histórico de conversa DEPENDE DO CANAL. Backdating no Spark (GHL)
+é suportado; o limite é o Kommo, que via API só deixa ler mensagens de canais
+que a NOSSA integração controla. WhatsApp nativo / terceiros (Wazzup etc.) não
+são legíveis. Por isso, NÃO prometa histórico cego: pergunte os canais dela.
 
 ---
 
@@ -18,14 +23,14 @@ PENDENTE: confirmar se a migração do Como puxa o HISTÓRICO DE CONVERSA (cena 
 
 ## 2. O momento da BO$$
 - "Você é uma das maiores agências da Five Rings. Isso traz uma complexidade que CRM genérico não aguenta."
-- "Hoje você está no Como, e pelo que a gente conversou, ele está subutilizado."
+- "Hoje você está no Kommo, e pelo que a gente conversou, ele está subutilizado."
 - "Não é falta de capacidade sua. É que a estrutura não foi montada pra uma operação como a sua."
 - "A pergunta não é 'trocar de ferramenta'. É 'ter uma estrutura que trabalha pra BO$$'."
 
 ## 3. O que vamos ver hoje
 - "Pra não enrolar, são cinco coisas:"
 - "Um: tudo que você já tem hoje, e mais."
-- "Dois: como te tiro do Como sem perder nada."
+- "Dois: como te tiro do Kommo sem perder nada."
 - "Três: a sua estrutura replicada pros seus agentes."
 - "Quatro: a integração com o portal da Five Rings."
 - "Cinco: segurança. E aí a gente decide o próximo passo."
@@ -33,7 +38,7 @@ PENDENTE: confirmar se a migração do Como puxa o HISTÓRICO DE CONVERSA (cena 
 ## 4. Tudo num lugar (paridade + além)
 - "Primeiro o básico bem feito: tudo num lugar só."
 - "Funil, conversas de WhatsApp, Instagram, SMS e ligação, contatos, calendário e automações."
-- "Tudo que o Como te dá está aqui. E aí começam os 'e mais'."
+- "Tudo que o Kommo te dá está aqui. E aí começam os 'e mais'."
 - "Calendário e gestão de agência nativos, sem puxadinho."
 - [tela: app real, módulos]
 
@@ -44,12 +49,13 @@ PENDENTE: confirmar se a migração do Como puxa o HISTÓRICO DE CONVERSA (cena 
 - "E aqui a automação: o sistema cuida do próximo passo sozinho."
 - [tour: Funil > Conversas > Automação]
 
-## 6. Sair do Como sem perder nada
+## 6. Sair do Kommo sem perder nada
 - "A maior dúvida de quem troca é: 'vou perder o que já tenho?'. Não vai."
-- "A gente migra contatos, tags e oportunidades pra dentro do Spark."
-- "[confirmar] E o histórico de conversa também."
-- "E não é promessa: a gente acabou de fazer essa migração pra Jussara. Veio tudo."
-- [tela: Como > Spark, checklist migrando]
+- "Contatos, tags e oportunidades vêm 100% pra dentro do Spark."
+- "Histórico de conversa depende do canal: o que passa por um canal que a gente controla vem como conversa real, com a data original."
+- "[pergunte] Quais messengers vocês usam no Kommo hoje? WhatsApp nativo, algum terceiro tipo Wazzup, ou canal próprio?"
+- "E não é promessa: a gente acabou de fazer essa migração pra Jussara."
+- [tela: Kommo > Spark, checklist; histórico marcado como 'depende do canal']
 
 ## 7. De usuária a arquiteta
 - "Agora a parte que muda o jogo pra uma agência do seu tamanho."
@@ -82,7 +88,7 @@ PENDENTE: confirmar se a migração do Como puxa o HISTÓRICO DE CONVERSA (cena 
 
 ## 12. Próximo passo (migração piloto)
 - "Minha proposta de próximo passo é simples e sem risco:"
-- "A gente faz uma migração piloto. Eu trago a sua estrutura do Como pro Spark, com você."
+- "A gente faz uma migração piloto. Eu trago a sua estrutura do Kommo pro Spark, com você."
 - "Você vê funcionando com os seus dados, e decide com base no real, não no slide."
 - "Topa começarmos por isso?"
 - [tela: CTA migração piloto]

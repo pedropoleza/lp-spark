@@ -10,7 +10,7 @@
 export const BOSS = {
   agency: "BO$$",
   contact: "Natália",
-  currentCrm: "Como",
+  currentCrm: "Kommo",
 } as const;
 
 /* 1. Abertura */
@@ -25,7 +25,7 @@ export const MOMENT_BOSS = {
   eyebrow: "Onde a BO$$ está hoje",
   lead: "Uma das maiores agências da Five Rings.",
   points: [
-    "Hoje a sua operação roda no Como.",
+    "Hoje a sua operação roda no Kommo.",
     "E, sendo honesto, o CRM está subutilizado.",
   ],
   punch: "Não é falta de capacidade sua. É que a estrutura nunca foi montada para uma agência do seu tamanho.",
@@ -34,13 +34,13 @@ export const MOMENT_BOSS = {
 /* 3. O que vamos ver */
 export const AGENDA_BOSS: { n: string; t: string }[] = [
   { n: "01", t: "Tudo que você já tem, e mais" },
-  { n: "02", t: "Sair do Como sem perder nada" },
+  { n: "02", t: "Sair do Kommo sem perder nada" },
   { n: "03", t: "Sua estrutura replicada pros agentes" },
   { n: "04", t: "Integração com o portal Five Rings" },
   { n: "05", t: "Segurança e independência" },
 ];
 
-/* 4. Paridade + além. plus=true marca o que vai ALÉM do Como. */
+/* 4. Paridade + além. plus=true marca o que vai ALÉM do Kommo. */
 export const PARITY_BOSS: { name: string; plus: boolean }[] = [
   { name: "Funil de vendas", plus: false },
   { name: "Conversas: WhatsApp, IG, SMS, ligação", plus: false },
@@ -52,17 +52,20 @@ export const PARITY_BOSS: { name: string; plus: boolean }[] = [
   { name: "Integração Five Rings", plus: true },
 ];
 
-/* 6. Migração. confirmed=false aparece com selo "a confirmar". */
+/* 6. Migração. state "ok" = vem 100%; "conditional" = depende do canal. */
 export const MIGRATION_BOSS = {
-  from: "Como",
+  from: "Kommo",
   to: "Spark",
   items: [
-    { label: "Contatos", confirmed: true },
-    { label: "Tags", confirmed: true },
-    { label: "Oportunidades", confirmed: true },
-    { label: "Histórico de conversa", confirmed: false },
+    { label: "Contatos", state: "ok" as const },
+    { label: "Tags", state: "ok" as const },
+    { label: "Oportunidades", state: "ok" as const },
+    { label: "Histórico de conversa", state: "conditional" as const, note: "depende do canal" },
   ],
-  proof: "Não é promessa: acabamos de fazer essa migração para a Jussara. Veio tudo.",
+  // Backdating no Spark é suportado; o limite é o Kommo (só lê canais que a
+  // integração controla). Por isso histórico é condicional, não promessa cega.
+  note: "Contatos, tags e oportunidades vêm 100%. Histórico de conversa a gente avalia pelo canal que você usa hoje.",
+  proof: "Não é promessa: acabamos de fazer essa migração para a Jussara.",
 };
 
 /* 7. De usuária a arquiteta */
@@ -126,7 +129,7 @@ export const RECAP_BOSS = {
 export const CLOSE_BOSS = {
   eyebrow: "Próximo passo",
   title: "Vamos começar pela migração piloto.",
-  lead: "Eu trago a sua estrutura do Como pro Spark, junto com você.",
+  lead: "Eu trago a sua estrutura do Kommo pro Spark, junto com você.",
   points: [
     "Você vê funcionando com os seus dados reais.",
     "Sem risco: decide com base no real, não no slide.",

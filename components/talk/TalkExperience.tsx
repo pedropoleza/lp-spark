@@ -102,7 +102,7 @@ const BOSS_SCENES: SceneDef[] = [
   { id: "agenda", label: "Agenda", Comp: AgendaBoss },
   { id: "paridade", label: "Tudo num lugar", Comp: ParityBoss },
   { id: "produto", label: "Funcionando", Comp: ProductBoss },
-  { id: "migracao", label: "Sair do Como", Comp: MigrationBoss },
+  { id: "migracao", label: "Sair do Kommo", Comp: MigrationBoss },
   { id: "arquiteta", label: "De usuária a arquiteta", Comp: ArchitectBoss },
   { id: "snapshots", label: "Snapshots", Comp: SnapshotsBoss },
   { id: "fiverings", label: "Five Rings", Comp: FiveRingsBoss },
