@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { DownloadCloud, Workflow, SlidersHorizontal, ArrowRight, type LucideIcon } from "lucide-react";
 import { TalkSceneFrame } from "../bits";
@@ -18,12 +19,12 @@ export function FiveRingsBoss() {
         {FIVERINGS_BOSS.steps.map((s, i) => {
           const Icon = ICONS[i] ?? DownloadCloud;
           return (
-            <div key={s.t} className="flex flex-1 items-center gap-3 md:flex-col md:gap-0">
+            <Fragment key={s.t}>
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.2 }}
-                className="flex-1 rounded-card-lg border border-white/10 bg-white/[0.02] p-5 text-center md:w-full"
+                className="flex-1 rounded-card-lg border border-white/10 bg-white/[0.02] p-5 text-center"
               >
                 <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-accent/10 text-accent">
                   <Icon className="h-6 w-6" />
@@ -32,9 +33,9 @@ export function FiveRingsBoss() {
                 <p className="mt-1.5 text-sm leading-snug text-muted">{s.d}</p>
               </motion.div>
               {i < FIVERINGS_BOSS.steps.length - 1 && (
-                <ArrowRight className="h-5 w-5 shrink-0 rotate-90 text-muted md:rotate-0" />
+                <ArrowRight className="mx-auto h-5 w-5 shrink-0 rotate-90 text-muted md:rotate-0" />
               )}
-            </div>
+            </Fragment>
           );
         })}
       </div>
