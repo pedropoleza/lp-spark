@@ -41,3 +41,18 @@ export const ORG_SCENE_META: SceneMeta[] = [
   { id: "oferta", label: "A oferta" },
   { id: "fechamento", label: "Agendar demo" },
 ];
+
+export const BOSS_SCENE_META: SceneMeta[] = [
+  { id: "capa", label: "Abertura" },
+  { id: "momento", label: "O momento" },
+  { id: "agenda", label: "Agenda" },
+  { id: "paridade", label: "Tudo num lugar" },
+  { id: "produto", label: "Funcionando" },
+  { id: "migracao", label: "Sair do Como" },
+  { id: "arquiteta", label: "De usuária a arquiteta" },
+  { id: "snapshots", label: "Snapshots" },
+  { id: "fiverings", label: "Five Rings" },
+  { id: "seguranca", label: "Segurança" },
+  { id: "recap", label: "A estrutura" },
+  { id: "fechamento", label: "Próximo passo" },
+];

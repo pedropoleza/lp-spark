@@ -9,6 +9,7 @@ import { DemoProvider } from "@/components/demo/demo-context";
 import { TalkProvider, useTalk } from "./talk-context";
 import { TALK_NOTES } from "@/content/talk/notes";
 import { ORG_NOTES } from "@/content/talk/notes-org";
+import { BOSS_NOTES } from "@/content/talk/notes-boss";
 import { cn } from "@/lib/utils";
 
 import { Cover } from "./scenes/Cover";
@@ -41,6 +42,19 @@ import { SpreadsheetBreaks } from "./scenes-org/SpreadsheetBreaks";
 import { ReasonsOrg } from "./scenes-org/ReasonsOrg";
 import { OfferOrg } from "./scenes-org/OfferOrg";
 import { CloseOrg } from "./scenes-org/CloseOrg";
+
+import { CoverBoss } from "./scenes-boss/CoverBoss";
+import { MomentBoss } from "./scenes-boss/MomentBoss";
+import { AgendaBoss } from "./scenes-boss/AgendaBoss";
+import { ParityBoss } from "./scenes-boss/ParityBoss";
+import { ProductBoss } from "./scenes-boss/ProductBoss";
+import { MigrationBoss } from "./scenes-boss/MigrationBoss";
+import { ArchitectBoss } from "./scenes-boss/ArchitectBoss";
+import { SnapshotsBoss } from "./scenes-boss/SnapshotsBoss";
+import { FiveRingsBoss } from "./scenes-boss/FiveRingsBoss";
+import { SecurityBoss } from "./scenes-boss/SecurityBoss";
+import { RecapBoss } from "./scenes-boss/RecapBoss";
+import { CloseBoss } from "./scenes-boss/CloseBoss";
 
 type SceneDef = { id: string; label: string; Comp: FC };
 type Deck = { scenes: SceneDef[]; notes: Record<string, string[]>; brand: string };
@@ -82,9 +96,25 @@ const ORG_SCENES: SceneDef[] = [
   { id: "fechamento", label: "Agendar demo", Comp: CloseOrg },
 ];
 
+const BOSS_SCENES: SceneDef[] = [
+  { id: "capa", label: "Abertura", Comp: CoverBoss },
+  { id: "momento", label: "O momento", Comp: MomentBoss },
+  { id: "agenda", label: "Agenda", Comp: AgendaBoss },
+  { id: "paridade", label: "Tudo num lugar", Comp: ParityBoss },
+  { id: "produto", label: "Funcionando", Comp: ProductBoss },
+  { id: "migracao", label: "Sair do Como", Comp: MigrationBoss },
+  { id: "arquiteta", label: "De usuária a arquiteta", Comp: ArchitectBoss },
+  { id: "snapshots", label: "Snapshots", Comp: SnapshotsBoss },
+  { id: "fiverings", label: "Five Rings", Comp: FiveRingsBoss },
+  { id: "seguranca", label: "Segurança", Comp: SecurityBoss },
+  { id: "recap", label: "A estrutura", Comp: RecapBoss },
+  { id: "fechamento", label: "Próximo passo", Comp: CloseBoss },
+];
+
 const DECKS: Record<string, Deck> = {
   followup: { scenes: FOLLOWUP_SCENES, notes: TALK_NOTES, brand: "Spark · Palestra" },
   organizacao: { scenes: ORG_SCENES, notes: ORG_NOTES, brand: "Spark · Organização" },
+  boss: { scenes: BOSS_SCENES, notes: BOSS_NOTES, brand: "Spark · BO$$" },
 };
 
 export type TalkVariant = keyof typeof DECKS;

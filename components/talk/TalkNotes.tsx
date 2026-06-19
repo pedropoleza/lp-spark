@@ -4,13 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Zap } from "lucide-react";
 import { TALK_NOTES } from "@/content/talk/notes";
 import { ORG_NOTES } from "@/content/talk/notes-org";
-import { FOLLOWUP_SCENE_META, ORG_SCENE_META, type SceneMeta } from "@/content/talk/decks-meta";
+import { BOSS_NOTES } from "@/content/talk/notes-boss";
+import { FOLLOWUP_SCENE_META, ORG_SCENE_META, BOSS_SCENE_META, type SceneMeta } from "@/content/talk/decks-meta";
 
-type Variant = "followup" | "organizacao";
+type Variant = "followup" | "organizacao" | "boss";
 
 const DECKS: Record<Variant, { meta: SceneMeta[]; notes: Record<string, string[]>; brand: string }> = {
   followup: { meta: FOLLOWUP_SCENE_META, notes: TALK_NOTES, brand: "Follow-up" },
   organizacao: { meta: ORG_SCENE_META, notes: ORG_NOTES, brand: "Organização" },
+  boss: { meta: BOSS_SCENE_META, notes: BOSS_NOTES, brand: "BO$$" },
 };
 
 export function TalkNotes({ variant = "followup" }: { variant?: Variant }) {
