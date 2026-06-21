@@ -10,6 +10,7 @@ import { TalkProvider, useTalk } from "./talk-context";
 import { TALK_NOTES } from "@/content/talk/notes";
 import { ORG_NOTES } from "@/content/talk/notes-org";
 import { BOSS_NOTES } from "@/content/talk/notes-boss";
+import { BOSSGRUPO_NOTES } from "@/content/talk/notes-boss-grupo";
 import { cn } from "@/lib/utils";
 
 import { Cover } from "./scenes/Cover";
@@ -55,6 +56,14 @@ import { FiveRingsBoss } from "./scenes-boss/FiveRingsBoss";
 import { SecurityBoss } from "./scenes-boss/SecurityBoss";
 import { RecapBoss } from "./scenes-boss/RecapBoss";
 import { CloseBoss } from "./scenes-boss/CloseBoss";
+
+import { CoverBossGrupo } from "./scenes-boss-grupo/CoverBossGrupo";
+import { NataliaEndorse } from "./scenes-boss-grupo/NataliaEndorse";
+import { HookGrupo } from "./scenes-boss-grupo/HookGrupo";
+import { SparkBotScene } from "./scenes-boss-grupo/SparkBotScene";
+import { OfferIntro } from "./scenes-boss-grupo/OfferIntro";
+import { PlansQR } from "./scenes-boss-grupo/PlansQR";
+import { DemoQR } from "./scenes-boss-grupo/DemoQR";
 
 type SceneDef = { id: string; label: string; Comp: FC };
 type Deck = { scenes: SceneDef[]; notes: Record<string, string[]>; brand: string };
@@ -111,10 +120,25 @@ const BOSS_SCENES: SceneDef[] = [
   { id: "fechamento", label: "Próximo passo", Comp: CloseBoss },
 ];
 
+const BOSSGRUPO_SCENES: SceneDef[] = [
+  { id: "capa", label: "Abertura", Comp: CoverBossGrupo },
+  { id: "natalia", label: "Endosso Natália", Comp: NataliaEndorse },
+  { id: "pedro", label: "Quem é o Spark", Comp: Founder },
+  { id: "gancho", label: "O gancho", Comp: HookGrupo },
+  { id: "rotina", label: "Seu dia", Comp: AgentDay },
+  { id: "produto", label: "Funcionando", Comp: ProductBoss },
+  { id: "sparkbot", label: "SparkBot", Comp: SparkBotScene },
+  { id: "antes-depois", label: "Antes × depois", Comp: BeforeAfter },
+  { id: "oferta", label: "A condição", Comp: OfferIntro },
+  { id: "planos", label: "Planos + QR", Comp: PlansQR },
+  { id: "demo", label: "Agendar demo", Comp: DemoQR },
+];
+
 const DECKS: Record<string, Deck> = {
   followup: { scenes: FOLLOWUP_SCENES, notes: TALK_NOTES, brand: "Spark · Palestra" },
   organizacao: { scenes: ORG_SCENES, notes: ORG_NOTES, brand: "Spark · Organização" },
   boss: { scenes: BOSS_SCENES, notes: BOSS_NOTES, brand: "Spark · BO$$" },
+  bossgrupo: { scenes: BOSSGRUPO_SCENES, notes: BOSSGRUPO_NOTES, brand: "Spark · BO$$ (time)" },
 };
 
 export type TalkVariant = keyof typeof DECKS;

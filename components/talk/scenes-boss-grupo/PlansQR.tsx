@@ -19,7 +19,7 @@ function PlanCard({ p, qr }: { p: GrupoPlan; qr: string }) {
     >
       {p.featured && (
         <span className="absolute -top-3 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-ink">
-          <Star className="h-3 w-3" /> Mais escolhido
+          <Star className="h-3 w-3" /> Melhor valor
         </span>
       )}
 
@@ -99,6 +99,10 @@ export function PlansQR() {
           </motion.div>
         ))}
       </div>
+
+      <p className="mx-auto mt-5 text-center text-sm text-cream">
+        Vale <span className="font-semibold text-accent">só nesta chamada</span>. Fechou? Manda um 🔥 no chat pra galera ver.
+      </p>
     </TalkSceneFrame>
   );
 }

@@ -42,6 +42,20 @@ export const ORG_SCENE_META: SceneMeta[] = [
   { id: "fechamento", label: "Agendar demo" },
 ];
 
+export const BOSSGRUPO_SCENE_META: SceneMeta[] = [
+  { id: "capa", label: "Abertura" },
+  { id: "natalia", label: "Endosso Natália" },
+  { id: "pedro", label: "Quem é o Spark" },
+  { id: "gancho", label: "O gancho" },
+  { id: "rotina", label: "Seu dia" },
+  { id: "produto", label: "Funcionando" },
+  { id: "sparkbot", label: "SparkBot" },
+  { id: "antes-depois", label: "Antes × depois" },
+  { id: "oferta", label: "A condição" },
+  { id: "planos", label: "Planos + QR" },
+  { id: "demo", label: "Agendar demo" },
+];
+
 export const BOSS_SCENE_META: SceneMeta[] = [
   { id: "capa", label: "Abertura" },
   { id: "momento", label: "O momento" },
