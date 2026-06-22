@@ -12,6 +12,9 @@ const nextConfig = {
   // source está fora do prefixo do site.
   async redirects() {
     return [
+      // Raiz pura → site (o app vive sob /brazilionaires). Evita 404 em sparkleads.pro/
+      { source: "/", destination: basePath, permanent: false, basePath: false },
+      // Grafia alternativa (2 "L") → home oficial (1 "L").
       { source: "/brazillionaires", destination: basePath, permanent: false, basePath: false },
       {
         source: "/brazillionaires/:path*",
