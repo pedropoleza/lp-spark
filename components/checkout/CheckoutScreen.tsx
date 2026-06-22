@@ -193,13 +193,12 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
               src={payHref}
               title={`Checkout Spark ${p.name}`}
               allow="payment"
-              scrolling="no"
               onLoad={onIframeLoad}
-              style={{ minHeight: 760 }}
+              style={{ height: 1800 }}
               className="block w-full bg-white"
             />
           ) : (
-            <div className="min-h-[760px] animate-pulse bg-white/5" />
+            <div className="h-[1800px] animate-pulse bg-white/5" />
           )}
           <a href={payHref} target="_blank" rel="noopener noreferrer" className="flex shrink-0 items-center gap-1.5 px-4 py-2 text-xs text-muted hover:text-cream">
             <ExternalLink className="h-3.5 w-3.5" /> Não carregou? Abrir o checkout em nova aba
