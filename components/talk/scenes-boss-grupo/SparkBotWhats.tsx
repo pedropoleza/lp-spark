@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Video, Phone, MoreVertical, Plus, Camera, Mic, Sparkles, Sunrise, Clock, CheckCircle2, Moon } from "lucide-react";
+import { ArrowLeft, Video, Phone, MoreVertical, Plus, Camera, Mic, Sparkles, Sunrise, Clock, CheckCircle2, Moon, Signal, Wifi, BatteryFull } from "lucide-react";
 import { TalkSceneFrame } from "../bits";
 import { SPARKBOT_HERO, SPARKBOT_CHAT } from "@/content/talk/copy-boss-grupo";
 
@@ -56,13 +56,22 @@ function PhoneMock() {
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto w-[300px] max-w-full rounded-[2.4rem] border-[6px] border-black bg-black shadow-plan"
+      className="relative mx-auto w-[332px] max-w-full rounded-[2.7rem] border-[8px] border-[#0a0a0a] bg-[#0a0a0a] shadow-plan"
     >
-      {/* notch */}
-      <div className="absolute left-1/2 top-0 z-10 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-black" />
-      <div className="flex h-[600px] flex-col overflow-hidden rounded-[2rem] bg-[#0b141a]">
+      {/* dynamic island */}
+      <div className="absolute left-1/2 top-2 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
+      <div className="flex h-[640px] flex-col overflow-hidden rounded-[2.1rem] bg-[#0b141a]">
+        {/* status bar */}
+        <div className="flex items-center justify-between bg-[#1f2c34] px-5 pb-1 pt-2.5 text-[11px] font-semibold text-[#e9edef]">
+          <span>9:41</span>
+          <span className="flex items-center gap-1.5">
+            <Signal className="h-3.5 w-3.5" />
+            <Wifi className="h-3.5 w-3.5" />
+            <BatteryFull className="h-4 w-4" />
+          </span>
+        </div>
         {/* header WhatsApp */}
-        <div className="flex items-center gap-2.5 bg-[#1f2c34] px-3 py-2.5">
+        <div className="flex items-center gap-2.5 bg-[#1f2c34] px-3 pb-2.5 pt-0.5">
           <ArrowLeft className="h-5 w-5 text-[#aebac1]" />
           <span className="grid h-9 w-9 place-items-center rounded-full bg-[#00a884] text-white">
             <Sparkles className="h-5 w-5" />
@@ -171,7 +180,8 @@ export function SparkBotWhats() {
         </div>
 
         {/* o WhatsApp */}
-        <div className="order-1 md:order-2">
+        <div className="relative order-1 md:order-2">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[78%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[90px]" />
           <PhoneMock />
         </div>
       </div>

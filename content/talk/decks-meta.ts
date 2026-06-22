@@ -44,7 +44,6 @@ export const ORG_SCENE_META: SceneMeta[] = [
 
 export const BOSSGRUPO_SCENE_META: SceneMeta[] = [
   { id: "capa", label: "Abertura" },
-  { id: "natalia", label: "Endosso Natália" },
   { id: "pedro", label: "Quem é o Spark" },
   { id: "gancho", label: "O gancho" },
   { id: "rotina", label: "Seu dia" },

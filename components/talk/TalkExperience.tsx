@@ -58,7 +58,6 @@ import { RecapBoss } from "./scenes-boss/RecapBoss";
 import { CloseBoss } from "./scenes-boss/CloseBoss";
 
 import { CoverBossGrupo } from "./scenes-boss-grupo/CoverBossGrupo";
-import { NataliaEndorse } from "./scenes-boss-grupo/NataliaEndorse";
 import { HookGrupo } from "./scenes-boss-grupo/HookGrupo";
 import { SocioBridge } from "./scenes-boss-grupo/SocioBridge";
 import { SparkBotWhats } from "./scenes-boss-grupo/SparkBotWhats";
@@ -124,7 +123,6 @@ const BOSS_SCENES: SceneDef[] = [
 
 const BOSSGRUPO_SCENES: SceneDef[] = [
   { id: "capa", label: "Abertura", Comp: CoverBossGrupo },
-  { id: "natalia", label: "Endosso Natália", Comp: NataliaEndorse },
   { id: "pedro", label: "Quem é o Spark", Comp: Founder },
   { id: "gancho", label: "O gancho", Comp: HookGrupo },
   { id: "rotina", label: "Seu dia", Comp: AgentDay },
