@@ -19,6 +19,7 @@ import {
 import { content, PLAN_CONTENT } from "@/content/pt-br";
 import type { PlanId } from "@/lib/plans";
 import { useSpark } from "../spark-context";
+import { useRouter } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
 import { Container, Section, SectionHeading, Reveal, Label } from "../ui/primitives";
 import { BackgroundLoop } from "../ui/BackgroundLoop";
@@ -200,7 +201,7 @@ export function BeforeAfter() {
 
 /** Seção 21 — escolha por momento de negócio. */
 export function ChooseByMoment() {
-  const { openCheckout } = useSpark();
+  const router = useRouter();
   const cards: { title: string; plan: PlanId; focus: string }[] = [
     { title: "Estou começando", plan: "starter", focus: "Responder leads e criar rotina comercial." },
     { title: "Já tenho carteira", plan: "growth", focus: "Retenção, score e crescimento." },
@@ -231,7 +232,7 @@ export function ChooseByMoment() {
                 </h3>
                 <p className="mt-2 flex-1 text-sm text-muted">Foco: {c.focus}</p>
                 <button
-                  onClick={() => openCheckout(c.plan)}
+                  onClick={() => router.push(`/checkout/${c.plan}`)}
                   className="btn-secondary mt-5 w-full !py-2 text-xs"
                 >
                   Ver plano recomendado <ArrowRight className="h-3.5 w-3.5" />
@@ -274,7 +275,7 @@ export function ProfileTabs() {
     },
   ];
   const [active, setActive] = useState(0);
-  const { openCheckout } = useSpark();
+  const router = useRouter();
   const tab = tabs[active];
   const plan = PLAN_CONTENT.find((p) => p.id === tab.plan)!;
 
@@ -317,7 +318,7 @@ export function ProfileTabs() {
             <span className="text-sm text-muted">
               Plano recomendado: <span className="font-semibold text-cream">{plan.name}</span>
             </span>
-            <button onClick={() => openCheckout(tab.plan)} className="btn-primary !py-2 text-xs">
+            <button onClick={() => router.push(`/checkout/${tab.plan}`)} className="btn-primary !py-2 text-xs">
               {plan.cta}
             </button>
           </div>

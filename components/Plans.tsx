@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { Star, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { PLAN_CONTENT, type PlanContent } from "@/content/pt-br";
@@ -66,7 +67,8 @@ function BotTeamBanner() {
 }
 
 function PlanCard({ plan, index }: { plan: PlanContent; index: number }) {
-  const { openCheckout, openQuiz, quizResult } = useSpark();
+  const { openQuiz, quizResult } = useSpark();
+  const router = useRouter();
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
@@ -174,7 +176,7 @@ function PlanCard({ plan, index }: { plan: PlanContent; index: number }) {
           <button
             onClick={() => {
               trackEvent("plan_selected", { plan: plan.id });
-              openCheckout(plan.id);
+              router.push(`/checkout/${plan.id}`);
             }}
             className="btn-primary w-full"
           >

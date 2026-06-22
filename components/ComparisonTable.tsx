@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Minus, ChevronDown } from "lucide-react";
 import { DrawnCheck } from "./ui/vector";
 import { COMPARE_ROWS, PLAN_CONTENT } from "@/content/pt-br";
-import { useSpark } from "./spark-context";
 import { Container, Section, SectionHeading } from "./ui/primitives";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +15,7 @@ function Cell({ value }: { value: string | boolean }) {
 }
 
 export function ComparisonTable() {
-  const { openCheckout } = useSpark();
+  const router = useRouter();
   const [openRow, setOpenRow] = useState<number | null>(0);
 
   return (
@@ -80,7 +80,7 @@ export function ComparisonTable() {
                 <td className="p-4" />
                 {PLAN_CONTENT.map((p) => (
                   <td key={p.id} className="p-4 text-center">
-                    <button onClick={() => openCheckout(p.id)} className="btn-secondary !py-2 text-xs">
+                    <button onClick={() => router.push(`/checkout/${p.id}`)} className="btn-secondary !py-2 text-xs">
                       {p.cta}
                     </button>
                   </td>
@@ -120,7 +120,7 @@ export function ComparisonTable() {
                         </li>
                       ))}
                     </ul>
-                    <button onClick={() => openCheckout(p.id)} className="btn-primary mt-4 w-full">
+                    <button onClick={() => router.push(`/checkout/${p.id}`)} className="btn-primary mt-4 w-full">
                       {p.cta}
                     </button>
                   </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, RotateCcw, Check, Sparkles } from "lucide-react";
 import { Modal } from "./ui/Modal";
@@ -15,7 +16,8 @@ import { cn } from "@/lib/utils";
 type Phase = "questions" | "loading" | "result";
 
 export function QuizModal() {
-  const { quizOpen, closeQuiz, setQuizResult, setPrefillEmail, openCheckout } = useSpark();
+  const { quizOpen, closeQuiz, setQuizResult, setPrefillEmail } = useSpark();
+  const router = useRouter();
   const reduce = useReducedMotion();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
@@ -72,7 +74,7 @@ export function QuizModal() {
     if (email) setPrefillEmail(email);
     setQuizResult({ plan, score: answers.reduce((a, b) => a + b, 0) });
     handleClose();
-    setTimeout(() => openCheckout(plan), 350);
+    router.push(`/checkout/${plan}`);
   }
   function compareAll() {
     if (email) setPrefillEmail(email);
