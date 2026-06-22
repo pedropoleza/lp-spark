@@ -10,14 +10,17 @@ export default function Page() {
   return (
     <>
       {/*
-        Break-out do iframe ANTES do React: se esta página abriu dentro do iframe
-        do checkout (o GHL redirecionou pra cá após o pagamento), levamos a janela
-        inteira pra cá. Roda assim que o HTML é lido, sem depender do React.
+        Se esta página abriu DENTRO do iframe do checkout (o GHL redirecionou pra
+        cá após o pagamento), saímos do iframe de duas formas:
+        1) postMessage pro checkout pai — funciona MESMO cross-origin; o pai então
+           navega pra sua própria /bem-vindo (mesma marca/domínio do checkout).
+        2) break-out direto — funciona quando é a mesma origem.
+        Roda antes do React, sem depender de nada carregar.
       */}
       <script
         dangerouslySetInnerHTML={{
           __html:
-            "try{if(window.top&&window.top!==window.self){window.top.location.replace(window.location.href);}}catch(e){}",
+            "try{if(window.top&&window.top!==window.self){try{window.parent.postMessage('spark:welcome','*');}catch(e){}try{window.top.location.replace(window.location.href);}catch(e){}}}catch(e){}",
         }}
       />
       <WelcomeWizard />

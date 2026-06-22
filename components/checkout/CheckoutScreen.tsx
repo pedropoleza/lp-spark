@@ -26,6 +26,17 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
     if (c) setApplied(c.toUpperCase());
   }, [welcomeUrl]);
 
+  // O iframe (após o pagamento) avisa que caiu na /bem-vindo. Aqui, como donos
+  // da janela, levamos a página inteira pra NOSSA /bem-vindo (mesmo domínio do
+  // checkout). Funciona mesmo se o GHL redirecionar pra outro domínio.
+  useEffect(() => {
+    function onMsg(e: MessageEvent) {
+      if (e.data === "spark:welcome") window.location.assign(welcomeUrl);
+    }
+    window.addEventListener("message", onMsg);
+    return () => window.removeEventListener("message", onMsg);
+  }, [welcomeUrl]);
+
   // Detecção de conclusão: quando o GHL redireciona o iframe pra uma página
   // NOSSA (/bem-vindo), conseguimos ler a URL (mesma origem) e levamos a janela
   // inteira pro wizard. Enquanto está no GHL (outra origem), a leitura lança
