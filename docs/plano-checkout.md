@@ -48,12 +48,26 @@ wizard curto (2-3 passos) no mobile converte melhor que página única longa.
      nosso form bonito e manda **prefilled** pro GHL.
 2. **GHL redireciona pro nosso wizard** após o pagamento (`redirectUrl` →
    `/bem-vindo?plan=...`).
-3. **Wizard de boas-vindas** (nosso site, mobile-first, 3 passos):
-   - **Passo 1 — Boas-vindas:** celebração, "o que vem agora", expectativa.
-   - **Passo 2 — Agendar onboarding:** iframe da nossa agenda (ação principal).
-   - **Passo 3 — Instruções:** "instruções chegam no WhatsApp e no e-mail",
-     "acesse pelo e-mail", "você começa a usar no dia do onboarding", e-mail de
-     boas-vindas de info@sparkleads.pro; **atalhos**: suporte / WhatsApp / login.
+3. **Wizard de boas-vindas** (nosso site, mobile-first, **2 telas** — sem inflar passos):
+   - **Tela 1 — Boas-vindas + Agendar onboarding (a ação de ativação):**
+     micro-celebração no topo ("🎉 Você entrou. Bem-vindo ao Spark") + **iframe
+     da agenda inline**, com **nome/e-mail já preenchidos**, **zero perguntas
+     extras** e **horários próximos** priorizados. Agendar é o único CTA.
+   - **Tela 2 — O que vem agora / instruções:** confirma o horário marcado;
+     deixa explícito "instruções chegam no WhatsApp e no e-mail", "acesse pelo
+     e-mail", "você começa a usar **no dia do onboarding**"; **atalhos**
+     (WhatsApp / suporte / login). Indicador "Etapa 1 de 2 / 2 de 2" que
+     pareça rápido no começo.
+   - **E-mail de boas-vindas** dispara na hora (de uma pessoa real em
+     info@sparkleads.pro, 1 CTA, transacional/autenticado) + **mensagem no
+     WhatsApp**. **Sequência anti-no-show:** confirmação → e-mail ~24h antes →
+     SMS/WhatsApp ~1h antes + workflow de rebooking pra quem faltar.
+
+   *Por quê (pesquisa): agendar a call no pico de intenção pós-pagamento
+   (compromisso/consistência); auto-seleção de horário tem ~⅓ do no-show de
+   horário imposto; lead-time curto reduz no-show; tela de boas-vindas +
+   expectativa clara cortam arrependimento e tickets de suporte; no mobile, uma
+   decisão por tela converte melhor; não inventar passos (fluxo curto de verdade).*
 4. **Ajustes no order form do GHL** (mata a dupla digitação + business name).
 
 Isso resolve: deep-link ✔ · dupla digitação ✔ · business name ✔ · controle do
@@ -72,7 +86,7 @@ mas recria cupons e exige webhook de provisionamento. Só se você quiser. Não 
 - [ ] **A3. Acesso à conta:** o cliente só usa **no dia do onboarding** (confirmar) — a tela de instruções vai deixar isso claro.
 
 ### B) Links / dados (só você tem)
-- [ ] **B1. Link da agenda de ONBOARDING** (widget de booking embedável). Reuso o de demo (`…/widget/bookings/demo-sparkleads`) ou tem um específico de onboarding?
+- [ ] **B1. Link da agenda de ONBOARDING** (widget embedável). Reuso o de demo (`…/widget/bookings/demo-sparkleads`) ou tem um específico de onboarding? **Qual ferramenta** (booking do GHL ou Calendly)? — define como faço prefill/embed. Deixar **horários próximos** disponíveis e **sem perguntas extras** no evento.
 - [ ] **B2. Os 3 payment-links oficiais** (Starter/Growth/Agency) que devo usar nas rotas. Confirmar se já têm o preço/desconto certo.
 - [ ] **B3. WhatsApp de suporte** (número real → vira `wa.me/...`).
 - [ ] **B4. URL de login/acesso** que o cliente usa pra entrar na conta (pra mostrar nas instruções).
@@ -84,8 +98,9 @@ mas recria cupons e exige webhook de provisionamento. Só se você quiser. Não 
 - [ ] **C3. Order form — dupla digitação:** ajustar o form pra **não pedir e-mail/telefone 2x** (usar 1 passo / corrigir o two-step).
 - [ ] **C4. Prefill (se A2 = b):** confirmar que o link aceita `firstName/lastName/email/phone` na URL e **testar `?` vs `/`** como separador.
 - [ ] **C5. Apple/Google Pay (opcional, alto impacto mobile):** ativar Stripe Connect no GHL, **registrar o domínio do funil no Stripe** e hospedar o arquivo `.well-known/apple-developer-merchantid-domain-association`.
-- [ ] **C6. E-mail de boas-vindas:** workflow no GHL disparado na compra, **de info@sparkleads.pro**, com as instruções/login. Confirmar que existe ou criar.
-- [ ] **C7. Instruções no WhatsApp:** confirmar a automação que manda as instruções no WhatsApp.
+- [ ] **C6. E-mail de boas-vindas:** workflow disparado **na hora** da compra, **de uma pessoa real em info@sparkleads.pro** (replyável, 1 CTA, estilo texto), com instruções/login. **Autenticação de envio** (SPF + DKIM + DMARC) no domínio — crítico pra cair na caixa de entrada. Confirmar que existe ou criar.
+- [ ] **C7. Instruções no WhatsApp:** confirmar a automação que manda as instruções no WhatsApp na compra.
+- [ ] **C8. Sequência anti-no-show:** lembretes da call — **e-mail ~24h antes + SMS/WhatsApp ~1h antes** + workflow de **rebooking** pra quem faltar (no GHL).
 
 ### D) Conteúdo
 - [ ] **D1.** Texto/oferta da tela de boas-vindas (tom) — posso propor e você ajusta.
