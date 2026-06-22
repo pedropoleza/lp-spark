@@ -52,7 +52,12 @@ function PhoneMock() {
   }, []);
 
   return (
-    <div className="relative mx-auto w-[300px] max-w-full rounded-[2.4rem] border-[6px] border-black bg-black shadow-plan">
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto w-[300px] max-w-full rounded-[2.4rem] border-[6px] border-black bg-black shadow-plan"
+    >
       {/* notch */}
       <div className="absolute left-1/2 top-0 z-10 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-black" />
       <div className="flex h-[600px] flex-col overflow-hidden rounded-[2rem] bg-[#0b141a]">
@@ -64,7 +69,7 @@ function PhoneMock() {
           </span>
           <div className="flex-1 leading-tight">
             <p className="text-[15px] font-semibold text-[#e9edef]">SparkBot</p>
-            <p className="text-[11px] text-[#8696a0]">online</p>
+            <p className="text-[11px] text-[#8696a0]">{typing ? "digitando…" : "online"}</p>
           </div>
           <Video className="h-5 w-5 text-[#aebac1]" />
           <Phone className="h-[18px] w-[18px] text-[#aebac1]" />
@@ -121,7 +126,7 @@ function PhoneMock() {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

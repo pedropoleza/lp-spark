@@ -93,6 +93,7 @@ export const OFFER_INTRO_GRUPO = {
     "Migração e setup feitos com você.",
   ],
   note: "Os mesmos planos de sempre, com um desconto que vale só hoje, pra quem está aqui.",
+  payback: "E 1 cliente novo já paga o plano. O resto é margem.",
 };
 
 /* ————————————————————————————————————————————————————————————

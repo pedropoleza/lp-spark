@@ -47,6 +47,15 @@ export function OfferIntro() {
       >
         {OFFER_INTRO_GRUPO.note}
       </motion.p>
+
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.3 }}
+        className="mx-auto mt-4 w-fit rounded-full border border-lime/30 bg-lime/[0.06] px-4 py-1.5 text-center text-sm font-semibold text-lime"
+      >
+        {OFFER_INTRO_GRUPO.payback}
+      </motion.p>
     </TalkSceneFrame>
   );
 }

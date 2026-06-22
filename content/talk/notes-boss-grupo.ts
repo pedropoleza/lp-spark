@@ -62,6 +62,7 @@ export const BOSSGRUPO_NOTES: Record<string, string[]> = {
     "[transição] Vocês viram o valor. Posso te mostrar a condição? (peça permissão)",
     "Entra o CRM completo, o SparkBot e o setup feito com vocês.",
     "Mesmos planos de sempre, com um desconto que vale SÓ nesta chamada.",
+    "[payback] 1 cliente novo já paga o plano. O resto é margem. (tira o medo do preço)",
   ],
   planos: [
     "[reveal] Três planos. O do meio, Growth, é o melhor valor pra maioria.",
