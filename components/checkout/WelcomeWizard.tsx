@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, LogIn, ArrowRight, ArrowLeft, PartyPopper, Mail } from "lucide-react";
 import { isValidPlan, type PlanId } from "@/lib/plans";
 import { ONBOARDING_CALENDARS, SUPPORT_WHATSAPP, APP_LOGIN_URL, WELCOME, planSummary } from "@/content/checkout";
+import { attachGhlAutoResize } from "@/lib/ghl-embed";
 
 export function WelcomeWizard() {
   const [plan, setPlan] = useState<PlanId>("growth");
   const [step, setStep] = useState(0);
+  const calRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     // o break-out do iframe é feito por um script inline na página (roda antes
@@ -17,6 +19,12 @@ export function WelcomeWizard() {
     const pl = sp.get("plan");
     if (pl && isValidPlan(pl)) setPlan(pl);
   }, []);
+
+  // o widget de booking do GHL se auto-redimensiona pra altura total do
+  // conteúdo (sem scroll interno). Re-liga ao trocar de plano/voltar pro passo 1.
+  useEffect(() => {
+    if (step === 0) attachGhlAutoResize(calRef.current);
+  }, [plan, step]);
 
   const p = planSummary(plan);
 
@@ -45,12 +53,17 @@ export function WelcomeWizard() {
               Plano <span className="font-semibold text-cream">{p.name}</span>. Escolha o melhor horário pra sua sessão de onboarding (~30 min).
             </p>
 
-            {/* agenda de onboarding (inline, alta — horários visíveis sem scroll) */}
-            <div className="flex-1 overflow-hidden rounded-card-lg border border-white/10 bg-white">
+            {/* agenda de onboarding — o iframe cresce até a altura total do
+                conteúdo (auto-resize do GHL), então TODOS os horários aparecem
+                sem scroll dentro do iframe; a página rola normalmente. */}
+            <div className="overflow-hidden rounded-card-lg border border-white/10 bg-white">
               <iframe
+                ref={calRef}
                 src={ONBOARDING_CALENDARS[plan]}
                 title="Agendar onboarding"
-                className="h-[calc(100dvh-210px)] min-h-[560px] w-full"
+                scrolling="no"
+                className="block w-full"
+                style={{ minHeight: 620 }}
                 allow="payment"
               />
             </div>

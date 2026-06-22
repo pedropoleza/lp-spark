@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { PlanId } from "@/lib/plans";
 import { planSummary, checkoutLink, ACTIVATION_FEE } from "@/content/checkout";
 import { searchCoupons, labelForCode } from "@/content/coupons";
+import { attachGhlAutoResize } from "@/lib/ghl-embed";
 import { cn } from "@/lib/utils";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -42,6 +43,7 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
   // inteira pro wizard. Enquanto está no GHL (outra origem), a leitura lança
   // erro e a gente ignora — é o comportamento esperado.
   function onIframeLoad() {
+    attachGhlAutoResize(iframeRef.current);
     try {
       const path = iframeRef.current?.contentWindow?.location?.pathname ?? "";
       if (path.includes("/bem-vindo")) window.location.replace(welcomeUrl);
@@ -52,6 +54,14 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
 
   const results = useMemo(() => searchCoupons(query, plan), [query, plan]);
   const payHref = checkoutLink(plan, { coupon: applied, redirectUrl });
+
+  // o checkout do GHL se auto-redimensiona pra altura total do formulário,
+  // então ele aparece inteiro sem scroll dentro do iframe (a página rola).
+  // Re-liga quando o link muda (troca de cupom remonta o iframe).
+  useEffect(() => {
+    if (redirectUrl) attachGhlAutoResize(iframeRef.current);
+  }, [payHref, redirectUrl]);
+
   const appliedLabel = applied ? labelForCode(applied) : null;
 
   async function apply(code: string) {
@@ -165,7 +175,7 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
         </aside>
 
         {/* checkout do GHL no iframe + detecção de conclusão */}
-        <section className="flex min-h-[70dvh] flex-col overflow-hidden rounded-card-lg border border-white/10 bg-graphite shadow-plan">
+        <section className="flex flex-col overflow-hidden rounded-card-lg border border-white/10 bg-graphite shadow-plan">
           <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
             <span className="flex gap-2">
               <i className="h-3 w-3 rounded-full bg-[#ED5656]" />
@@ -183,11 +193,13 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
               src={payHref}
               title={`Checkout Spark ${p.name}`}
               allow="payment"
+              scrolling="no"
               onLoad={onIframeLoad}
-              className="w-full flex-1 bg-white"
+              style={{ minHeight: 760 }}
+              className="block w-full bg-white"
             />
           ) : (
-            <div className="flex-1 animate-pulse bg-white/5" />
+            <div className="min-h-[760px] animate-pulse bg-white/5" />
           )}
           <a href={payHref} target="_blank" rel="noopener noreferrer" className="flex shrink-0 items-center gap-1.5 px-4 py-2 text-xs text-muted hover:text-cream">
             <ExternalLink className="h-3.5 w-3.5" /> Não carregou? Abrir o checkout em nova aba
