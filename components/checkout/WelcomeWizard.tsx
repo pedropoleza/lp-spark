@@ -11,11 +11,8 @@ export function WelcomeWizard() {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    // se o GHL redirecionou DENTRO do iframe do checkout, escapa pra tela cheia
-    if (window.top && window.top !== window.self) {
-      window.top.location.href = window.location.href;
-      return;
-    }
+    // o break-out do iframe é feito por um script inline na página (roda antes
+    // do React). Aqui só lemos o plano da URL.
     const sp = new URLSearchParams(window.location.search);
     const pl = sp.get("plan");
     if (pl && isValidPlan(pl)) setPlan(pl);
