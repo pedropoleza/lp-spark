@@ -60,7 +60,9 @@ import { CloseBoss } from "./scenes-boss/CloseBoss";
 import { CoverBossGrupo } from "./scenes-boss-grupo/CoverBossGrupo";
 import { NataliaEndorse } from "./scenes-boss-grupo/NataliaEndorse";
 import { HookGrupo } from "./scenes-boss-grupo/HookGrupo";
-import { SparkBotScene } from "./scenes-boss-grupo/SparkBotScene";
+import { SocioBridge } from "./scenes-boss-grupo/SocioBridge";
+import { SparkBotWhats } from "./scenes-boss-grupo/SparkBotWhats";
+import { ValuePillars } from "./scenes-boss-grupo/ValuePillars";
 import { OfferIntro } from "./scenes-boss-grupo/OfferIntro";
 import { PlansQR } from "./scenes-boss-grupo/PlansQR";
 import { DemoQR } from "./scenes-boss-grupo/DemoQR";
@@ -126,8 +128,10 @@ const BOSSGRUPO_SCENES: SceneDef[] = [
   { id: "pedro", label: "Quem é o Spark", Comp: Founder },
   { id: "gancho", label: "O gancho", Comp: HookGrupo },
   { id: "rotina", label: "Seu dia", Comp: AgentDay },
+  { id: "socio", label: "O sócio", Comp: SocioBridge },
+  { id: "sparkbot", label: "SparkBot", Comp: SparkBotWhats },
   { id: "produto", label: "Funcionando", Comp: ProductBoss },
-  { id: "sparkbot", label: "SparkBot", Comp: SparkBotScene },
+  { id: "valor", label: "O valor", Comp: ValuePillars },
   { id: "antes-depois", label: "Antes × depois", Comp: BeforeAfter },
   { id: "oferta", label: "A condição", Comp: OfferIntro },
   { id: "planos", label: "Planos + QR", Comp: PlansQR },

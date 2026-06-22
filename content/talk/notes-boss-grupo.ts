@@ -30,16 +30,28 @@ export const BOSSGRUPO_NOTES: Record<string, string[]> = {
     "Não é falta de esforço. É esforço espalhado em lugar nenhum.",
     "[micro-yes] Faz sentido? Manda um “sim” no chat.",
   ],
+  socio: [
+    "[analogia] Imagina ter um sócio que nunca dorme.",
+    "Acorda antes de você, cobra os leads esquecidos, faz follow-up enquanto você atende.",
+    "Nunca tira férias, nunca pede comissão.",
+    "Esse sócio existe, e mora no seu WhatsApp: o SparkBot.",
+  ],
+  sparkbot: [
+    "Esse é o coração: o SparkBot é PROATIVO, ele te procura.",
+    "[deixe a conversa rodar na tela] Olha: é o WhatsApp que você já usa.",
+    "De manhã te entrega o dia. Durante, responde os leads. Depois da reunião, faz o follow-up sozinho. À noite, resume e prepara o amanhã.",
+    "Não é chatbot que espera você perguntar. É sócio que age.",
+    "[trial close] Se ele só te salvasse 1 cliente por mês, já valeria?",
+  ],
   produto: [
-    "Tudo num lugar: funil, conversas, calendário, automações.",
+    "E por trás do bot, tudo num lugar: funil, conversas, calendário, automações.",
     "[mostre] Olha o funil, o selo Five Rings, as conversas numa caixa só.",
     "Sem puxadinho, sem trocar de cinco apps.",
   ],
-  sparkbot: [
-    "Esse é o destaque: o SparkBot.",
-    "Ele responde, qualifica e marca a reunião no seu WhatsApp.",
-    "[deixe a animação rodar] Você dorme, ele continua atendendo.",
-    "[trial close] Se ele só te salvasse 1 cliente por mês, já valeria?",
+  valor: [
+    "Na prática, vira três coisas pra você:",
+    "Mais vendas (nenhum lead esfria), mais tempo (o bot faz o chato), menos cabeça (tudo organizado).",
+    "Mais comissão, menos correria. É o seu tempo e o seu dinheiro de volta.",
   ],
   "antes-depois": [
     "Mesmos 100 leads: na memória fecham 8; com o sistema, 19.",
