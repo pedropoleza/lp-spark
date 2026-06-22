@@ -152,7 +152,8 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
             </div>
             {applied && (
               <p className="mt-2 rounded-lg border border-accent/30 bg-accent/10 p-2.5 text-[11px] text-cream">
-                Cupom <span className="font-mono font-semibold text-accent">{appliedLabel}</span> aplicado.
+                Cupom <span className="font-mono font-semibold text-accent">{appliedLabel}</span> copiado. Se não
+                aplicar sozinho, cole no campo <strong>Cupom</strong> do checkout.
               </p>
             )}
           </div>

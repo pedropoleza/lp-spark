@@ -26,7 +26,7 @@ export function WelcomeWizard() {
         <span className="label-mono">Spark Leads · Boas-vindas</span>
       </header>
 
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-5 pb-10">
+      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 pb-6">
         {/* progresso */}
         <div className="mb-5 flex items-center justify-center gap-2 text-xs text-muted">
           <span className={step === 0 ? "font-semibold text-accent" : ""}>1 · Agendar</span>
@@ -36,30 +36,27 @@ export function WelcomeWizard() {
 
         {step === 0 ? (
           <motion.div key="s1" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="flex flex-1 flex-col">
-            <div className="text-center">
-              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-lime/15 text-lime">
-                <PartyPopper className="h-6 w-6" />
-              </span>
-              <h1 className="mt-4 font-display font-bold leading-[1.1]" style={{ fontSize: "clamp(1.6rem, 5vw, 2.2rem)" }}>
-                {WELCOME.title}
-              </h1>
-              <p className="mx-auto mt-2 max-w-md text-sm text-muted">
-                Plano <span className="font-semibold text-cream">{p.name}</span>. {WELCOME.sub}
-              </p>
+            {/* header compacto pra sobrar altura pro calendário */}
+            <div className="mb-1 flex items-center justify-center gap-2">
+              <PartyPopper className="h-5 w-5 shrink-0 text-lime" />
+              <h1 className="font-display text-lg font-bold sm:text-xl">{WELCOME.title}</h1>
             </div>
+            <p className="mx-auto mb-3 max-w-md text-center text-xs text-muted">
+              Plano <span className="font-semibold text-cream">{p.name}</span>. Escolha o melhor horário pra sua sessão de onboarding (~30 min).
+            </p>
 
-            {/* agenda de onboarding (inline) */}
-            <div className="mt-5 flex-1 overflow-hidden rounded-card-lg border border-white/10 bg-white">
+            {/* agenda de onboarding (inline, alta — horários visíveis sem scroll) */}
+            <div className="flex-1 overflow-hidden rounded-card-lg border border-white/10 bg-white">
               <iframe
                 src={ONBOARDING_CALENDARS[plan]}
                 title="Agendar onboarding"
-                className="h-[60vh] min-h-[420px] w-full"
+                className="h-[calc(100dvh-210px)] min-h-[560px] w-full"
                 allow="payment"
               />
             </div>
 
-            <div className="mt-4 flex flex-col items-center gap-3">
-              <button onClick={() => setStep(1)} className="btn-primary w-full justify-center py-3.5">
+            <div className="mt-3 flex flex-col items-center gap-2">
+              <button onClick={() => setStep(1)} className="btn-primary w-full justify-center py-3">
                 Já agendei, continuar <ArrowRight className="h-4 w-4" />
               </button>
               <a href={APP_LOGIN_URL} target="_blank" rel="noreferrer" className="text-xs text-muted underline-offset-4 hover:text-cream hover:underline">
