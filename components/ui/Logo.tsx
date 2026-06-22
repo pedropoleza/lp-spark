@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/asset";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -19,7 +20,7 @@ export function Logo({ variant = "wordmark", onDark = true, className }: Props) 
   if (variant === "mark") {
     return (
       <img
-        src="/brand/mark.webp"
+        src={asset("/brand/mark.webp")}
         alt="Spark Leads"
         width={512}
         height={513}
@@ -28,7 +29,7 @@ export function Logo({ variant = "wordmark", onDark = true, className }: Props) 
       />
     );
   }
-  const src = onDark ? "/brand/wordmark-light.webp" : "/brand/wordmark-dark.webp";
+  const src = asset(onDark ? "/brand/wordmark-light.webp" : "/brand/wordmark-dark.webp");
   return (
     <img
       src={src}

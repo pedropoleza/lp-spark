@@ -11,6 +11,7 @@ import { useSpark } from "./spark-context";
 import { QUIZ_QUESTIONS, recomendarPlano, QUIZ_REASONS } from "@/lib/quiz";
 import { PLAN_CONTENT } from "@/content/pt-br";
 import { trackEvent } from "@/lib/analytics";
+import { asset } from "@/lib/asset";
 import { cn } from "@/lib/utils";
 
 type Phase = "questions" | "loading" | "result";
@@ -99,8 +100,8 @@ export function QuizModal() {
             preload="auto"
             className="pointer-events-none absolute h-px w-px opacity-0"
           >
-            <source src="/bot/bot-pick.webm" type="video/webm" />
-            <source src="/bot/bot-pick.mp4" type="video/mp4" />
+            <source src={asset("/bot/bot-pick.webm")} type="video/webm" />
+            <source src={asset("/bot/bot-pick.mp4")} type="video/mp4" />
           </video>
         )}
 

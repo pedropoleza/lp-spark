@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/asset";
 
 type Props = {
   /** Caminho base SEM extensão, ex.: "/bot/bot-smile". */
@@ -63,10 +64,11 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
     objectFit: fit,
   };
   const base = "h-full w-full";
+  const u = asset(src);
 
   if (reduced) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={`${src}.webp`} alt="SparkBot" className={cn(base, className)} style={style} />;
+    return <img src={`${u}.webp`} alt="SparkBot" className={cn(base, className)} style={style} />;
   }
 
   return (
@@ -76,13 +78,13 @@ export function BotVideo({ src, className, blend = false, fit = "contain" }: Pro
       muted
       playsInline
       preload="none"
-      poster={`${src}.webp`}
+      poster={`${u}.webp`}
       onMouseEnter={replay}
       className={cn(base, "cursor-pointer", className)}
       style={style}
     >
-      <source src={`${src}.webm`} type="video/webm" />
-      <source src={`${src}.mp4`} type="video/mp4" />
+      <source src={`${u}.webm`} type="video/webm" />
+      <source src={`${u}.mp4`} type="video/mp4" />
     </video>
   );
 }

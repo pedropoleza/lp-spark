@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/asset";
 
 type Blend = "screen" | "lighten" | "plus-lighter" | "overlay" | "normal";
 
@@ -65,12 +66,13 @@ export function BackgroundLoop({
     mixBlendMode: blend as CSSProperties["mixBlendMode"],
   };
   const baseClass = "pointer-events-none absolute inset-0 h-full w-full object-cover";
+  const u = asset(src);
 
   // Reduced motion: poster estático (ou nada, se não houver poster).
   if (reduced) {
     if (!poster) return null;
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={`${src}.jpg`} alt="" aria-hidden className={cn(baseClass, className)} style={style} />;
+    return <img src={`${u}.jpg`} alt="" aria-hidden className={cn(baseClass, className)} style={style} />;
   }
 
   return (
@@ -81,12 +83,12 @@ export function BackgroundLoop({
       loop
       playsInline
       preload="none"
-      poster={poster ? `${src}.jpg` : undefined}
+      poster={poster ? `${u}.jpg` : undefined}
       className={cn(baseClass, className)}
       style={style}
     >
-      <source src={`${src}.webm`} type="video/webm" />
-      <source src={`${src}.mp4`} type="video/mp4" />
+      <source src={`${u}.webm`} type="video/webm" />
+      <source src={`${u}.mp4`} type="video/mp4" />
     </video>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { CornerMarks } from "./motion2d";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/asset";
 
 type Props = {
   /** Caminho base do clipe, ex.: "/bot/bot-smile". */
@@ -61,6 +62,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
   };
 
   const mediaStyle: CSSProperties = { mixBlendMode: blend ? "screen" : "normal" };
+  const u = asset(clip);
 
   return (
     <motion.div
@@ -86,7 +88,7 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
       >
         {reduce ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`${clip}.webp`} alt="SparkBot" className="h-full w-full object-cover" style={mediaStyle} />
+          <img src={`${u}.webp`} alt="SparkBot" className="h-full w-full object-cover" style={mediaStyle} />
         ) : (
           <video
             ref={videoRef}
@@ -94,12 +96,12 @@ export function BotReaction({ clip, caption, blend = false, side = "right", clas
             muted
             playsInline
             preload="none"
-            poster={`${clip}.webp`}
+            poster={`${u}.webp`}
             className="h-full w-full object-cover"
             style={mediaStyle}
           >
-            <source src={`${clip}.webm`} type="video/webm" />
-            <source src={`${clip}.mp4`} type="video/mp4" />
+            <source src={`${u}.webm`} type="video/webm" />
+            <source src={`${u}.mp4`} type="video/mp4" />
           </video>
         )}
       </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { GitBranch, Bot, BarChart3, Play } from "lucide-react";
 import { Container, Section } from "../ui/primitives";
+import { asset } from "@/lib/asset";
 
 const FEATURES = [
   {
@@ -76,8 +77,8 @@ export function CrmShowcase() {
             <div className="relative aspect-video w-full bg-ink">
               {loaded ? (
                 <video
-                  src="/crm/demo.mp4"
-                  poster="/crm/demo-poster.webp"
+                  src={asset("/crm/demo.mp4")}
+                  poster={asset("/crm/demo-poster.webp")}
                   controls
                   autoPlay
                   playsInline
@@ -92,7 +93,7 @@ export function CrmShowcase() {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/crm/demo-poster.webp"
+                    src={asset("/crm/demo-poster.webp")}
                     alt="CRM Spark Leads"
                     loading="lazy"
                     width={1280}
