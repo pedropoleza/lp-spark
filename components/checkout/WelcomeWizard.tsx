@@ -53,17 +53,18 @@ export function WelcomeWizard() {
               Plano <span className="font-semibold text-cream">{p.name}</span>. Escolha o melhor horário pra sua sessão de onboarding (~30 min).
             </p>
 
-            {/* agenda de onboarding — o iframe cresce até a altura total do
-                conteúdo (auto-resize do GHL), então TODOS os horários aparecem
-                sem scroll dentro do iframe; a página rola normalmente. */}
+            {/* agenda de onboarding — o auto-resize do GHL cresce o iframe até a
+                altura total (sem scroll). MAS se o script for bloqueado (ad-block,
+                extensão de privacidade), o iframe NUNCA pode travar: por isso ele
+                tem altura generosa e scroll liberado como rede de segurança, pra
+                sempre dar pra escolher horário e confirmar. */}
             <div className="overflow-hidden rounded-card-lg border border-white/10 bg-white">
               <iframe
                 ref={calRef}
                 src={ONBOARDING_CALENDARS[plan]}
                 title="Agendar onboarding"
-                scrolling="no"
                 className="block w-full"
-                style={{ minHeight: 620 }}
+                style={{ height: 820 }}
                 allow="payment"
               />
             </div>
