@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, LogIn, ArrowRight, ArrowLeft, PartyPopper, Mail } from "lucide-react";
 import { isValidPlan, type PlanId } from "@/lib/plans";
 import { ONBOARDING_CALENDARS, SUPPORT_WHATSAPP, APP_LOGIN_URL, WELCOME, planSummary } from "@/content/checkout";
-import { attachGhlAutoResize } from "@/lib/ghl-embed";
 
 export function WelcomeWizard() {
   const [plan, setPlan] = useState<PlanId>("growth");
   const [step, setStep] = useState(0);
-  const calRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     // o break-out do iframe é feito por um script inline na página (roda antes
@@ -19,12 +17,6 @@ export function WelcomeWizard() {
     const pl = sp.get("plan");
     if (pl && isValidPlan(pl)) setPlan(pl);
   }, []);
-
-  // o widget de booking do GHL se auto-redimensiona pra altura total do
-  // conteúdo (sem scroll interno). Re-liga ao trocar de plano/voltar pro passo 1.
-  useEffect(() => {
-    if (step === 0) attachGhlAutoResize(calRef.current);
-  }, [plan, step]);
 
   const p = planSummary(plan);
 
@@ -53,18 +45,14 @@ export function WelcomeWizard() {
               Plano <span className="font-semibold text-cream">{p.name}</span>. Escolha o melhor horário pra sua sessão de onboarding (~30 min).
             </p>
 
-            {/* agenda de onboarding — o auto-resize do GHL cresce o iframe até a
-                altura total (sem scroll). MAS se o script for bloqueado (ad-block,
-                extensão de privacidade), o iframe NUNCA pode travar: por isso ele
-                tem altura generosa e scroll liberado como rede de segurança, pra
-                sempre dar pra escolher horário e confirmar. */}
+            {/* agenda de onboarding — altura fixa + scroll padrão. Simples e à
+                prova de bala: NÃO depende de script externo (msgsndr.com), então
+                não trava nem colapsa se um bloqueador estiver ativo. */}
             <div className="overflow-hidden rounded-card-lg border border-white/10 bg-white">
               <iframe
-                ref={calRef}
                 src={ONBOARDING_CALENDARS[plan]}
                 title="Agendar onboarding"
-                className="block w-full"
-                style={{ height: 820 }}
+                className="block h-[78vh] min-h-[640px] w-full"
                 allow="payment"
               />
             </div>

@@ -6,7 +6,6 @@ import Link from "next/link";
 import type { PlanId } from "@/lib/plans";
 import { planSummary, checkoutLink, ACTIVATION_FEE } from "@/content/checkout";
 import { searchCoupons, labelForCode } from "@/content/coupons";
-import { attachGhlAutoResize } from "@/lib/ghl-embed";
 import { cn } from "@/lib/utils";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -43,7 +42,6 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
   // inteira pro wizard. Enquanto está no GHL (outra origem), a leitura lança
   // erro e a gente ignora — é o comportamento esperado.
   function onIframeLoad() {
-    attachGhlAutoResize(iframeRef.current);
     try {
       const path = iframeRef.current?.contentWindow?.location?.pathname ?? "";
       if (path.includes("/bem-vindo")) window.location.replace(welcomeUrl);
@@ -54,13 +52,6 @@ export function CheckoutScreen({ plan }: { plan: PlanId }) {
 
   const results = useMemo(() => searchCoupons(query, plan), [query, plan]);
   const payHref = checkoutLink(plan, { coupon: applied, redirectUrl });
-
-  // o checkout do GHL se auto-redimensiona pra altura total do formulário,
-  // então ele aparece inteiro sem scroll dentro do iframe (a página rola).
-  // Re-liga quando o link muda (troca de cupom remonta o iframe).
-  useEffect(() => {
-    if (redirectUrl) attachGhlAutoResize(iframeRef.current);
-  }, [payHref, redirectUrl]);
 
   const appliedLabel = applied ? labelForCode(applied) : null;
 
