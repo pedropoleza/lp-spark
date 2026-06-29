@@ -7,35 +7,53 @@
 import { z } from "zod";
 
 /* ------------------------------------------------------------------ */
-/* TIMES — ⚠️ CONFIRA O CHAVEAMENTO ATUAL                              */
-/* Lista dos 16 times das oitavas da Copa do Mundo de Clubes 2025.    */
-/* Se algum estiver errado/faltando, é só editar este array.          */
+/* SELEÇÕES — ⚠️ CONFIRA CONFORME O MATA-MATA AVANÇA                   */
+/* As 32 seleções classificadas para o mata-mata da Copa do Mundo 2026 */
+/* (12 1ºs de grupo + 12 2ºs + 8 melhores 3ºs). Conforme os times      */
+/* forem eliminados, é só remover daqui. O "country" mostra a          */
+/* confederação/continente (subtítulo no card).                        */
 /* ------------------------------------------------------------------ */
 export type Team = {
   id: string;
   name: string;
-  country: string;
-  flag: string; // emoji de bandeira do país
-  color: string; // cor primária do clube (estado selecionado)
+  country: string; // confederação/continente (subtítulo)
+  flag: string; // emoji da bandeira
+  color: string; // cor da seleção (estado selecionado)
 };
 
 export const TEAMS: Team[] = [
-  { id: "palmeiras", name: "Palmeiras", country: "Brasil", flag: "🇧🇷", color: "#0E7A4B" },
-  { id: "flamengo", name: "Flamengo", country: "Brasil", flag: "🇧🇷", color: "#C52613" },
-  { id: "fluminense", name: "Fluminense", country: "Brasil", flag: "🇧🇷", color: "#7A0A28" },
-  { id: "botafogo", name: "Botafogo", country: "Brasil", flag: "🇧🇷", color: "#111111" },
-  { id: "real-madrid", name: "Real Madrid", country: "Espanha", flag: "🇪🇸", color: "#FEBE10" },
-  { id: "man-city", name: "Manchester City", country: "Inglaterra", flag: "🇬🇧", color: "#6CABDD" },
-  { id: "chelsea", name: "Chelsea", country: "Inglaterra", flag: "🇬🇧", color: "#034694" },
-  { id: "bayern", name: "Bayern de Munique", country: "Alemanha", flag: "🇩🇪", color: "#DC052D" },
-  { id: "dortmund", name: "Borussia Dortmund", country: "Alemanha", flag: "🇩🇪", color: "#FDE100" },
-  { id: "psg", name: "Paris Saint-Germain", country: "França", flag: "🇫🇷", color: "#004170" },
-  { id: "benfica", name: "Benfica", country: "Portugal", flag: "🇵🇹", color: "#E10600" },
-  { id: "inter", name: "Inter de Milão", country: "Itália", flag: "🇮🇹", color: "#0B1560" },
-  { id: "juventus", name: "Juventus", country: "Itália", flag: "🇮🇹", color: "#111111" },
-  { id: "inter-miami", name: "Inter Miami", country: "EUA", flag: "🇺🇸", color: "#F7B5CD" },
-  { id: "monterrey", name: "Monterrey", country: "México", flag: "🇲🇽", color: "#16317A" },
-  { id: "al-hilal", name: "Al Hilal", country: "Arábia Saudita", flag: "🇸🇦", color: "#0050A0" },
+  { id: "brasil", name: "Brasil", country: "América do Sul", flag: "🇧🇷", color: "#009C3B" },
+  { id: "argentina", name: "Argentina", country: "América do Sul", flag: "🇦🇷", color: "#75AADB" },
+  { id: "franca", name: "França", country: "Europa", flag: "🇫🇷", color: "#0055A4" },
+  { id: "espanha", name: "Espanha", country: "Europa", flag: "🇪🇸", color: "#C60B1E" },
+  { id: "inglaterra", name: "Inglaterra", country: "Europa", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", color: "#CF1020" },
+  { id: "alemanha", name: "Alemanha", country: "Europa", flag: "🇩🇪", color: "#111111" },
+  { id: "portugal", name: "Portugal", country: "Europa", flag: "🇵🇹", color: "#006600" },
+  { id: "holanda", name: "Holanda", country: "Europa", flag: "🇳🇱", color: "#F36C21" },
+  { id: "belgica", name: "Bélgica", country: "Europa", flag: "🇧🇪", color: "#E30613" },
+  { id: "croacia", name: "Croácia", country: "Europa", flag: "🇭🇷", color: "#D10000" },
+  { id: "suica", name: "Suíça", country: "Europa", flag: "🇨🇭", color: "#D52B1E" },
+  { id: "noruega", name: "Noruega", country: "Europa", flag: "🇳🇴", color: "#BA0C2F" },
+  { id: "austria", name: "Áustria", country: "Europa", flag: "🇦🇹", color: "#ED2939" },
+  { id: "bosnia", name: "Bósnia e Herzegovina", country: "Europa", flag: "🇧🇦", color: "#002F6C" },
+  { id: "suecia", name: "Suécia", country: "Europa", flag: "🇸🇪", color: "#FECC00" },
+  { id: "colombia", name: "Colômbia", country: "América do Sul", flag: "🇨🇴", color: "#FCD116" },
+  { id: "equador", name: "Equador", country: "América do Sul", flag: "🇪🇨", color: "#FFD100" },
+  { id: "paraguai", name: "Paraguai", country: "América do Sul", flag: "🇵🇾", color: "#D52B1E" },
+  { id: "mexico", name: "México", country: "Concacaf", flag: "🇲🇽", color: "#006847" },
+  { id: "eua", name: "Estados Unidos", country: "Concacaf", flag: "🇺🇸", color: "#0A3161" },
+  { id: "canada", name: "Canadá", country: "Concacaf", flag: "🇨🇦", color: "#FF0000" },
+  { id: "marrocos", name: "Marrocos", country: "África", flag: "🇲🇦", color: "#C1272D" },
+  { id: "senegal", name: "Senegal", country: "África", flag: "🇸🇳", color: "#00853F" },
+  { id: "egito", name: "Egito", country: "África", flag: "🇪🇬", color: "#CE1126" },
+  { id: "argelia", name: "Argélia", country: "África", flag: "🇩🇿", color: "#007A3D" },
+  { id: "costa-marfim", name: "Costa do Marfim", country: "África", flag: "🇨🇮", color: "#FF8200" },
+  { id: "gana", name: "Gana", country: "África", flag: "🇬🇭", color: "#006B3F" },
+  { id: "cabo-verde", name: "Cabo Verde", country: "África", flag: "🇨🇻", color: "#003893" },
+  { id: "africa-sul", name: "África do Sul", country: "África", flag: "🇿🇦", color: "#007A4D" },
+  { id: "rd-congo", name: "R.D. Congo", country: "África", flag: "🇨🇩", color: "#00A2E8" },
+  { id: "japao", name: "Japão", country: "Ásia", flag: "🇯🇵", color: "#BC002D" },
+  { id: "australia", name: "Austrália", country: "Ásia", flag: "🇦🇺", color: "#FFCD00" },
 ];
 
 export const teamById = (id: string | null | undefined) => TEAMS.find((t) => t.id === id);
@@ -64,12 +82,12 @@ export const TIEBREAK =
 /* ------------------------------------------------------------------ */
 export const COPA_COPY = {
   league: "Grande Liga Spark",
-  tournament: "Copa do Mundo de Clubes",
-  hook: "Como a Spark é brasileira, não podíamos deixar a Copa passar em branco. Faça seus palpites e concorra a descontos na mensalidade!",
+  tournament: "Copa do Mundo 2026",
+  hook: "Como a Spark é brasileira, não podíamos deixar a Copa do Mundo passar em branco. Crave seus palpites das seleções e concorra a descontos na mensalidade!",
   cta: "Fazer meus palpites",
   formIntro: "Primeiro seus dados, depois é só cravar os palpites. Leva menos de 1 minuto.",
   successTitle: "Palpite registrado!",
-  successSub: "Boa sorte! Agora é torcer pros seus times. Os ganhadores são anunciados após a final.",
+  successSub: "Boa sorte! Agora é torcer pela sua seleção. Os ganhadores são anunciados após a final.",
 };
 
 /* ------------------------------------------------------------------ */
