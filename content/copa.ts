@@ -1,13 +1,13 @@
 /**
- * Grande Liga Spark da Copa do Mundo de Clubes — campanha temporária de palpites.
+ * Grande Liga Spark da Copa do Mundo 2026: campanha temporária de palpites.
  *
  * Parte separada do site (rota /copa). Tema festivo, fora do guia visual normal.
- * Tudo aqui é editável num lugar só: times, pontuação, prêmios e textos.
+ * Tudo aqui é editável num lugar só: seleções, pontuação, prêmios e textos.
  */
 import { z } from "zod";
 
 /* ------------------------------------------------------------------ */
-/* SELEÇÕES — ⚠️ CONFIRA CONFORME O MATA-MATA AVANÇA                   */
+/* SELEÇÕES. Confira conforme o mata-mata avança.                     */
 /* As 32 seleções classificadas para o mata-mata da Copa do Mundo 2026 */
 /* (12 1ºs de grupo + 12 2ºs + 8 melhores 3ºs). Conforme os times      */
 /* forem eliminados, é só remover daqui. O "country" mostra a          */
@@ -59,7 +59,7 @@ export const TEAMS: Team[] = [
 export const teamById = (id: string | null | undefined) => TEAMS.find((t) => t.id === id);
 
 /* ------------------------------------------------------------------ */
-/* PONTUAÇÃO — por dificuldade (quanto mais difícil, mais pontos)      */
+/* PONTUAÇÃO por dificuldade (quanto mais difícil, mais pontos)      */
 /* ------------------------------------------------------------------ */
 export const SCORING = [
   { key: "champion", label: "Acertar o campeão", points: 10, emoji: "🏆" },
@@ -86,8 +86,8 @@ export const COPA_COPY = {
   hook: "Como a Spark é brasileira, não podíamos deixar a Copa do Mundo passar em branco. Crave seus palpites das seleções e concorra a descontos na mensalidade!",
   cta: "Fazer meus palpites",
   formIntro: "Primeiro seus dados, depois é só cravar os palpites. Leva menos de 1 minuto.",
-  successTitle: "Palpite registrado!",
-  successSub: "Boa sorte! Agora é torcer pela sua seleção. Os ganhadores são anunciados após a final.",
+  successTitle: "Boa sorte!",
+  successSub: "Abrimos o WhatsApp com o seu palpite preenchido. Toque em enviar pra confirmar a participação. Os ganhadores saem depois da final.",
 };
 
 /* ------------------------------------------------------------------ */

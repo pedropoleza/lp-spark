@@ -27,10 +27,21 @@ import {
   type Team,
 } from "@/content/copa";
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
 import { Confetti } from "./Confetti";
 import { FestiveBackdrop, Bunting } from "./FestiveBackdrop";
+
+/** Número que recebe os palpites no WhatsApp (786-627-6787, formato EUA). */
+const WHATSAPP_TO = "17866276787";
+
+/** Formata o telefone no padrão americano: (786) 627-6787. */
+function formatUSPhone(value: string): string {
+  const d = value.replace(/\D/g, "").slice(0, 10);
+  if (d.length === 0) return "";
+  if (d.length < 4) return `(${d}`;
+  if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
+  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+}
+const phoneDigits = (value: string) => value.replace(/\D/g, "");
 
 type StepKey = "intro" | "dados" | "champion" | "vice" | "third" | "score" | "review" | "done";
 const FLOW: StepKey[] = ["intro", "dados", "champion", "vice", "third", "score", "review", "done"];
@@ -51,8 +62,8 @@ export function CopaExperience() {
   const [scoreC, setScoreC] = useState(1);
   const [scoreV, setScoreV] = useState(0);
 
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [waUrl, setWaUrl] = useState("");
 
   const idx = FLOW.indexOf(step);
   const progress = step === "done" ? 1 : idx / (FLOW.length - 2);
@@ -63,9 +74,31 @@ export function CopaExperience() {
     setStep(next);
   }
 
-  const dadosOk = name.trim().length >= 2 && /\S+@\S+\.\S+/.test(email) && phone.trim().length >= 8;
+  const dadosOk =
+    name.trim().length >= 2 && /\S+@\S+\.\S+/.test(email) && phoneDigits(phone).length === 10;
 
-  async function submit() {
+  /** Monta a mensagem do WhatsApp com todos os palpites preenchidos. */
+  function buildWhatsAppUrl() {
+    const c = teamById(champion);
+    const v = teamById(vice);
+    const t = teamById(third);
+    const message = [
+      `${COPA_COPY.league} ${COPA_COPY.tournament}`,
+      `Palpite de ${name}`,
+      ``,
+      `Nome: ${name}`,
+      `E-mail: ${email}`,
+      `Telefone: ${phone}`,
+      ``,
+      `Campeão: ${c?.flag ?? ""} ${c?.name ?? ""}`,
+      `Vice-campeão: ${v?.flag ?? ""} ${v?.name ?? ""}`,
+      `Terceiro lugar: ${t?.flag ?? ""} ${t?.name ?? ""}`,
+      `Placar da final: ${c?.name ?? ""} ${scoreC} a ${scoreV} ${v?.name ?? ""}`,
+    ].join("\n");
+    return `https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(message)}`;
+  }
+
+  function submit() {
     const payload = {
       name,
       email,
@@ -81,22 +114,11 @@ export function CopaExperience() {
       setError(parsed.error.issues[0]?.message ?? "Confira os palpites.");
       return;
     }
-    setSubmitting(true);
-    setError(null);
-    try {
-      const res = await fetch(`${BASE_PATH}/api/copa`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      });
-      if (!res.ok) throw new Error("falha");
-      boom();
-      go("done");
-    } catch {
-      setError("Não consegui enviar agora. Tente de novo em alguns segundos.");
-    } finally {
-      setSubmitting(false);
-    }
+    const url = buildWhatsAppUrl();
+    setWaUrl(url);
+    window.open(url, "_blank", "noopener,noreferrer");
+    boom();
+    go("done");
   }
 
   return (
@@ -223,13 +245,13 @@ export function CopaExperience() {
                     className="input-festive"
                   />
                 </Field>
-                <Field label="WhatsApp">
+                <Field label="Telefone (EUA)">
                   <input
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setPhone(formatUSPhone(e.target.value))}
                     type="tel"
                     inputMode="tel"
-                    placeholder="(11) 99999-9999"
+                    placeholder="(786) 627-6787"
                     className="input-festive"
                   />
                 </Field>
@@ -250,7 +272,7 @@ export function CopaExperience() {
               reduce={reduce}
               icon={<Trophy className="h-6 w-6 text-[#FFD23F]" />}
               title="Quem é o campeão? 🏆"
-              subtitle="O grande vencedor da Copa do Mundo de Clubes."
+              subtitle="A seleção que levanta a taça da Copa do Mundo."
             >
               <TeamGrid
                 selected={champion}
@@ -273,7 +295,7 @@ export function CopaExperience() {
               reduce={reduce}
               icon={<Medal className="h-6 w-6 text-[#D8DEE6]" />}
               title="E o vice-campeão? 🥈"
-              subtitle="O outro time que chega na final (junto com o seu campeão)."
+              subtitle="A outra seleção que chega na final com o seu campeão."
             >
               <TeamGrid
                 selected={vice}
@@ -337,7 +359,7 @@ export function CopaExperience() {
               reduce={reduce}
               icon={<Check className="h-6 w-6 text-[#0E7A4B]" />}
               title="Confere se está tudo certo 👀"
-              subtitle="Depois de enviar não dá pra mudar. Boa sorte!"
+              subtitle="Ao confirmar, abre o WhatsApp com o seu palpite pronto. É só apertar enviar."
             >
               <Podium champion={teamById(champion)} vice={teamById(vice)} third={teamById(third)} />
               <div className="mt-3 flex items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/[0.06] p-3 text-center">
@@ -352,12 +374,7 @@ export function CopaExperience() {
                   {error}
                 </p>
               )}
-              <NavRow
-                onBack={() => go("score")}
-                onNext={submit}
-                nextLabel={submitting ? "Enviando..." : "Confirmar e concorrer 🎉"}
-                loading={submitting}
-              />
+              <NavRow onBack={() => go("score")} onNext={submit} nextLabel="Enviar no WhatsApp 🎉" />
             </StepShell>
           )}
 
@@ -395,15 +412,17 @@ export function CopaExperience() {
               </div>
 
               <a
-                href={`https://wa.me/?text=${encodeURIComponent(
-                  `Acabei de mandar meu palpite na ${COPA_COPY.league} do Bolão! 🏆 Meu campeão: ${teamById(champion)?.name}. Bora?`,
-                )}`}
+                href={waUrl || buildWhatsAppUrl()}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-[#072218] transition-transform hover:scale-105"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-base font-bold text-[#072218] transition-transform hover:scale-105"
               >
-                <Share2 className="h-4 w-4" /> Chamar a galera
+                <Share2 className="h-4 w-4" /> Abrir o WhatsApp e enviar
               </a>
+              <p className="mt-3 max-w-xs text-xs text-white/50">
+                Se o WhatsApp não abriu sozinho, toque no botão acima. O seu palpite só conta depois
+                que a mensagem for enviada.
+              </p>
             </motion.section>
           )}
         </AnimatePresence>
@@ -558,7 +577,7 @@ function ScoreBoard({
         <ScoreSide team={vice} value={scoreV} set={setScoreV} />
       </div>
       <p className="mt-4 text-center text-xs text-white/50">
-        Empate? Sem problema — quem vai pra prorrogação/pênaltis é o seu campeão. 😉
+        Pode cravar empate. Quem decide nos pênaltis é o seu campeão. 😉
       </p>
     </div>
   );
@@ -585,7 +604,7 @@ function ScoreSide({
       </span>
       <span className="mt-2 line-clamp-1 text-center text-xs font-bold">
         {crown && "👑 "}
-        {team?.name ?? "—"}
+        {team?.name ?? "?"}
       </span>
       <div className="mt-2 flex items-center gap-2">
         <button
@@ -643,7 +662,7 @@ function Podium({
                 {r.label}
               </span>
             )}
-            <span className="block truncate text-sm font-bold">{r.team?.name ?? "—"}</span>
+            <span className="block truncate text-sm font-bold">{r.team?.name ?? "?"}</span>
           </span>
         </div>
       ))}
